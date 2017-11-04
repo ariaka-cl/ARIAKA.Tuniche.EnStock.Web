@@ -1,0 +1,16 @@
+
+#ignore thumbnails created by windows
+Thumbs.db
+
+#Ignore files build by Visual Studio
+*.user
+*.suo
+*.bak
+*.cache
+*.log
+*.tmp
+*.orig
+*.dat
+*.licx
+[Bb]in/
+[Oo]bj/
