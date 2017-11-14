@@ -11,11 +11,11 @@ Public Module RouteConfig
 
         routes.MapMvcAttributeRoutes()
 
-        ' routes.MapRoute(
-        '    "Default",
-        '    "{controller}/{action}/{id}",
-        '    New With {.controller = "Inout", .action = "Index", .id = UrlParameter.Optional}
-        ')
+        routes.MapRoute(
+           "Default",
+           "{controller}/{action}/{id}",
+           New With {.controller = "Inout", .action = "Index", .id = UrlParameter.Optional}
+       )
 
     End Sub
 End Module

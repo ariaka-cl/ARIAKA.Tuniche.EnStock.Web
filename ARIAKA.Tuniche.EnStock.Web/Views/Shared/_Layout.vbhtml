@@ -19,52 +19,27 @@
 
                         <ul id="menu-content" class="menu-content collapse out">
                             <li data-toggle="collapse" data-target="#service" class="collapsed active">
-                                <i class="glyphicon glyphicon-dashboard fa-lg"></i>
-                                @Html.ActionLink("Ver Ingresos", "Index", "Inout")
+                                <a href="@Url.Action("Index", "Inout")"><i class="glyphicon glyphicon glyphicon-resize-small fa-lg"></i> Ver Ingresos</a>                                                              
                             </li>
                             <li data-toggle="collapse" data-target="#products">
-                                <a href="#"><i class="glyphicon glyphicon-gift fa-lg"></i> UI Elements <span class="arrow"></span></a>
+                                <a href="@Url.Action("Salidas", "Inout")"><i class="glyphicon glyphicon glyphicon-resize-full fa-lg"></i> Ver Salidas </a>
                             </li>
-                            <ul class="sub-menu collapse" id="products">
-                                <li class="active"><a href="#">CSS3 Animation</a></li>
-                                <li><a href="#">General</a></li>
-                                <li><a href="#">Buttons</a></li>
-                                <li><a href="#">Tabs & Accordions</a></li>
-                                <li><a href="#">Typography</a></li>
-                                <li><a href="#">FontAwesome</a></li>
-                                <li><a href="#">Slider</a></li>
-                                <li><a href="#">Panels</a></li>
-                                <li><a href="#">Widgets</a></li>
-                                <li><a href="#">Bootstrap Model</a></li>
-                            </ul>
+                            
+                            <li data-toggle="collapse" data-target="#products">
+                                <a href="@Url.Action("Retorno", "Inout")"><i class="glyphicon glyphicon glyphicon-download-alt fa-lg"></i> Retorno Herramientas </a>
+                            </li> 
 
-                            <li data-toggle="collapse" data-target="#service" class="collapsed">
-                                <a href="#"><i class="glyphicon glyphicon-globe fa-lg"></i> Services <span class="arrow"></span></a>
+                            <li data-toggle="collapse" data-target="#products">
+                                <a href="@Url.Action("Stock", "Inout")"><i class="glyphicon glyphicon glyphicon-eye-open fa-lg"></i> Stock Online </a>
                             </li>
-                            <ul class="sub-menu collapse" id="service">
-                                <li>New Service 1</li>
-                                <li>New Service 2</li>
-                                <li>New Service 3</li>
-                            </ul>
-
-                            <li data-toggle="collapse" data-target="#new" class="collapsed">
-                                <a href="#"><i class="glyphicon glyphicon-new-window fa-lg"></i> New <span class="arrow"></span></a>
+                            <li data-toggle="collapse" data-target="#products">
+                                <a href="@Url.Action("Index", "Categorias")"><i class="glyphicon glyphicon glyphicon glyphicon-tags fa-lg"></i> Categorias </a>
                             </li>
-                            <ul class="sub-menu collapse" id="new">
-                                <li>New New 1</li>
-                                <li>New New 2</li>
-                                <li>New New 3</li>
-                            </ul>
-
-                            <li>
-                                <a href="#">
-                                    <i class="glyphicon glyphicon-user fa-lg"></i> Profile
-                                </a>
+                            <li data-toggle="collapse" data-target="#products">
+                                <a href="@Url.Action("Index", "Productos")"><i class="glyphicon glyphicon glyphicon glyphicon-folder-close fa-lg"></i> Insumos </a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <i class="glyphicon glyphicon-baby-formula fa-lg"></i> Users
-                                </a>
+                            <li data-toggle="collapse" data-target="#products">
+                                <a href="@Url.Action("Index", "Usuarios")"><i class="glyphicon glyphicon glyphicon glyphicon-user fa-lg"></i> Usuarios </a>
                             </li>
                         </ul>
                     </div>
@@ -74,7 +49,7 @@
                 @RenderBody()
                 <hr />  
                 <footer>
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                    <p>&copy; @DateTime.Now.Year - TUNICHE EnStock - Desarrollado por Ariaka</p>
                 </footer>
             </div>            
         </div>

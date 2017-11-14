@@ -1,4 +1,7 @@
-﻿Namespace Controllers
+﻿
+Imports System.Web.Http
+
+Namespace Controllers
     <RoutePrefix("")>
     Public Class HomeController
         Inherits System.Web.Mvc.Controller

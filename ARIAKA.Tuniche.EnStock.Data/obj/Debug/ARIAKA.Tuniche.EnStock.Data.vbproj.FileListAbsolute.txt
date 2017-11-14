@@ -7,3 +7,12 @@ C:\Users\jtabilo\Downloads\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Dat
 C:\Users\jtabilo\Downloads\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.dll
 C:\Users\jtabilo\Downloads\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.xml
 C:\Users\jtabilo\Downloads\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.pdb
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\bin\Debug\ARIAKA.Tuniche.EnStock.Data.dll
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\bin\Debug\ARIAKA.Tuniche.EnStock.Data.pdb
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\bin\Debug\ARIAKA.Tuniche.EnStock.Data.xml
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.Resources.resources
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.vbproj.GenerateResource.Cache
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.vbproj.CoreCompileInputs.cache
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.dll
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.xml
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.pdb

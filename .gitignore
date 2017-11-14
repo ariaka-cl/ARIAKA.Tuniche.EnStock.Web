@@ -4,6 +4,7 @@ Thumbs.db
 
 #Ignore files build by Visual Studio
 *.user
+*.vs
 *.suo
 *.bak
 *.cache
