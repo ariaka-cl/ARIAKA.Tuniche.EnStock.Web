@@ -378,6 +378,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\app\Categorias\index.ts" />
     <TypeScriptCompile Include="Scripts\app\Home\index.ts" />
+    <TypeScriptCompile Include="Scripts\app\app.ts" />
     <TypeScriptCompile Include="Scripts\app\Inout\retorno.ts" />
     <TypeScriptCompile Include="Scripts\app\Inout\salidas.ts" />
     <TypeScriptCompile Include="Scripts\app\Inout\index.ts" />

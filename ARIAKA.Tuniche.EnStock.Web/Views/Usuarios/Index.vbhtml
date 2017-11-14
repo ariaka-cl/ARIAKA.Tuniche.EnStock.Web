@@ -4,7 +4,7 @@ End Code
 
 <div class="long-title"><h3>Usuarios</h3></div>
 <div id="form-container">
-    <div data-bind="dxForm: formOptions"></div>
+    <div id="form-user" data-bind="dxForm: formOptions"></div>
 </div>
 <br />
 <br />
@@ -15,7 +15,7 @@ End Code
 </div>
 <br />
 <br />
-<div data-bind="dxDataGrid: dataGridOptions"></div>
+<div id="grid-user" data-bind="dxDataGrid: dataGridOptions"></div>
 
 
 @Section scripts

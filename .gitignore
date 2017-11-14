@@ -13,5 +13,6 @@ Thumbs.db
 *.orig
 *.dat
 *.licx
+*.js
 [Bb]in/
 [Oo]bj/

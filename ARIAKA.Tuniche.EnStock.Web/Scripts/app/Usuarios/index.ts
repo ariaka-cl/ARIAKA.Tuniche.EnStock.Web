@@ -1,14 +1,42 @@
 ﻿/// <reference path="../../typings/jquery/jquery.d.ts" />
 /// <reference path="../../typings/knockout/knockout.d.ts" />
 /// <reference path="../../typings/devextreme/devextreme.d.ts" />
+/// <reference path="../App.ts" />
 
 namespace Usuarios {
-    'use strict';
-	export class UsuariosIndexViewModel {
+    'use strict';   
+    export class UsuariosIndexViewModel {
 
-		public usuarios: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public usuarios: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public enable: KnockoutObservable<boolean> = ko.observable(true);
         
-        constructor() {
+        addUsuario(): void {
+            let formData: App.Usuario = $('#form-user').dxForm('option').formData;
+            $.ajax({
+                type: 'POST',
+                url: 'api/usuarios',
+                data: {
+                    ID: formData.ID,
+                    Nombre: formData.Nombre,
+                    Run: formData.Run,
+                    NickName: formData.NickName,
+                    Rol:{Nombre: formData.Rol },
+                    Password: formData.Password
+            },
+                success: (data: any): void => {
+                    DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);
+                    $('#form-user').dxForm('instance').resetValues();
+                    let grid = $('#grid-user').dxDataGrid('instance');
+                    grid.refresh();
+                    grid.repaint();
+                }
+                
+
+            });
+        }
+        
+        constructor() {       
+
             $.ajax({
                 type: 'GET',
                 url: 'api/usuarios',
@@ -41,22 +69,28 @@ namespace Usuarios {
 		
         dataGridOptions: any = {
 			dataSource: this.usuarios,
-            columns: ['Nombre', 'Run', 'NickName', 'Rol','Password']
+            columns: ['Nombre', 'Run', 'NickName', 'Rol', 'Password'],
+            onRowClick: (e) => {
+                this.enable(false);
+            }
 		}
 
 		buttonOptionsAdd: any = {
 			text: "Agregar",
-			icon: "plus"
+            icon: "plus",
+            onClick: () => {
+                this.addUsuario();
+            }
 		}
 		buttonOptionsEdit: any = {
 			text: "Editar",
 			icon: "edit",
-			disabled: true
+			disabled: this.enable
 		}
 		buttonOptionsDelete: any = {
 			text: "Borrar",
 			icon: "remove",
-			disabled: true
+			disabled: this.enable
 		}
 
     }
