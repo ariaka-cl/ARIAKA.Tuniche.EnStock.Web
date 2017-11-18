@@ -11,7 +11,7 @@ End Code
 <div class="btn-group" role="group">
     <div data-bind="dxButton: buttonOptionsAdd"></div>
     <div data-bind="dxButton: buttonOptionsEdit"></div>
-    <div data-bind="dxButton: buttonOptionsDelete"></div>
+    <div data-bind="dxButton: buttonOptionsDelete"></div>    
 </div>
 <br />
 <br />

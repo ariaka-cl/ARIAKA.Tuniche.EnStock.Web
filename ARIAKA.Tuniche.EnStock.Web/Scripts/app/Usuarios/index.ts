@@ -12,7 +12,28 @@ namespace Usuarios {
         public idRow: KnockoutObservable<number> = ko.observable(0);
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
 
-        
+        formInstance;
+
+        getUser(): void {
+            this.usuarios([]);
+            $.ajax({
+                type: 'GET',
+                url: 'api/usuarios',
+                success: (data: any): void => {
+                    for (var i: number = 0; i < data.length; i++) {
+                        let users = {
+                            ID: data[i].id,
+                            Nombre: data[i].nombre,
+                            Run: data[i].run,
+                            NickName: data[i].nickName,
+                            Password: data[i].password
+                        }
+                        this.usuarios.push(users);
+                    }
+                }
+            });
+        }
+
         addUsuario(): void {
             let formData: App.Usuario = $('#form-user').dxForm('option').formData;
             $.ajax({
@@ -28,22 +49,23 @@ namespace Usuarios {
             },
                 success: (data: any): void => {
                     DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);
-                    $('#form-user').dxForm('instance').resetValues();
-                    let grid = $('#grid-user').dxDataGrid('instance');
-                    grid.refresh();
-                    grid.repaint();
+                    $('#form-user').dxForm('instance').resetValues();                    
                 }
                 
 
-            });
+            }).done((result) => {
+                this.getUser();
+                let grid = $('#grid-user').dxDataGrid('instance');
+                grid.refresh();
+                grid.repaint();
+                });
         }
 
         deleteUsuario(id:number): void {
             $.ajax({
                 type: 'DELETE',
                 url: 'api/usuarios/'+id,
-                success: (data: any): void => {
-                    //DevExpress.ui.notify("Usuario Eliminado", "success", 2000);
+                success: (data: any): void => {                   
                     $('#form-user').dxForm('instance').resetValues();
                     let grid = $('#grid-user').dxDataGrid('instance');
                     grid.refresh();
@@ -54,40 +76,68 @@ namespace Usuarios {
 
         }
         constructor() {       
-
-            $.ajax({
-                type: 'GET',
-                url: 'api/usuarios',
-                success: (data: any): void => {
-                    for (var i: number = 0; i < data.length; i++) {
-                        let users = {
-                            ID: data[i].id,
-                            Nombre: data[i].nombre,
-                            Run: data[i].run,
-                            NickName: data[i].nickName
-                        }
-                        this.usuarios.push(users);
-                    }
-                }
-            });
+            this.getUser();            
         }
+
+        Roles: App.Rol[] = [{ ID: 1, Nombre: "Administrador" }];
+
 
         formOptions: any = {
 			formData: this.usuarios,
-			labelLocation: "top",
+            labelLocation: "top",
+            onInitialized: (e) => {
+                this.formInstance = e.component;
+            },
             items: [{
                 itemType: "group",
                 colCount: 3,
                 items: ["Nombre", "Run", "NickName"]
-			}, {
-				itemType: "group",
-				colCount: 3,
-				items: ["Rol", "Password","Password_verifica"]
+            }, {
+                itemType: "group",
+                colCount: 3,
+                items: [{
+                    dataField: "Rol",
+                    editorType: "dxSelectBox",
+                    editorOptions: {
+                        displayExpr: 'Nombre',
+                        dataSource: new DevExpress.data.DataSource({
+                            store: this.Roles
+                        })
+                    }
+                }, {
+                    dataField: "Password",
+                    editorOptions: {
+                        mode: "password",
+                        value: ko.observable("")
+                    }
+                }, {
+                    label: {
+                        text: "Confirma Password"
+                    },
+                    editorType: "dxTextBox",
+                    editorOptions: {
+                        mode: "password"
+                    },
+                    validationRules: [{
+                        type: "required",
+                        message: "Confirm Password is required"
+                    }, {
+                        type: "compare",
+                        message: "'Contraseña' y 'Confirma Contraseña' no coinciden",
+                        comparisonTarget: () => {
+                            return this.formInstance.option("formData").Password;
+                        }
+                    }]
+                }]
 			}]
 		};				
 		
         dataGridOptions: any = {
-			dataSource: this.usuarios,
+            dataSource: this.usuarios,
+            loadPanel: {
+                enabled: true,
+                text: 'Cargando datos...'
+            },
             columns: [{ dataField: 'ID', visible: false }, 'Nombre', 'Run', 'NickName', 'Rol', 'Password'],
             editing: {
                 texts: {
@@ -135,7 +185,7 @@ namespace Usuarios {
                 grid.repaint();
                 this.deleteUsuario(index);
             }
-		}
+        }       
 
     }
 }

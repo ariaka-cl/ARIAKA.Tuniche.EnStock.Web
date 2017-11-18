@@ -400,6 +400,12 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ARIAKA.Tuniche.EnStock.Data\ARIAKA.Tuniche.EnStock.Data.vbproj">
+      <Project>{ad6d9e28-1a23-47d6-afea-727ce3f20af8}</Project>
+      <Name>ARIAKA.Tuniche.EnStock.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

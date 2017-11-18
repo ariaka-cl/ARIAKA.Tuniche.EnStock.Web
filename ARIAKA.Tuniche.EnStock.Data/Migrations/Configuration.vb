@@ -2,10 +2,10 @@ Imports System
 Imports System.Data.Entity
 Imports System.Data.Entity.Migrations
 Imports System.Linq
+Imports ARIAKA.Tuniche.EnStock.Data.Model
 
 Namespace Migrations
-
-    Friend NotInheritable Class Configuration 
+    Friend NotInheritable Class Configuration
         Inherits DbMigrationsConfiguration(Of bdTunicheContext)
 
         Public Sub New()
