@@ -215,10 +215,13 @@ C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\System.We
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\System.Net.Http.Formatting.xml
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\System.Web.Http.xml
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\System.Web.Http.WebHost.xml
-C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\obj\Debug\ARIAKA.Tuniche.EnStock.Web.vbprojResolveAssemblyReference.cache
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\obj\Debug\ARIAKA.Tuniche.EnStock.Web.Resources.resources
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\obj\Debug\ARIAKA.Tuniche.EnStock.Web.vbproj.GenerateResource.Cache
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\obj\Debug\ARIAKA.Tuniche.EnStock.Web.vbproj.CoreCompileInputs.cache
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\obj\Debug\ARIAKA.Tuniche.EnStock.Web.dll
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\obj\Debug\ARIAKA.Tuniche.EnStock.Web.xml
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\obj\Debug\ARIAKA.Tuniche.EnStock.Web.pdb
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\EntityFramework.dll
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\EntityFramework.SqlServer.dll
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\EntityFramework.xml
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\EntityFramework.SqlServer.xml
