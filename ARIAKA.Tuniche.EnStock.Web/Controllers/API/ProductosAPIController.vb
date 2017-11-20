@@ -9,7 +9,7 @@ Namespace Controllers.API
         <HttpGet>
         <Route("", Name:="GetProductos")>
         Public Function GetProductos() As IHttpActionResult
-            Return Me.Ok("todo ok")
+            Return Me.Ok(New Models.ProductosDTO With {.Nombre = "Azadon", .Bodega = "Las Palmas", .Categorias = New Models.CategoriaDTO With {.Nombre = "Herramientas"}})
         End Function
     End Class
 End Namespace

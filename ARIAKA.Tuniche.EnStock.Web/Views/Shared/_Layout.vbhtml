@@ -33,11 +33,11 @@
                                 <a href="@Url.Action("Stock", "Inout")"><i class="glyphicon glyphicon glyphicon-eye-open fa-lg"></i> Stock Online </a>
                             </li>
                             <li data-toggle="collapse" data-target="#products">
-                                <a href="@Url.Action("Index", "Categorias")"><i class="glyphicon glyphicon glyphicon glyphicon-tags fa-lg"></i> Categorias </a>
-                            </li>
-                            <li data-toggle="collapse" data-target="#products">
                                 <a href="@Url.Action("Index", "Productos")"><i class="glyphicon glyphicon glyphicon glyphicon-folder-close fa-lg"></i> Insumos </a>
                             </li>
+                            <li data-toggle="collapse" data-target="#products">
+                                <a href="@Url.Action("Index", "Categorias")"><i class="glyphicon glyphicon glyphicon glyphicon-tags fa-lg"></i> Categorias </a>
+                            </li>                            
                             <li data-toggle="collapse" data-target="#products">
                                 <a href="@Url.Action("Index", "Usuarios")"><i class="glyphicon glyphicon glyphicon glyphicon-user fa-lg"></i> Usuarios </a>
                             </li>
