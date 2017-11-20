@@ -16,4 +16,8 @@ namespace App {
         ID: number,
         Nombre:string
     }
+    export interface Categoria {
+        ID: number,
+        Nombre: string
+    }
 }
