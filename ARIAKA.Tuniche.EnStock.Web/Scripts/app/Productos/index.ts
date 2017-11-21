@@ -12,6 +12,8 @@ namespace Productos {
         public enable: KnockoutObservable<boolean> = ko.observable(true);
         public idRow: KnockoutObservable<number> = ko.observable(0);
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
+        public selectedTab: KnockoutObservable<number> = ko.observable(-1);
+       
 
         getCategoria(): void {
             this.categorias([]);
@@ -30,16 +32,18 @@ namespace Productos {
             });
         }
 
-        getProductos(): void {
+        getProductos(id:number): void {
             this.productos([]);
             $.ajax({
                 type: 'GET',
-                url: 'api/productos',
+                url: 'api/productos/'+id,
                 success: (data: any): void => {
                     for (var i: number = 0; i < data.length; i++) {
                         let produ = {
                             Nombre: data[i].nombre,
-                            Bodega: data[i].bodega
+                            Bodega: data[i].bodega,
+                            Categorias: data[i].categorias.nombre,
+                            StockActual: data[i].stockActual
                         }
                         this.productos.push(produ);
                     }
@@ -50,12 +54,22 @@ namespace Productos {
         
         constructor() {       
             this.getCategoria();
-            this.getProductos();
-        } 
+            this.getProductos(-1);
+        }
+
+        
+
+
 
         tabOptions = {
-            dataSource: this.categorias
-            //selectedIndex: that.selectedTab
+            dataSource: this.categorias,
+            onItemClick: (e) => {
+                let grid = $('#grid-produ').dxDataGrid('instance');
+                this.getProductos(e.itemData.id)
+                grid.option().dataSource = this.productos;
+                grid.refresh();
+                grid.repaint();
+            }
         }
 
         dataGridOptions: any = {
@@ -64,11 +78,19 @@ namespace Productos {
                 enabled: true,
                 text: 'Cargando datos...'
             },
-            columns: [{ dataField: 'id', visible: false }, 'Nombre','Bodega'],
+            columns: [{ dataField: 'id', visible: false }, 'Nombre', 'Bodega','StockActual','Categorias'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'
                 }
+            }, grouping: {
+                allowCollapsing: true
+            }, groupPanel: {
+                allowColumnDragging: true,
+                visible: true,
+                emptyPanelText: 'Arrastre algunas columnas para agrupar'
+            }, columnChooser: {
+                allowSearch: true
             },
             onRowClick: (e) => {
                 this.enable(false);
