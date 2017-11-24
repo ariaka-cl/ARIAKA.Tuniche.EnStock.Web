@@ -41,9 +41,9 @@ namespace Productos {
                     for (var i: number = 0; i < data.length; i++) {
                         let produ = {
                             Nombre: data[i].nombre,
-                            Bodega: data[i].bodega,
+                            StockActualMercedes: data[i].stockActualMercedes,
                             Categorias: data[i].categorias.nombre,
-                            StockActual: data[i].stockActual
+                            StockActualPalmas: data[i].stockActualPalmas
                         }
                         this.productos.push(produ);
                     }
@@ -78,7 +78,7 @@ namespace Productos {
                 enabled: true,
                 text: 'Cargando datos...'
             },
-            columns: [{ dataField: 'id', visible: false }, 'Nombre', 'Bodega','StockActual','Categorias'],
+            columns: [{ dataField: 'id', visible: false }, 'Nombre', 'StockActualMercedes','StockActualPalmas','Categorias'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'

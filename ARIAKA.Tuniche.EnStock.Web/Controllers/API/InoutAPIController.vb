@@ -7,9 +7,36 @@ Namespace Controllers.API
     Public Class InoutApiController
         Inherits ApiController
 
-        <HttpGet>
-        <Route("", Name:="GetIngresos")>
-        Public Function GetIngresos() As IHttpActionResult
+        <HttpPost>
+        <Route("", Name:="PostIngresos")>
+        Public Function PostIngresos(model As Models.ProductosDTO) As IHttpActionResult
+            Dim db As New bdTunicheContext
+            Try
+                If model Is Nothing Then
+                    Return Me.Content(HttpStatusCode.NotFound, "No se encontraron valores para agregar")
+                End If
+                Dim producto As New Productos With {.Nombre = model.Nombre,
+                                                    .BodegaMercedes = model.BodegaMercedes,
+                                                    .BodegaPalmas = model.BodegaPalmas,
+                                                    .Codigo = model.Codigo,
+                                                    .Comentario = model.Comentario,
+                                                    .NumeroDocumento = model.NumeroDocumento,
+                                                    .PrecioUnitario = model.PrecioUnitario,
+                                                    .Stock = model.Stock,
+                                                    .StockActualMercedes = model.StockActualMercedes,
+                                                    .StockActualPalmas = model.StockActualPalmas,
+                                                    .TipoDocumento = model.TipoDocumento}
+                db.Productoes.Add(producto)
+                db.SaveChanges()
+                model.ID = producto.ID
+                Return Me.Ok(model)
+            Catch ex As Exception
+            Finally
+                db.Dispose()
+            End Try
+
+
+
             Return Me.Ok("todo ok")
         End Function
 

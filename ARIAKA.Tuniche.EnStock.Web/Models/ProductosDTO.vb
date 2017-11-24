@@ -14,5 +14,8 @@
         Public Property Categorias As CategoriaDTO
         Public Property BodegaPalmas As String
         Public Property BodegaMercedes As String
+        Public Property PrecioUnitario As String
+        Public Property TipoDocumento As String
+        Public Property NumeroDocumento As String
     End Class
 End Namespace

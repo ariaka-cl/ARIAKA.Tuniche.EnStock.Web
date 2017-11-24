@@ -88,6 +88,10 @@
       <DependentUpon>201711240251128_add_bodega_names.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201711240251128_add_bodega_names.vb" />
+    <Compile Include="Migrations\201711240428038_edit_productos_transaccion.Designer.vb">
+      <DependentUpon>201711240428038_edit_productos_transaccion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711240428038_edit_productos_transaccion.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\bdTunicheContext.vb" />
     <Compile Include="Model\Categorias.vb" />
@@ -121,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711240251128_add_bodega_names.resx">
       <DependentUpon>201711240251128_add_bodega_names.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711240428038_edit_productos_transaccion.resx">
+      <DependentUpon>201711240428038_edit_productos_transaccion.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

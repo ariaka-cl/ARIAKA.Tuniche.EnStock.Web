@@ -81,7 +81,7 @@ namespace Categorias {
 
 
         dataGridOptions: any = {
-            dataSource: this.categorias,
+            dataSource: this.categorias(),
             loadPanel: {
                 enabled: true,
                 text: 'Cargando datos...'

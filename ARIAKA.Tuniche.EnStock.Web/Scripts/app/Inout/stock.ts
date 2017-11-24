@@ -29,7 +29,12 @@ namespace Inout {
                             Categorias: data.categorias.nombre,
                             StockActualPalmas: data.stockActualPalmas,
                             StockActualMercedes: data.stockActualMercedes,
-                            Codigo: data.codigo
+                            Codigo: data.codigo,
+                            Stock: null,
+                            PrecioUnitario: null,
+                            TipoDocumento: null,
+                            NumeroDocumento: null,
+                            Comentario: null
                         }
                         this.productos(produ);                   
                 },

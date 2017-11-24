@@ -28,6 +28,12 @@ namespace App {
         BodegaMercedes: string,
         StockActualMercedes: string,
         Categorias: string,        
-        Codigo: string
+        Codigo: string,
+        Stock: string,
+        PrecioUnitario: number,
+        TipoDocumento: string,
+        NumeroDocumento: string,
+        Comentario:string
     }
+
 }
