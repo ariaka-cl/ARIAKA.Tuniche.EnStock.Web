@@ -20,4 +20,14 @@ namespace App {
         ID: number,
         Nombre: string
     }
+    export interface IProductos {
+        ID: number,
+        Nombre: string,
+        BodegaPalmas: string,
+        StockActualPalmas: string,
+        BodegaMercedes: string,
+        StockActualMercedes: string,
+        Categorias: string,        
+        Codigo: string
+    }
 }

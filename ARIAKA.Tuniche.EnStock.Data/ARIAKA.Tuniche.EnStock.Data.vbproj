@@ -80,6 +80,14 @@
       <DependentUpon>201711180409127_initial_migration.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201711180409127_initial_migration.vb" />
+    <Compile Include="Migrations\201711240240087_add_bodega.Designer.vb">
+      <DependentUpon>201711240240087_add_bodega.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711240240087_add_bodega.vb" />
+    <Compile Include="Migrations\201711240251128_add_bodega_names.Designer.vb">
+      <DependentUpon>201711240251128_add_bodega_names.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711240251128_add_bodega_names.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\bdTunicheContext.vb" />
     <Compile Include="Model\Categorias.vb" />
@@ -107,6 +115,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201711180409127_initial_migration.resx">
       <DependentUpon>201711180409127_initial_migration.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711240240087_add_bodega.resx">
+      <DependentUpon>201711240240087_add_bodega.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711240251128_add_bodega_names.resx">
+      <DependentUpon>201711240251128_add_bodega_names.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
