@@ -1,61 +1,76 @@
 ﻿/// <reference path="../../typings/jquery/jquery.d.ts" />
 /// <reference path="../../typings/knockout/knockout.d.ts" />
 /// <reference path="../../typings/devextreme/devextreme.d.ts" />
+/// <reference path="../App.ts" />
 
 namespace Inout {
 	'use strict';
 	export class InoutStockViewModel {
-
-		employees = {
-			"FECHA": new Date(2017, 2, 16),
-			"Tipo_Documento": "Guia",
-			"Num_Doc": "188998",
-			"BODEGA": "LAS PALMAS",
-			"CANTIDAD": "1",
-			"EMBASE": "",
-			"PRECIOUNIT": "$2.000",
-			"DESC": "",
-			"PRECIO_UNI": "1.000",
-			"PRECIO_TOT": "6000"
-		};
+        
+        public productos: KnockoutObservable<App.IProductos> = ko.observable<App.IProductos>();
+        public enable: KnockoutObservable<boolean> = ko.observable(true);
+        public idRow: KnockoutObservable<number> = ko.observable(0);
+        public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
+        public selectedTab: KnockoutObservable<number> = ko.observable(-1);
+        
 	
-		articulos = [{ "name": "Azadilla" }, { "name": "Alicate Universal" }];
+        getProductos(id: string): void {
+            this.productos();
+            let url = window.location.origin + '/api/inout/stock/' + id;            
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: (data: any): void => {                    
+                        let produ = {
+                            ID: data.id,
+                            Nombre: data.nombre,
+                            BodegaPalmas: data.bodegaPalmas,
+                            BodegaMercedes: data.bodegaMercedes,
+                            Categorias: data.categorias.nombre,
+                            StockActualPalmas: data.stockActualPalmas,
+                            StockActualMercedes: data.stockActualMercedes,
+                            Codigo: data.codigo
+                        }
+                        this.productos(produ);                   
+                },
+                error: (data: any): void => {
+                    DevExpress.ui.notify("No se encontro producto", "warning", 2000);
+                }
+            });
+        } 
 		
 		formOptions: any = {
-			formData: this.employees,
+			formData: this.productos,
 			labelLocation: "top",
 			items: [{
 				itemType: "group",
 				colCount: 3,
-				items: ["Codigo",{					
+                items: ["Codigo",{					
 					editorType: "dxButton",
 					editorOptions: {
 						text: "Buscar",
 						type: "success",
 						icon: "search",
-						onClick: function () {
-							DevExpress.ui.notify("Buscar Producto", "success", 2000);
+                        onClick: () => {
+                            let form: any = $('#form-stock').dxForm('instance');
+                            this.getProductos(form.option("formData"));
+                            form.option().formData = this.productos;
+                            form.repaint();
 						}
 					}
 				}]
 			}, {
 					itemType: "group",
 					colCount: 2,
-				items: [{
-					dataField: "Descripcion",
-					editorType: "dxTextBox",
-					editorOptions: {
-						
-					}
-				}]
+				items: ['Nombre']
 			}, {
 				itemType: "group",
 				colCount: 3,
-				items: ["CANTIDAD","BODEGA"]
+				items: ["StockActualPalmas","BodegaPalmas"]
 			}, {
 				itemType: "group",
 				colCount: 3,
-				items: ["CANTIDAD", "BODEGA"]
+                items: ["StockActualMercedes", "BodegaMercedes"]
 			}]
 		};		
 	}

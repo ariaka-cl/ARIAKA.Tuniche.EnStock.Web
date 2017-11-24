@@ -8,12 +8,7 @@ End Code
         <div data-bind="dxTabs: tabOptions"></div>
         <div class="content  dx-fieldset">
             <div class="dx-field">
-                <div id="grid-produ" data-bind="dxDataGrid: dataGridOptions"></div>
-                @*<div class="dx-field-label">Selected index:</div>
-                <div class="dx-field-value">
-                    <div data-bind="dxSelectBox: selectBoxOptions">
-                    </div>
-                </div>*@
+                <div id="grid-produ" data-bind="dxDataGrid: dataGridOptions"></div>              
             </div>            
         </div>
     </div>

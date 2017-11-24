@@ -22,4 +22,5 @@ C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\AR
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.dll
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.xml
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.pdb
-C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.vbprojResolveAssemblyReference.cache
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.Migrations.add_bodega.resources
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.Migrations.add_bodega_names.resources

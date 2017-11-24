@@ -13,11 +13,11 @@ Namespace Controllers.API
             If id < 0 Then
                 Return Me.Ok(listProduDto)
             End If
-            listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Azadon", .Bodega = "Las Palmas", .StockActual = 2, .Categorias = New Models.CategoriaDTO With {.ID = 3, .Nombre = "Herramientas"}}))
-            listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Martillo", .Bodega = "Las Palmas", .StockActual = 3, .Categorias = New Models.CategoriaDTO With {.ID = 3, .Nombre = "Herramientas"}}))
-            listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Cuaderno", .Bodega = "Las Palmas", .StockActual = 3, .Categorias = New Models.CategoriaDTO With {.ID = 4, .Nombre = "Oficina"}}))
-            listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Hojas Oficio", .Bodega = "Las Palmas", .StockActual = 3, .Categorias = New Models.CategoriaDTO With {.ID = 4, .Nombre = "Oficina"}}))
-            listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Cuaderno", .Bodega = "Las Mercedes", .StockActual = 2, .Categorias = New Models.CategoriaDTO With {.ID = 4, .Nombre = "Oficina"}}))
+            listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Azadon", .BodegaPalmas = "Las Palmas", .StockActualPalmas = 2, .Categorias = New Models.CategoriaDTO With {.ID = 3, .Nombre = "Herramientas"}}))
+            listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Martillo", .BodegaPalmas = "Las Palmas", .StockActualPalmas = 3, .Categorias = New Models.CategoriaDTO With {.ID = 3, .Nombre = "Herramientas"}}))
+            listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Cuaderno", .BodegaPalmas = "Las Palmas", .StockActualPalmas = 3, .Categorias = New Models.CategoriaDTO With {.ID = 4, .Nombre = "Oficina"}}))
+            listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Hojas Oficio", .BodegaPalmas = "Las Palmas", .StockActualPalmas = 3, .Categorias = New Models.CategoriaDTO With {.ID = 4, .Nombre = "Oficina"}}))
+            listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Cuaderno", .BodegaMercedes = "Las Mercedes", .StockActualMercedes = 2, .Categorias = New Models.CategoriaDTO With {.ID = 4, .Nombre = "Oficina"}}))
 
 
             Return Me.Ok(listProduDto.Where(Function(p) p.Categorias.ID = id).ToList())
