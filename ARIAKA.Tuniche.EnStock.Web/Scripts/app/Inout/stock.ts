@@ -7,12 +7,20 @@ namespace Inout {
 	'use strict';
 	export class InoutStockViewModel {
         
-        public productos: KnockoutObservable<App.IProductos> = ko.observable<App.IProductos>();
+        public productos: KnockoutObservable<App.IConsultaStock> = ko.observable(null);
         public enable: KnockoutObservable<boolean> = ko.observable(true);
         public idRow: KnockoutObservable<number> = ko.observable(0);
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
         public selectedTab: KnockoutObservable<number> = ko.observable(-1);
-        
+
+        producto: App.IConsultaStock = {
+            ID: null,
+            Nombre: null,
+            StockActualPalmas: null,
+            StockActualMercedes: null,
+            Codigo: null,
+            StockMinimo: null
+        }
 	
         getProductos(id: string): void {
             this.productos();
@@ -20,21 +28,14 @@ namespace Inout {
             $.ajax({
                 type: 'GET',
                 url: url,
-                success: (data: any): void => {                    
+                success: (data: any): void => {
                         let produ = {
                             ID: data.id,
                             Nombre: data.nombre,
-                            BodegaPalmas: data.bodegaPalmas,
-                            BodegaMercedes: data.bodegaMercedes,
-                            Categorias: data.categorias.nombre,
-                            StockActualPalmas: data.stockActualPalmas,
-                            StockActualMercedes: data.stockActualMercedes,
+                            StockActualPalmas: data.bodegas[0].stock,
+                            StockActualMercedes: data.bodegas[1].stock,
                             Codigo: data.codigo,
-                            Stock: null,
-                            PrecioUnitario: null,
-                            TipoDocumento: null,
-                            NumeroDocumento: null,
-                            Comentario: null
+                            StockMinimo: data.stockMinimo                           
                         }
                         this.productos(produ);                   
                 },
@@ -45,7 +46,7 @@ namespace Inout {
         } 
 		
 		formOptions: any = {
-			formData: this.productos,
+			formData: this.productos(this.producto),
 			labelLocation: "top",
 			items: [{
 				itemType: "group",
@@ -58,24 +59,20 @@ namespace Inout {
 						icon: "search",
                         onClick: () => {
                             let form: any = $('#form-stock').dxForm('instance');
-                            this.getProductos(form.option("formData"));
+                            this.getProductos(form.option("formData").Codigo);
                             form.option().formData = this.productos;
                             form.repaint();
 						}
 					}
 				}]
 			}, {
-					itemType: "group",
-					colCount: 2,
-				items: ['Nombre']
+				itemType: "group",
+				colCount: 2,
+                items: ['Nombre']
 			}, {
 				itemType: "group",
 				colCount: 3,
-				items: ["StockActualPalmas","BodegaPalmas"]
-			}, {
-				itemType: "group",
-				colCount: 3,
-                items: ["StockActualMercedes", "BodegaMercedes"]
+                items: ["StockMinimo", "StockActualPalmas", "StockActualMercedes"]
 			}]
 		};		
 	}

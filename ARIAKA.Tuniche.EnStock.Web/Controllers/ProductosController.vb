@@ -9,5 +9,10 @@ Namespace Controllers
         Function Index() As ActionResult
             Return View()
         End Function
+
+        <Route("add")>
+        Function Add() As ActionResult
+            Return View()
+        End Function
     End Class
 End Namespace

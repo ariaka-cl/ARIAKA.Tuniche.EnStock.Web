@@ -5,10 +5,7 @@
 namespace Categorias {
     'use strict';
     export class CategoriasIndexViewModel {
-
-		//cate = [{ "name": "Herramientas" }, { "name": "Agroquimicos" }];
-  //      categorias = { "Nombre": "" };
-
+        		
         public categorias: KnockoutObservableArray<any> = ko.observableArray<any>();
         public enable: KnockoutObservable<boolean> = ko.observable(true);
         public idRow: KnockoutObservable<number> = ko.observable(0);
@@ -81,7 +78,7 @@ namespace Categorias {
 
 
         dataGridOptions: any = {
-            dataSource: this.categorias(),
+            dataSource: this.categorias,
             loadPanel: {
                 enabled: true,
                 text: 'Cargando datos...'

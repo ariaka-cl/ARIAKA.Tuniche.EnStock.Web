@@ -11,6 +11,7 @@ Namespace Model
         Public Property Productoes As DbSet(Of Model.Productos)
         Public Property Categoriaeos As DbSet(Of Model.Categorias)
         Public Property Transicioneos As DbSet(Of Model.Transaccion)
+        Public Property Bodegaeos As DbSet(Of Model.Bodega)
 
         Public Sub New()
             MyBase.New("name=bdTunicheContext")

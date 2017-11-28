@@ -212,8 +212,10 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BodegaDTO.vb" />
     <Compile Include="Models\CategoriaDTO.vb" />
     <Compile Include="Models\ProductosDTO.vb" />
+    <Compile Include="Models\StockProductos.vb" />
     <Compile Include="Models\TransaccionDTO.vb" />
     <Compile Include="Models\UsuariosDTO.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -322,6 +324,7 @@
     <Content Include="Views\Categorias\Index.vbhtml" />
     <Content Include="Views\Usuarios\Index.vbhtml" />
     <Content Include="Views\Productos\Index.vbhtml" />
+    <Content Include="Views\Productos\Add.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -394,6 +397,7 @@
     <TypeScriptCompile Include="Scripts\app\Inout\salidas.ts" />
     <TypeScriptCompile Include="Scripts\app\Inout\index.ts" />
     <TypeScriptCompile Include="Scripts\app\Inout\stock.ts" />
+    <TypeScriptCompile Include="Scripts\app\Productos\add.ts" />
     <TypeScriptCompile Include="Scripts\app\Productos\index.ts" />
     <TypeScriptCompile Include="Scripts\app\Usuarios\index.ts" />
     <TypeScriptCompile Include="Scripts\typings\devextreme\devextreme.d.ts" />

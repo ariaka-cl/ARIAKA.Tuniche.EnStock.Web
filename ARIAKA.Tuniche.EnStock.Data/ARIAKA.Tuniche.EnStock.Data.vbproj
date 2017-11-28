@@ -92,11 +92,21 @@
       <DependentUpon>201711240428038_edit_productos_transaccion.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201711240428038_edit_productos_transaccion.vb" />
+    <Compile Include="Migrations\201711250416405_cambio_modelo.Designer.vb">
+      <DependentUpon>201711250416405_cambio_modelo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711250416405_cambio_modelo.vb" />
+    <Compile Include="Migrations\201711280235213_add_stock_producto.Designer.vb">
+      <DependentUpon>201711280235213_add_stock_producto.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711280235213_add_stock_producto.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\bdTunicheContext.vb" />
+    <Compile Include="Model\Bodega.vb" />
     <Compile Include="Model\Categorias.vb" />
     <Compile Include="Model\Productos.vb" />
     <Compile Include="Model\Rol.vb" />
+    <Compile Include="Model\StockProductos.vb" />
     <Compile Include="Model\Transaccion.vb" />
     <Compile Include="Model\Usuario.vb" />
     <Compile Include="Tipos\Tipo.vb" />
@@ -128,6 +138,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711240428038_edit_productos_transaccion.resx">
       <DependentUpon>201711240428038_edit_productos_transaccion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711250416405_cambio_modelo.resx">
+      <DependentUpon>201711250416405_cambio_modelo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711280235213_add_stock_producto.resx">
+      <DependentUpon>201711280235213_add_stock_producto.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

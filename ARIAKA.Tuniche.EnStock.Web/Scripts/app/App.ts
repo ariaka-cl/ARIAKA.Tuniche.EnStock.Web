@@ -35,5 +35,19 @@ namespace App {
         NumeroDocumento: string,
         Comentario:string
     }
+    export interface IConsultaStock {
+        ID: number,
+        Nombre: string,
+        StockActualPalmas: number,
+        StockActualMercedes: number,
+        Codigo: string,
+        StockMinimo: number
+    }
+    export interface IBodega {
+        ID: number,
+        Nombre: string           
+    }
+
+
 
 }

@@ -12,6 +12,8 @@ namespace Inout {
         public idRow: KnockoutObservable<number> = ko.observable(0);
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
         public categorias: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public bodegas: KnockoutObservableArray<App.IBodega> = ko.observableArray<App.IBodega>();
+        public detalle: KnockoutObservableArray<any> = ko.observableArray<any>();
 
 
         getCategoria(): void {
@@ -26,6 +28,24 @@ namespace Inout {
                             text: data[i].nombre
                         }
                         this.categorias.push(cate);
+                    }
+                }
+            });
+        }
+
+        getBodegas(): void {
+            this.bodegas([]);
+            let url = window.location.origin + '/api/productos/bodegas';
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: (data: any): void => {
+                    for (var i: number = 0; i < data.length; i++) {
+                        let bodega: App.IBodega = {
+                            ID: data[i].id,
+                            Nombre: data[i].nombre
+                        }
+                        this.bodegas.push(bodega);
                     }
                 }
             });
@@ -54,7 +74,7 @@ namespace Inout {
                 },
                 success: (data: any): void => {
                     DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);
-                    $('#form-user').dxForm('instance').resetValues();
+                    $('#form-in').dxForm('instance').resetValues();
                 }
 
 
@@ -85,9 +105,9 @@ namespace Inout {
             this.productos.push(produ);
         }
 
-        contructor() {
+        constructor() {
             this.getCategoria();
-            //this.getProductos();
+            this.getBodegas();
         }
 
                 
@@ -112,7 +132,7 @@ namespace Inout {
                     dataField: "TipoDocumento",
                     editorType: "dxSelectBox",
                     editorOptions: {
-                        displayExpr: 'Nombre',
+                        displayExpr: 'name',
                         dataSource: new DevExpress.data.DataSource({
                             store: this.tipoDocu
                         }),
@@ -152,23 +172,60 @@ namespace Inout {
 			},{
                 itemType: "group",
                 colCount: 3,
-                items: ["Envase", "PrecioUnitario", "DESC"]
-			}, {
-				itemType: "group",
-				colCount: 3,
+                items: ["Envase", "PrecioUnitario", "Stock"]
+			},{
+                itemType: "group",
+                colCount: 3,
                 items: [{
-                    dataField: "StockActualMercedes",
-                    editorType: "dxTextBox",
-                    editorOptions: {
-                        width: 200
+                    itemType: "group",
+                    caption: "Agregar Bodegas y Stock",
+                    items: [{
+                        editorType: "dxButton",
+                        editorOptions: {
+                            text: "Agregar",
+                            icon: "plus",
+                            onClick: () => {
+                                let formData: any = $('#form-in').dxForm('option').formData;
+                                let detalleStock = {
+                                    Nombre: formData.Bodega.Nombre,
+                                    Stock: formData.Stock
+                                }
+                                this.detalle.push(detalleStock);
+                                let grid = $('#dataGrid').dxDataGrid('instance');
+                                grid.refresh()
+                                grid.repaint()
+                            }
+                        }
+                    },{
+
+                        dataField: "Bodega",
+                        editorType: "dxSelectBox",
+                        editorOptions: {
+                            displayExpr: 'Nombre',
+                            dataSource: this.bodegas
+                        }
+                    }, {
+                        dataField: "Stock",
+                        editorType: "dxNumberBox",
+                        editorOptions: {
+                            min: 1,
+                            showSpinButtons: true,
+                            showClearButton: true
+                        }
+                    }]
+                },{
+                    name: 'DetalleStock',                        
+                    visible: true,
+                    template: (data, $itemElement) => {
+                        $("<div id='dataGrid'>")
+                            .appendTo($itemElement)
+                            .dxDataGrid({
+                                dataSource: this.detalle,
+                                columns: ['Nombre', 'Stock'],
+                                rowAlternationEnabled: true
+                            });
                     }
-                }, {
-                    dataField: "StockActualPalmas",
-                    editorType: "dxTextBox",
-                    editorOptions: {
-                        width: 200
-                    }
-                    }, "Stock"]
+                 }]
             }]
         };
 
@@ -208,6 +265,8 @@ namespace Inout {
             text: "Limpiar",
             icon: "clear",            
             onClick: () => {
+
+
                 $('#form-in').dxForm('instance').resetValues(); 
             }
         } 

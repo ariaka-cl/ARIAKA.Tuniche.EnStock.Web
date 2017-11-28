@@ -16,16 +16,9 @@ Namespace Controllers.API
                     Return Me.Content(HttpStatusCode.NotFound, "No se encontraron valores para agregar")
                 End If
                 Dim producto As New Productos With {.Nombre = model.Nombre,
-                                                    .BodegaMercedes = model.BodegaMercedes,
-                                                    .BodegaPalmas = model.BodegaPalmas,
                                                     .Codigo = model.Codigo,
-                                                    .Comentario = model.Comentario,
-                                                    .NumeroDocumento = model.NumeroDocumento,
-                                                    .PrecioUnitario = model.PrecioUnitario,
-                                                    .Stock = model.Stock,
-                                                    .StockActualMercedes = model.StockActualMercedes,
-                                                    .StockActualPalmas = model.StockActualPalmas,
-                                                    .TipoDocumento = model.TipoDocumento}
+                                                    .Comentario = model.Comentario
+                                                    }
                 db.Productoes.Add(producto)
                 db.SaveChanges()
                 model.ID = producto.ID
@@ -55,25 +48,35 @@ Namespace Controllers.API
                 If String.IsNullOrEmpty(id) Then
                     Return Me.Content(HttpStatusCode.NotFound, "Codigo vacío")
                 End If
-                Dim produ As Productos = db.Productoes.Where(Function(p) p.Codigo = id).SingleOrDefault()
-                If produ Is Nothing Then Return Me.Content(HttpStatusCode.NotFound, "Elemento no encontrado")
-                Dim produDto As New Models.ProductosDTO With {.ID = produ.ID,
-                                                                    .BodegaMercedes = produ.BodegaMercedes,
-                                                                    .StockActualMercedes = produ.StockActualMercedes,
-                                                                    .BodegaPalmas = produ.BodegaPalmas,
-                                                                    .StockActualPalmas = produ.StockActualPalmas,
-                                                                    .Codigo = produ.Codigo,
-                                                                    .Comentario = produ.Comentario,
-                                                                    .Entrada = produ.Entrada,
-                                                                    .Nombre = produ.Nombre,
-                                                                    .Salida = produ.Salida,
-                                                                    .Stock = produ.Stock,
-                                                                    .Tipo = produ.Tipo,
-                                                                    .Unidad = .Unidad,
-                                                                    .Categorias = New Models.CategoriaDTO With {.ID = produ.Categorias.ID,
-                                                                                                                .Nombre = produ.Categorias.Nombre}
-                }
-                Return Me.Ok(produDto)
+                ' Dim produ As Productos = db.Productoes.Where(Function(p) p.Codigo = id).SingleOrDefault()
+                Dim bodegas As New List(Of Models.BodegaDTO)
+                'For Each bodega As Bodega In produ.Bodegas
+                '    bodegas.Add(New Models.BodegaDTO With {.ID = bodega.ID,
+                '                                           .Nombre = bodega.Nombre,
+                '                                           .Stock = bodega.Stock})
+                'Next
+                'TODO: agregar productos
+                'If produ Is Nothing Then Return Me.Content(HttpStatusCode.NotFound, "Elemento no encontrado")
+                'Dim produDto As New Models.ProductosDTO With {.ID = produ.ID,
+                '                                                    .Codigo = produ.Codigo,
+                '                                                    .Comentario = produ.Comentario,
+                '                                                    .Entrada = produ.Entrada,
+                '                                                    .Nombre = produ.Nombre,
+                '                                                    .Salida = produ.Salida,
+                '                                                    .Tipo = produ.Tipo,
+                '                                                    .Unidad = .Unidad,
+                '                                                    .Categorias = New Models.CategoriaDTO With {.ID = produ.Categorias.ID,
+                '                                                                                                .Nombre = produ.Categorias.Nombre},
+                '                                                    .StockActual = produ.StockActual,
+                '                                                    .StockMinimo = produ.StockMinimo,
+                '                                                    .Bodegas = bodegas}
+
+                bodegas.Clear()
+                bodegas.Add(New Models.BodegaDTO With {.ID = "1", .Nombre = "Las Palmas", .Stock = 2})
+                bodegas.Add(New Models.BodegaDTO With {.ID = "2", .Nombre = "Las Mercedes", .Stock = 4})
+
+                Return Me.Ok(New Models.ProductosDTO With {.Codigo = "123", .StockMinimo = 5, .Nombre = "Azadon"})
+                'Return Me.Ok(produDto)
             Catch ex As Exception
                 Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
             Finally
