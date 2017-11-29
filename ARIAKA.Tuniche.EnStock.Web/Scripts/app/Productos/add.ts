@@ -13,7 +13,7 @@ namespace Productos {
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
         public categorias: KnockoutObservableArray<any> = ko.observableArray<any>();        
     
-        unidad = [{ 'name': 'Litro' }, { 'name': 'CC' }, { 'name': 'Kilogramo' }, { 'name': 'Gramo' }]
+        unidad = [{ 'name': 'Unidad' },{ 'name': 'Litro' }, { 'name': 'CC' }, { 'name': 'Kilogramo' }, { 'name': 'Gramo' }]
 
         getCategoria(): void {
             this.categorias([]);
@@ -42,22 +42,14 @@ namespace Productos {
                 data: {
                     Codigo: formData.Codigo,
                     Nombre: formData.Nombre,
-                    Unidad: formData.Unidad,
-                    StockMinimo: formData.StockMinimo,                    
-                    StockActualPalmas: formData.StockActualPalmas,
-                    StockActualMercedes: formData.StockActualMercedes,
+                    Unidad: formData.Unidad.name,
+                    StockMinimo: formData.StockMinimo,
                     Categorias: formData.Categorias                  
                 },
                 success: (data: any): void => {
                     DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);
                     $('#form-productos').dxForm('instance').resetValues();
                 }
-
-            }).done((result) => {
-                // this.getUser();
-                let grid = $('#grid-in').dxDataGrid('instance');
-                grid.refresh();
-                grid.repaint();
             });
         }
 

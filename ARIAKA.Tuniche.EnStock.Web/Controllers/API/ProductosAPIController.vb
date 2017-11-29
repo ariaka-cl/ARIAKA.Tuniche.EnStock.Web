@@ -10,18 +10,31 @@ Namespace Controllers.API
         <HttpGet>
         <Route("{id}", Name:="GetProductos")>
         Public Function GetProductos(id As Integer) As IHttpActionResult
-            Dim listProduDto As New List(Of Models.ProductosDTO)
-            If id < 0 Then
+            Dim db As New bdTunicheContext
+            Try
+                Dim listProduDto As New List(Of Models.ProductosDTO)
+                If id < 0 Then
+                    Return Me.Ok(listProduDto)
+                End If
+                Dim cate As Categorias = db.Categoriaeos.Where(Function(c) c.ID = id).SingleOrDefault
+                Dim listProdu As List(Of Productos) = db.Productoes.Where(Function(p) p.Categorias.ID = id).ToList()
+                For Each produ As Productos In listProdu
+                    listProduDto.Add(New Models.ProductosDTO With {.ID = produ.ID,
+                                                                    .Codigo = produ.Codigo,
+                                                                    .Nombre = produ.Nombre,
+                                                                    .StockMinimo = produ.StockMinimo,
+                                                                    .Unidad = produ.Unidad,
+                                                                    .Categorias = New Models.CategoriaDTO With {.ID = cate.ID,
+                                                                                                                .Nombre = cate.Nombre}
+                                                                    })
+
+                Next
                 Return Me.Ok(listProduDto)
-            End If
-            'listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Azadon", .BodegaPalmas = "Las Palmas", .StockActualPalmas = 2, .Categorias = New Models.CategoriaDTO With {.ID = 3, .Nombre = "Herramientas"}}))
-            'listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Martillo", .BodegaPalmas = "Las Palmas", .StockActualPalmas = 3, .Categorias = New Models.CategoriaDTO With {.ID = 3, .Nombre = "Herramientas"}}))
-            'listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Cuaderno", .BodegaPalmas = "Las Palmas", .StockActualPalmas = 3, .Categorias = New Models.CategoriaDTO With {.ID = 4, .Nombre = "Oficina"}}))
-            'listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Hojas Oficio", .BodegaPalmas = "Las Palmas", .StockActualPalmas = 3, .Categorias = New Models.CategoriaDTO With {.ID = 4, .Nombre = "Oficina"}}))
-            'listProduDto.Add((New Models.ProductosDTO With {.Nombre = "Cuaderno", .BodegaMercedes = "Las Mercedes", .StockActualMercedes = 2, .Categorias = New Models.CategoriaDTO With {.ID = 4, .Nombre = "Oficina"}}))
-
-
-            Return Me.Ok(listProduDto.Where(Function(p) p.Categorias.ID = id).ToList())
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
         End Function
 
         <HttpPost>
@@ -33,28 +46,29 @@ Namespace Controllers.API
 
             Dim db As New bdTunicheContext
             Try
-                'If model.ID <> 0 Then
-                '    Dim produExist As Productos = db.Productoes.Where(Function(p) p.ID = model.ID).SingleOrDefault()
-                '    With userExist
-                '        .Nombre = model.Nombre
-                '        .NickName = model.NickName
-                '        .Run = model.Run
-                '        .Rol = New Rol With {.id = model.ID, .Nombre = model.Nombre}
-                '        .Password = model.Password
-                '    End With
-                '    db.SaveChanges()
-                '    Return Me.Ok(model)
-                'End If
+                If model.ID <> 0 Then
+                    Dim produExist As Productos = db.Productoes.Where(Function(p) p.ID = model.ID).SingleOrDefault()
+                    With produExist
+                        .Nombre = model.Nombre
+                        .Codigo = model.Codigo
+                        .Unidad = model.Unidad
+                        .Categorias = db.Categoriaeos.Where(Function(c) c.ID = model.Categorias.ID).Single
+                        .StockMinimo = model.StockMinimo
+                    End With
+                    db.SaveChanges()
+                    Return Me.Ok(model)
 
-                'Dim user As New Usuario With {.Nombre = model.Nombre,
-                '                            .NickName = model.NickName,
-                '                            .Password = model.Password,
-                '                            .Run = model.Run,
-                '                            .rol = rol
-                '}
-                'db.Usuarieos.Add(user)
-                'db.SaveChanges()
-                'model.ID = user.ID
+                End If
+
+                Dim producto As New Productos With {.Nombre = model.Nombre,
+                                                    .Codigo = model.Codigo,
+                                                    .Unidad = model.Unidad,
+                                                    .StockMinimo = model.StockMinimo,
+                                                    .Categorias = db.Categoriaeos.Where(Function(c) c.ID = model.Categorias.ID).SingleOrDefault
+                }
+                db.Productoes.Add(producto)
+                db.SaveChanges()
+                model.ID = producto.ID
                 Return Me.Ok(model)
             Catch ex As Exception
                 Return Me.Content(HttpStatusCode.BadRequest, ex.Message)

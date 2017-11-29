@@ -40,10 +40,12 @@ namespace Productos {
                 success: (data: any): void => {
                     for (var i: number = 0; i < data.length; i++) {
                         let produ = {
+                            ID: data[i].id,
+                            Codigo: data[i].codigo,
                             Nombre: data[i].nombre,
-                            StockActualMercedes: data[i].stockActualMercedes,
-                            Categorias: data[i].categorias.nombre,
-                            StockActualPalmas: data[i].stockActualPalmas
+                            Unidad: data[i].unidad,
+                            StockMinimo: data[i].stockMinimo,
+                            Categorias: data[i].categorias.nombre                            
                         }
                         this.productos.push(produ);
                     }
@@ -78,7 +80,7 @@ namespace Productos {
                 enabled: true,
                 text: 'Cargando datos...'
             },
-            columns: [{ dataField: 'id', visible: false }, 'Nombre', 'StockActualMercedes','StockActualPalmas','Categorias'],
+            columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo','Unidad','Categorias'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'

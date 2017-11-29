@@ -18,30 +18,30 @@
                     <div class="menu-list">
 
                         <ul id="menu-content" class="menu-content collapse out">
-                            <li data-toggle="collapse" data-target="#service" class="collapsed active">
+                            <li data-toggle="collapse" data-target="#ingreso" class="collapsed active">
                                 <a href="@Url.Action("Index", "Inout")"><i class="glyphicon glyphicon glyphicon-resize-small fa-lg"></i> Ver Ingresos</a>                                                              
                             </li>
-                            <li data-toggle="collapse" data-target="#products">
+                            <li data-toggle="collapse" data-target="#salida">
                                 <a href="@Url.Action("Salidas", "Inout")"><i class="glyphicon glyphicon glyphicon-resize-full fa-lg"></i> Ver Salidas </a>
                             </li>
                             
-                            <li data-toggle="collapse" data-target="#products">
+                            <li data-toggle="collapse" data-target="#retorno">
                                 <a href="@Url.Action("Retorno", "Inout")"><i class="glyphicon glyphicon glyphicon-download-alt fa-lg"></i> Retorno Herramientas </a>
                             </li> 
 
-                            <li data-toggle="collapse" data-target="#products">
+                            <li data-toggle="collapse" data-target="#stock">
                                 <a href="@Url.Action("Stock", "Inout")"><i class="glyphicon glyphicon glyphicon-eye-open fa-lg"></i> Stock Online </a>
                             </li>
-                            <li data-toggle="collapse" data-target="#products">
+                            <li data-toggle="collapse" data-target="#insumos">
                                 <a href="@Url.Action("Add", "Productos")"><i class="glyphicon glyphicon glyphicon glyphicon-qrcode fa-lg"></i> Insumos </a>
                             </li>
-                            <li data-toggle="collapse" data-target="#products">
+                            <li data-toggle="collapse" data-target="#productos">
                                 <a href="@Url.Action("Index", "Productos")"><i class="glyphicon glyphicon glyphicon glyphicon-folder-close fa-lg"></i>Ver Insumos </a>
                             </li>
-                            <li data-toggle="collapse" data-target="#products">
+                            <li data-toggle="collapse" data-target="#categorias">
                                 <a href="@Url.Action("Index", "Categorias")"><i class="glyphicon glyphicon glyphicon glyphicon-tags fa-lg"></i> Categorias </a>
                             </li>                            
-                            <li data-toggle="collapse" data-target="#products">
+                            <li data-toggle="collapse" data-target="#usuarios">
                                 <a href="@Url.Action("Index", "Usuarios")"><i class="glyphicon glyphicon glyphicon glyphicon-user fa-lg"></i> Usuarios </a>
                             </li>
                         </ul>
@@ -62,7 +62,8 @@
     @Scripts.Render("~/bundles/devextreme")
     @Scripts.Render("~/bundles/bootstrap")
     <script>
-       var apiRoot = '@Url.Content("~/")api/';
+        var apiRoot = '@Url.Content("~/")api/';
+
     </script>
     @RenderSection("scripts", required:=False)
 </body>

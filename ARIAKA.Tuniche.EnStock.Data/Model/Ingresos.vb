@@ -1,13 +1,12 @@
 ﻿Namespace Model
-    Public Class Transaccion
+    Public Class Ingresos
         Public Property ID As Integer
         Public Property Producto As Productos
         Public Property Direccion As String
-        Public Property Autorizador As Usuario
         Public Property Fecha As Date
-        Public Property PrecioUnitario As Integer
-        Public Property Descuento As Double
+        Public Property PrecioUnitario As Double
         Public Property TipoDocumento As String
         Public Property NumeroDocumento As String
+        Public Property Proveedor As Proveedor
     End Class
 End Namespace
