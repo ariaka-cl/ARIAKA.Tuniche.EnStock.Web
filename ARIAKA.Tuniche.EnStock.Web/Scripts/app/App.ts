@@ -38,10 +38,10 @@ namespace App {
     export interface IConsultaStock {
         ID: number,
         Nombre: string,
-        StockActualPalmas: number,
-        StockActualMercedes: number,
+        StockMinimo: number,        
         Codigo: string,
-        StockMinimo: number
+        Unidad: string,
+        Categoria: Categoria
     }
     export interface IBodega {
         ID: number,

@@ -16,10 +16,10 @@ namespace Inout {
         producto: App.IConsultaStock = {
             ID: null,
             Nombre: null,
-            StockActualPalmas: null,
-            StockActualMercedes: null,
+            StockMinimo: null,           
             Codigo: null,
-            StockMinimo: null
+            Unidad:null,
+            Categoria: null
         }
 	
         getProductos(id: string): void {
@@ -32,10 +32,11 @@ namespace Inout {
                         let produ = {
                             ID: data.id,
                             Nombre: data.nombre,
-                            StockActualPalmas: data.bodegas[0].stock,
-                            StockActualMercedes: data.bodegas[1].stock,
+                            StockMinimo: data.stockMinimo,
                             Codigo: data.codigo,
-                            StockMinimo: data.stockMinimo                           
+                            Unidad: data.unidad,
+                            Categoria: null
+                            
                         }
                         this.productos(produ);                   
                 },
@@ -72,7 +73,7 @@ namespace Inout {
 			}, {
 				itemType: "group",
 				colCount: 3,
-                items: ["StockMinimo", "StockActualPalmas", "StockActualMercedes"]
+                items: ["StockMinimo", "Unidad", "Categoria"]
 			}]
 		};		
 	}
