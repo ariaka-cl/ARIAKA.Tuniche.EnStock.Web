@@ -14,6 +14,7 @@ namespace Inout {
         public categorias: KnockoutObservableArray<any> = ko.observableArray<any>();
         public bodegas: KnockoutObservableArray<App.IBodega> = ko.observableArray<App.IBodega>();
         public detalle: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public proveedores: KnockoutObservableArray<any> = ko.observableArray<any>();
 
 
         getCategoria(): void {
@@ -51,6 +52,22 @@ namespace Inout {
             });
         }
 
+        getProveedor(): void {
+            this.proveedores([]);
+            $.ajax({
+                type: 'GET',
+                url: 'api/proveedores',
+                success: (data: any): void => {
+                    for (var i: number = 0; i < data.length; i++) {
+                        let proveedor = {
+                            ID: data[i].id,
+                            Nombre: data[i].nombre
+                        }
+                        this.proveedores.push(proveedor);
+                    }
+                }
+            });
+        }
 
 
         addProducto(): void {
@@ -108,10 +125,9 @@ namespace Inout {
         constructor() {
             this.getCategoria();
             this.getBodegas();
+            this.getProveedor();
         }
-
-                
-		proveedor = [{ "name": "SEÑORES AGRO ARICA SA" }, { "name": "COMERCIAL ARICA SA" }];
+                     		
 		articulos = [{ "name": "Azadilla" }, { "name": "Alicate Universal" }];
         tipoDocu = [{ "name": "Guia" }, { "name": "Factura" }];
 
@@ -147,11 +163,9 @@ namespace Inout {
 					dataField: "Proveedor",
 					editorType: "dxLookup",
 					editorOptions: {
-						displayExpr: 'name',
-						dataSource: new DevExpress.data.DataSource({
-							store: this.proveedor
-						})
-					}
+						displayExpr: 'Nombre',
+                        dataSource: this.proveedores
+                    }
 				}, {
 					dataField: "Articulos",
 					editorType: "dxLookup",

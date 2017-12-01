@@ -204,10 +204,12 @@
     <Compile Include="Controllers\API\CategoriasAPIController.vb" />
     <Compile Include="Controllers\API\InoutAPIController.vb" />
     <Compile Include="Controllers\API\ProductosAPIController.vb" />
+    <Compile Include="Controllers\API\ProveedorAPIController.vb" />
     <Compile Include="Controllers\ProductosController.vb" />
     <Compile Include="Controllers\API\UsuariosAPIController.vb" />
     <Compile Include="Controllers\CategoriasController.vb" />
     <Compile Include="Controllers\InoutController.vb" />
+    <Compile Include="Controllers\ProveedorController.vb" />
     <Compile Include="Controllers\UsuariosController.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
@@ -215,6 +217,7 @@
     <Compile Include="Models\BodegaDTO.vb" />
     <Compile Include="Models\CategoriaDTO.vb" />
     <Compile Include="Models\ProductosDTO.vb" />
+    <Compile Include="Models\ProveedorDTO.vb" />
     <Compile Include="Models\StockProductos.vb" />
     <Compile Include="Models\TransaccionDTO.vb" />
     <Compile Include="Models\UsuariosDTO.vb" />
@@ -325,6 +328,7 @@
     <Content Include="Views\Usuarios\Index.vbhtml" />
     <Content Include="Views\Productos\Index.vbhtml" />
     <Content Include="Views\Productos\Add.vbhtml" />
+    <Content Include="Views\Proveedor\Index.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -399,6 +403,7 @@
     <TypeScriptCompile Include="Scripts\app\Inout\stock.ts" />
     <TypeScriptCompile Include="Scripts\app\Productos\add.ts" />
     <TypeScriptCompile Include="Scripts\app\Productos\index.ts" />
+    <TypeScriptCompile Include="Scripts\app\Proveedor\index.ts" />
     <TypeScriptCompile Include="Scripts\app\Usuarios\index.ts" />
     <TypeScriptCompile Include="Scripts\typings\devextreme\devextreme.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />

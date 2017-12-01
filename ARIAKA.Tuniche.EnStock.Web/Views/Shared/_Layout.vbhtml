@@ -6,7 +6,7 @@
     <title>@ViewBag.Title -  EnStock</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-</head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -31,6 +31,9 @@
 
                             <li data-toggle="collapse" data-target="#stock">
                                 <a href="@Url.Action("Stock", "Inout")"><i class="glyphicon glyphicon glyphicon-eye-open fa-lg"></i> Stock Online </a>
+                            </li>
+                            <li data-toggle="collapse" data-target="#proveedor">
+                                <a href="@Url.Action("Index", "Proveedor")"><i class="glyphicon glyphicon glyphicon glyphicon-list-alt fa-lg"></i> Proveedores </a>
                             </li>
                             <li data-toggle="collapse" data-target="#insumos">
                                 <a href="@Url.Action("Add", "Productos")"><i class="glyphicon glyphicon glyphicon glyphicon-qrcode fa-lg"></i> Insumos </a>
