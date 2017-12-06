@@ -28,6 +28,32 @@ namespace App {
         BodegaMercedes: string,
         StockActualMercedes: string,
         Categorias: string,        
-        Codigo: string
+        Codigo: string,
+        Stock: string,
+        PrecioUnitario: number,
+        TipoDocumento: string,
+        NumeroDocumento: string,
+        Comentario:string
     }
+    export interface IConsultaStock {
+        ID: number,
+        Nombre: string,
+        StockMinimo: number,        
+        Codigo: string,
+        Unidad: string,
+        Categoria: Categoria
+    }
+    export interface IBodega {
+        ID: number,
+        Nombre: string           
+    }
+
+    export interface IDetalleStock {
+        ID: number,
+        Stock: number,
+        Bodega: IBodega
+    }
+
+
+
 }

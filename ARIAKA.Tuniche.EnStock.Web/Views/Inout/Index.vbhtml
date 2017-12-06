@@ -5,12 +5,17 @@ End Code
 
     <div class="long-title"><h3>Ingresos</h3></div>
     <div id="form-container">
-        <div data-bind="dxForm: formOptions"></div>
+        <div id="form-in" data-bind="dxForm: formOptions"></div>
     </div>
     <br />
     <br />
-    <div data-bind="dxDataGrid: dataGridOptions"></div>
-
+    <div class="btn-group" role="group">
+        <div data-bind="dxButton: buttonOptionsAdd"></div>       
+        <div data-bind="dxButton: buttonOptionsDelete"></div>
+    </div>
+<br />
+<br />
+    <div id="grid-in" data-bind="dxDataGrid: dataGridOptions"></div>
 
 @Section scripts
     <script type="text/javascript" src="~/Scripts/app/Inout/index.js"></script>

@@ -40,10 +40,12 @@ namespace Productos {
                 success: (data: any): void => {
                     for (var i: number = 0; i < data.length; i++) {
                         let produ = {
+                            ID: data[i].id,
+                            Codigo: data[i].codigo,
                             Nombre: data[i].nombre,
-                            Bodega: data[i].bodega,
-                            Categorias: data[i].categorias.nombre,
-                            StockActual: data[i].stockActual
+                            Unidad: data[i].unidad,
+                            StockMinimo: data[i].stockMinimo,
+                            Categorias: data[i].categorias.nombre                            
                         }
                         this.productos.push(produ);
                     }
@@ -78,7 +80,7 @@ namespace Productos {
                 enabled: true,
                 text: 'Cargando datos...'
             },
-            columns: [{ dataField: 'id', visible: false }, 'Nombre', 'Bodega','StockActual','Categorias'],
+            columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo','Unidad','Categorias'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'
@@ -89,7 +91,11 @@ namespace Productos {
                 allowColumnDragging: true,
                 visible: true,
                 emptyPanelText: 'Arrastre algunas columnas para agrupar'
-            }, columnChooser: {
+            }, export: {
+                allowExportSelectedData: true,
+                enabled: true,
+                fileName: 'ingresos'
+            },columnChooser: {
                 allowSearch: true
             },
             onRowClick: (e) => {

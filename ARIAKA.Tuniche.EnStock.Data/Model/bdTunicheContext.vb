@@ -6,11 +6,16 @@ Namespace Model
     Public Class bdTunicheContext
         Inherits DbContext
 
-        Public Property Usuarieos As DbSet(Of Model.Usuario)
-        Public Property Roleos As DbSet(Of Model.Rol)
-        Public Property Productoes As DbSet(Of Model.Productos)
-        Public Property Categoriaeos As DbSet(Of Model.Categorias)
-        Public Property Transicioneos As DbSet(Of Model.Transaccion)
+        Public Property Usuarieos As DbSet(Of Usuario)
+        Public Property Roleos As DbSet(Of Rol)
+        Public Property Productoes As DbSet(Of Productos)
+        Public Property Categoriaeos As DbSet(Of Categorias)
+        Public Property Ingresos As DbSet(Of Ingresos)
+        Public Property Bodegaeos As DbSet(Of Bodega)
+        Public Property Salidaeos As DbSet(Of Salidas)
+        Public Property Proveedoreos As DbSet(Of Proveedor)
+        Public Property SubCategoriaeos As DbSet(Of SubCategoria)
+        Public Property StockProductos As DbSet(Of StockProductos)
 
         Public Sub New()
             MyBase.New("name=bdTunicheContext")

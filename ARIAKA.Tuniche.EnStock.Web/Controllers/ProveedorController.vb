@@ -1,17 +1,12 @@
 ﻿Imports System.Web.Mvc
 
 Namespace Controllers
-    <RoutePrefix("productos")>
-    Public Class ProductosController
+    <RoutePrefix("proveedores")>
+    Public Class ProveedorController
         Inherits Controller
 
         <Route("")>
         Function Index() As ActionResult
-            Return View()
-        End Function
-
-        <Route("add")>
-        Function Add() As ActionResult
             Return View()
         End Function
     End Class
