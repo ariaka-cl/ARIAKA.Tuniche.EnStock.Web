@@ -98,5 +98,36 @@ Namespace Controllers.API
                 db.Dispose()
             End Try
         End Function
+
+        <HttpGet>
+        <Route("", Name:="GetProducto")>
+        Public Function GetProducto() As IHttpActionResult
+            Dim db As New bdTunicheContext
+            Try
+                Dim listProduDto As New List(Of Models.ProductosDTO)
+
+                Dim cate As List(Of Categorias) = db.Categoriaeos.ToList()
+                Dim listProdu As List(Of Productos) = db.Productoes.ToList()
+                For Each produ As Productos In listProdu
+                    listProduDto.Add(New Models.ProductosDTO With {.ID = produ.ID,
+                                                                    .Codigo = produ.Codigo,
+                                                                    .Nombre = produ.Nombre,
+                                                                    .StockMinimo = produ.StockMinimo,
+                                                                    .Unidad = produ.Unidad,
+                                                                    .StockActual = produ.StockActual
+                                                                    })
+
+                Next
+                Return Me.Ok(listProduDto)
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
+        End Function
+
+
+
+
     End Class
 End Namespace

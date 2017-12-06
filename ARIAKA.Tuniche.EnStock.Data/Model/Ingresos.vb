@@ -8,5 +8,7 @@
         Public Property TipoDocumento As String
         Public Property NumeroDocumento As String
         Public Property Proveedor As Proveedor
+        Public Property Cantidad As Integer
+
     End Class
 End Namespace

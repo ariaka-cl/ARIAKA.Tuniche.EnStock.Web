@@ -96,6 +96,14 @@
       <DependentUpon>201711290234405_edit_model_final.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201711290234405_edit_model_final.vb" />
+    <Compile Include="Migrations\201712020946177_add_contidad_ingreso.Designer.vb">
+      <DependentUpon>201712020946177_add_contidad_ingreso.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712020946177_add_contidad_ingreso.vb" />
+    <Compile Include="Migrations\201712050442328_add_ingresos_stock.Designer.vb">
+      <DependentUpon>201712050442328_add_ingresos_stock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712050442328_add_ingresos_stock.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\bdTunicheContext.vb" />
     <Compile Include="Model\Bodega.vb" />
@@ -140,6 +148,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711290234405_edit_model_final.resx">
       <DependentUpon>201711290234405_edit_model_final.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712020946177_add_contidad_ingreso.resx">
+      <DependentUpon>201712020946177_add_contidad_ingreso.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712050442328_add_ingresos_stock.resx">
+      <DependentUpon>201712050442328_add_ingresos_stock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

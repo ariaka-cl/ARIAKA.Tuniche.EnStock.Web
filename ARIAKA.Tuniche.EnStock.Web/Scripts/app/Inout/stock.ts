@@ -73,7 +73,7 @@ namespace Inout {
 			}, {
 				itemType: "group",
 				colCount: 3,
-                items: ["StockMinimo", "Unidad", "Categoria"]
+                items: ["StockMinimo", "Unidad"]
 			}]
 		};		
 	}

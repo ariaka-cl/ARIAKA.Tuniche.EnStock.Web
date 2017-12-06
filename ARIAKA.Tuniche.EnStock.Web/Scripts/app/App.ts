@@ -48,6 +48,12 @@ namespace App {
         Nombre: string           
     }
 
+    export interface IDetalleStock {
+        ID: number,
+        Stock: number,
+        Bodega: IBodega
+    }
+
 
 
 }

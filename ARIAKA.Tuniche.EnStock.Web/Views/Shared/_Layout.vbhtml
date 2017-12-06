@@ -24,7 +24,9 @@
                             <li data-toggle="collapse" data-target="#salida">
                                 <a href="@Url.Action("Salidas", "Inout")"><i class="glyphicon glyphicon glyphicon-resize-full fa-lg"></i> Ver Salidas </a>
                             </li>
-                            
+                            <li data-toggle="collapse" data-target="#traslados">
+                                <a href="@Url.Action("Salidas", "Inout")"><i class="glyphicon glyphicon glyphicon-retweet fa-lg"></i> Translados </a>
+                            </li>                            
                             <li data-toggle="collapse" data-target="#retorno">
                                 <a href="@Url.Action("Retorno", "Inout")"><i class="glyphicon glyphicon glyphicon-download-alt fa-lg"></i> Retorno Herramientas </a>
                             </li> 

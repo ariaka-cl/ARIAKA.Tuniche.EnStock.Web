@@ -91,7 +91,11 @@ namespace Productos {
                 allowColumnDragging: true,
                 visible: true,
                 emptyPanelText: 'Arrastre algunas columnas para agrupar'
-            }, columnChooser: {
+            }, export: {
+                allowExportSelectedData: true,
+                enabled: true,
+                fileName: 'ingresos'
+            },columnChooser: {
                 allowSearch: true
             },
             onRowClick: (e) => {

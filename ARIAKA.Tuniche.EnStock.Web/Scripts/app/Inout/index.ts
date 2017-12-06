@@ -7,14 +7,42 @@ namespace Inout {
     'use strict';
     export class InoutIndexViewModel {                                                                          
         
-        public productos: KnockoutObservableArray<App.IProductos> = ko.observableArray<App.IProductos>();
+        public productos: KnockoutObservableArray<any> = ko.observableArray<any>();
         public enable: KnockoutObservable<boolean> = ko.observable(true);
         public idRow: KnockoutObservable<number> = ko.observable(0);
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
-        public categorias: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public categorias: KnockoutObservableArray<App.Categoria> = ko.observableArray<App.Categoria>();
         public bodegas: KnockoutObservableArray<App.IBodega> = ko.observableArray<App.IBodega>();
-        public detalle: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public detalle: KnockoutObservableArray<App.IDetalleStock> = ko.observableArray<App.IDetalleStock>();
         public proveedores: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public categoria: KnockoutObservable<App.Categoria> = ko.observable<App.Categoria>();
+        public ingresos: KnockoutObservableArray<any> = ko.observableArray<any>();
+             
+
+
+        getIngresos(): void {
+            this.ingresos([]);
+            $.ajax({
+                type: 'GET',
+                url: 'api/inout',
+                success: (data: any): void => {
+                    for (var i: number = 0; i < data.length; i++) {
+                        let ingresos = {
+                            ID: data[i].id,
+                            Articulo: data[i].producto.nombre,
+                           PrecioUnitario: data[i].precioUnitario,
+                           TipoDocumento: data[i].tipoDocumento,
+                           NumeroDocumento: data[i].numeroDocumento,
+                           Cantidad: data[i].stock,
+                           ProductoNombre: data[i].productoNombre,
+                           Fecha: data[i].fecha
+                        }
+                        this.ingresos.push(ingresos);
+                    }
+                }
+            });
+        }
+
 
 
         getCategoria(): void {
@@ -24,9 +52,9 @@ namespace Inout {
                 url: 'api/categorias',
                 success: (data: any): void => {
                     for (var i: number = 0; i < data.length; i++) {
-                        let cate = {
-                            id: data[i].id,
-                            text: data[i].nombre
+                        let cate:App.Categoria = {
+                            ID: data[i].id,
+                            Nombre: data[i].nombre
                         }
                         this.categorias.push(cate);
                     }
@@ -69,70 +97,75 @@ namespace Inout {
             });
         }
 
-
+        getProductos(): void {
+            this.productos([]);
+            $.ajax({
+                type: 'GET',
+                url: 'api/productos',
+                success: (data: any): void => {                    
+                    for (var i: number = 0; i < data.length; i++) {
+                        let produ:any = {
+                            ID: data[i].id,
+                            Codigo: data[i].codigo,
+                            Nombre: data[i].nombre,
+                            Unidad: data[i].unidad,
+                            StockMinimo: data[i].stockMinimo                           
+                        }
+                        this.productos.push(produ);
+                    }                                     
+                }
+            });
+        }      
+         
+        
         addProducto(): void {
             let formData: any = $('#form-in').dxForm('option').formData;
+            
             $.ajax({
                 type: 'POST',
                 url: 'api/inout',
                 data: {
-                    Nombre: formData.Articulos.name,
-                    BodegaPalmas: formData.BodegaPalmas,
-                    StockActualPalmas: formData.StockActualPalmas,
-                    BodegaMercedes: formData.BodegaMercedes,
-                    StockActualMercedes: formData.StockActualMercedes,
-                    Categorias: formData.Categorias,
-                    Codigo: formData.Codigo,
-                    Stock: formData.Stock,
+                    ProuctoID: formData.Articulos.ID,
+                    Fecha: formData.Fecha,
+                    Stock: formData.Cantidad,                                        
                     PrecioUnitario: formData.PrecioUnitario,
                     TipoDocumento: formData.TipoDocumento.name,
                     NumeroDocumento: formData.NumeroDocumento,
-                    Comentario: formData.Proveedor.name
+                    Proveedor: formData.Proveedor,
+                    DetalleStock: this.detalle()
+                    
                 },
                 success: (data: any): void => {
                     DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);
+                    this.detalle([]);
+                    let grid = $('#grid-bodega').dxDataGrid('instance');
+                    grid.option('dataSource', []);
+                    grid.refresh();
+                    grid.repaint();
                     $('#form-in').dxForm('instance').resetValues();
                 }
 
-
-            }).done((result) => {
-               // this.getUser();
+            }).done((result) => {              
+                this.getIngresos();
                 let grid = $('#grid-in').dxDataGrid('instance');
                 grid.refresh();
                 grid.repaint();
             });
         }
-
-        getProductos(): void {
-            let produ = {
-                ID: null,
-                Nombre: null,
-                BodegaPalmas: null,
-                BodegaMercedes: null,
-                Categorias: null,
-                StockActualPalmas: null,
-                StockActualMercedes: null,
-                Codigo: null,
-                Stock: null,
-                PrecioUnitario: null,
-                TipoDocumento: "",
-                NumeroDocumento: "",
-                Comentario: null
-            }
-            this.productos.push(produ);
-        }
+               
 
         constructor() {
             this.getCategoria();
             this.getBodegas();
             this.getProveedor();
-        }
-                     		
-		articulos = [{ "name": "Azadilla" }, { "name": "Alicate Universal" }];
-        tipoDocu = [{ "name": "Guia" }, { "name": "Factura" }];
+            this.getProductos();
+            this.getIngresos();
+        }                  		
+		
+        tipoDocu = [{ "name": "Guia" }, { "name": "Factura" }, {"name":"Otro"}];
 
         formOptions: any = {
-			formData: this.productos,
+			formData: [],
 			labelLocation: "top",
             items: [{
                 itemType: "group",
@@ -141,8 +174,7 @@ namespace Inout {
                     dataField: "Fecha",
                     editorType: "dxDateBox",
                     editorOptions: {
-                        type: "date",
-                        value: new Date(2017, 2, 16)
+                        type: "date"                        
                     }
                 }, {
                     dataField: "TipoDocumento",
@@ -152,7 +184,7 @@ namespace Inout {
                         dataSource: new DevExpress.data.DataSource({
                             store: this.tipoDocu
                         }),
-                        items: ["Guia", "Factura"],
+                        items: ["Guia", "Factura","Otro"],
                         value: ""
                     }
                 }, "NumeroDocumento"]
@@ -166,27 +198,14 @@ namespace Inout {
 						displayExpr: 'Nombre',
                         dataSource: this.proveedores
                     }
-				}, {
+                }, "Cantidad", {
 					dataField: "Articulos",
-					editorType: "dxLookup",
+                    editorType: "dxLookup",
 					editorOptions: {
-						displayExpr: 'name',
-						dataSource: new DevExpress.data.DataSource({
-							store: this.articulos
-						})
+                        displayExpr: 'Nombre',
+                        dataSource : this.productos
 					}
-                    }, {
-                        dataField: "Categorias",
-                        editorType: "dxLookup",
-                        editorOptions: {
-                            displayExpr: 'text',
-                            dataSource: this.categorias
-                        }
-                    }]
-			},{
-                itemType: "group",
-                colCount: 3,
-                items: ["Envase", "PrecioUnitario", "Stock"]
+                 }]
 			},{
                 itemType: "group",
                 colCount: 3,
@@ -200,12 +219,15 @@ namespace Inout {
                             icon: "plus",
                             onClick: () => {
                                 let formData: any = $('#form-in').dxForm('option').formData;
-                                let detalleStock = {
-                                    Nombre: formData.Bodega.Nombre,
-                                    Stock: formData.Stock
+                                let detalleStock: App.IDetalleStock = {
+                                    ID:0,
+                                    Stock: formData.Stock,
+                                    Bodega: { ID: formData.Bodega.ID, Nombre: formData.Bodega.Nombre }
+
                                 }
                                 this.detalle.push(detalleStock);
-                                let grid = $('#dataGrid').dxDataGrid('instance');
+                                let grid = $('#grid-bodega').dxDataGrid('instance');                                
+                                grid.option('dataSource', this.detalle);
                                 grid.refresh()
                                 grid.repaint()
                             }
@@ -231,29 +253,34 @@ namespace Inout {
                     name: 'DetalleStock',                        
                     visible: true,
                     template: (data, $itemElement) => {
-                        $("<div id='dataGrid'>")
+                        $("<div id='grid-bodega'>")
                             .appendTo($itemElement)
                             .dxDataGrid({
                                 dataSource: this.detalle,
-                                columns: ['Nombre', 'Stock'],
+                                columns: ['Bodega.Nombre', 'Stock'],
                                 rowAlternationEnabled: true
                             });
                     }
-                 }]
+                    },"PrecioUnitario"]
             }]
         };
 
         dataGridOptions: any = {
-            dataSource: this.productos,
+            dataSource: this.ingresos,
             loadPanel: {
                 enabled: true,
                 text: 'Cargando datos...'
             },
-            columns: ['Fecha', 'TipoDocumento', 'NumeroDocumento', 'Proveedor', 'Stock', 'Envase', 'PrecioUnitario', 'StockActualMercedes', 'StockActualPalmas'],
+            columns: [{ dataField: 'Fecha', format: 'yyyy-dd-MM', dataType: 'date' }, 'TipoDocumento', 'NumeroDocumento', 'Cantidad', { dataField:'Articulo', dataType:'string'},'PrecioUnitario'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'
                 }
+            },
+            export: {
+                allowExportSelectedData: true,
+                enabled: true,
+                fileName:'ingresos'
             },
             grouping: {
                 allowCollapsing: true
@@ -262,7 +289,8 @@ namespace Inout {
                 visible: true,
                 emptyPanelText: 'Arrastre algunas columnas para agrupar'
             }, columnChooser: {
-                allowSearch: true
+                allowSearch: true,
+                enabled: true
             }, scrolling: {
                 mode:'virtual'
             }
@@ -279,9 +307,13 @@ namespace Inout {
             text: "Limpiar",
             icon: "clear",            
             onClick: () => {
-
-
-                $('#form-in').dxForm('instance').resetValues(); 
+                this.detalle([]);
+                let grid = $('#grid-bodega').dxDataGrid('instance');               
+                grid.option('dataSource', []);
+                grid.refresh();
+                grid.repaint();
+                $('#form-in').dxForm('instance').resetValues();
+                
             }
         } 
     }
