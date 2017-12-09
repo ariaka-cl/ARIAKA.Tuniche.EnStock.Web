@@ -92,5 +92,29 @@ Namespace Controllers.API
                 db.Dispose()
             End Try
         End Function
+
+        <HttpGet>
+        <Route("autorizador", Name:="GetAutorizador")>
+        Public Function GetAutorizador() As IHttpActionResult
+            Dim db As New bdTunicheContext
+            Try
+                'Dim listUser As List(Of Usuario) = db.Usuarieos.Where(Function(u) u.Rol.ID = 6).ToList()
+                Dim listUser As List(Of Usuario) = db.Usuarieos.ToList()
+                If listUser Is Nothing OrElse listUser.Count = 0 Then Return Me.Ok(New List(Of Models.UsuariosDTO))
+                Dim listUserDto As New List(Of Models.UsuariosDTO)
+                For Each usuario As Usuario In listUser
+                    listUserDto.Add(New Models.UsuariosDTO With {.ID = usuario.ID,
+                                                                 .Nombre = usuario.Nombre,
+                                                                 .NickName = usuario.NickName,
+                                                                 .Password = usuario.Password,
+                                                                 .Run = usuario.Run})
+                Next
+                Return Me.Ok(listUserDto)
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
+        End Function
     End Class
 End Namespace

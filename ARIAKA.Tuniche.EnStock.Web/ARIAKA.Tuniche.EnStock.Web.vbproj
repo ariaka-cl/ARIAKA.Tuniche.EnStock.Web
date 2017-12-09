@@ -219,6 +219,7 @@
     <Compile Include="Models\IngresosDTO.vb" />
     <Compile Include="Models\ProductosDTO.vb" />
     <Compile Include="Models\ProveedorDTO.vb" />
+    <Compile Include="Models\SalidasDTO.vb" />
     <Compile Include="Models\StockProductos.vb" />
     <Compile Include="Models\TransaccionDTO.vb" />
     <Compile Include="Models\UsuariosDTO.vb" />

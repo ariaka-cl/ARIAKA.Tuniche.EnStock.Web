@@ -7,6 +7,7 @@
         Public Property Cantidad As Double
         Public Property Autorizador As Usuario
         Public Property Producto As Productos
+        Public Property Bodega As Bodega
 
     End Class
 End Namespace

@@ -79,7 +79,7 @@ namespace Usuarios {
             this.getUser();            
         }
 
-        Roles: App.Rol[] = [{ ID: 1, Nombre: "Administrador" }];
+        Roles: App.Rol[] = [{ ID: 1, Nombre: "Administrador" }, { ID: 2, Nombre: "Bodegeros" }, { ID: 3, Nombre: "Client Manager" }];
 
 
         formOptions: any = {

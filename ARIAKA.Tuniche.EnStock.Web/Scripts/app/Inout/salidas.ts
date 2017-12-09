@@ -1,111 +1,249 @@
 ﻿/// <reference path="../../typings/jquery/jquery.d.ts" />
 /// <reference path="../../typings/knockout/knockout.d.ts" />
 /// <reference path="../../typings/devextreme/devextreme.d.ts" />
+/// <reference path="../App.ts" />
 
 namespace Inout {
 	'use strict';
 	export class InoutSalidasViewModel {
 
-		employees = {
-			"FECHA": new Date(2017, 2, 16),
-			"Tipo_Documento": "Guia",
-			"Num_Doc": "188998",
-			"BODEGA": "LAS PALMAS",
-			"CANTIDAD": "1",
-			"EMBASE": "",
-			"PRECIOUNIT": "$2.000",
-			"DESC": "",
-			"PRECIO_UNI": "1.000",
-			"PRECIO_TOT": "6000"
-		};
-		idAuth = [{ "name": "Jorge Escudero" }, { "name": "IVAN CAlle" }];
-		campAsig = [{ "name": "Dato Ejemplo 1" }, { "name": "Dato ejemplo 2" }];
-		articulos = [{ "name": "Azadilla" }, { "name": "Alicate Universal" }];
+        public productos: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public bodegas: KnockoutObservableArray<App.IBodega> = ko.observableArray<App.IBodega>();
+        public usuarios: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public salidas: KnockoutObservableArray<any> = ko.observableArray<any>();
 
+        getProductos(): void {
+            this.productos([]);
+            let url = window.location.origin + '/api/productos';
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: (data: any): void => {
+                    for (var i: number = 0; i < data.length; i++) {
+                        let produ: any = {
+                            ID: data[i].id,
+                            Codigo: data[i].codigo,
+                            Nombre: data[i].nombre,
+                            Unidad: data[i].unidad,
+                            StockMinimo: data[i].stockMinimo
+                        }
+                        this.productos.push(produ);
+                    }
+                }
+            });
+        }     
+        getBodegas(): void {
+            this.bodegas([]);
+            let url = window.location.origin + '/api/productos/bodegas';
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: (data: any): void => {
+                    for (var i: number = 0; i < data.length; i++) {
+                        let bodega: App.IBodega = {
+                            ID: data[i].id,
+                            Nombre: data[i].nombre
+                        }
+                        this.bodegas.push(bodega);
+                    }
+                }
+            });
+        }
+        getUser(): void {
+            this.usuarios([]);
+            let url = window.location.origin + '/api/usuarios/autorizador'
+            $.ajax({
+                type: 'GET',
+                url:url ,
+                success: (data: any): void => {
+                    for (var i: number = 0; i < data.length; i++) {
+                        let users = {
+                            ID: data[i].id,
+                            Nombre: data[i].nombre,
+                            Run: data[i].run,
+                            NickName: data[i].nickName,
+                            Password: data[i].password
+                        }
+                        this.usuarios.push(users);
+                    }
+                }
+            });
+        }
 
+        registrarSalida(): void {
+            let formData: any = $('#form-out').dxForm('option').formData;
+            let url = window.location.origin + '/api/inout/salidas'
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {
+                    Producto: formData.Articulos,
+                    Fechas: formData.Fecha,
+                    Cantidad: formData.Cantidad,                    
+                    TipoDocumento: formData.TipoDocumento,
+                    NumeroDocumento: formData.NumeroDocumento,
+                    Autorizador: formData.Autorizador,
+                    Bodega: formData.Bodega
+
+                },
+                success: (data: any): void => {
+                    DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);                    
+                    $('#form-out').dxForm('instance').resetValues();
+                }
+
+            }).done((result) => {
+                this.getSalidas();
+                let grid = $('#grid-out').dxDataGrid('instance');
+                grid.refresh();
+                grid.repaint();
+                }).fail((result) => {
+                    DevExpress.ui.notify(result.responseText, "error", 2000);
+                });
+        }
+
+        getSalidas(): void {
+            this.salidas([]);
+            let url = window.location.origin + '/api/inout/salidas';
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: (data: any): void => {
+                    for (var i: number = 0; i < data.length; i++) {
+                        let salidas = {
+                            ID: data[i].id,
+                            Articulo: data[i].producto.nombre,
+                            Unidad: data[i].producto.unidad,
+                            TipoDocumento: data[i].tipoDocumento,
+                            NumeroDocumento: data[i].numeroDocumento,
+                            Cantidad: data[i].cantidad,                            
+                            Fecha: data[i].fechas,
+
+                        }
+                        this.salidas.push(salidas);
+                    }
+                }
+            });
+        }
+        constructor() {
+            this.getProductos();
+            this.getBodegas();
+            this.getUser();
+            this.getSalidas();
+        }	
+		
 		formOptions: any = {
-			formData: this.employees,
+			formData: [],
 			labelLocation: "top",
 			items: [{
 				itemType: "group",
 				colCount: 3,
-				items: ["FECHA", {
-					dataField: "Tipo_Documento",
+                items: [{
+                    dataField: "Fecha",
+                    editorType: "dxDateBox",
+                    editorOptions: {
+                        type: "date"
+                    }
+                }, {
+					dataField: "TipoDocumento",
 					editorType: "dxSelectBox",
 					editorOptions: {
-						items: ["Guia", "Factura"],
+						items: ["Guia", "Movimiento Interno","Otro"],
 						value: ""
 					}
-				}, "Num_Doc"]
+                }, "NumeroDocumento"]
 			}, {
 				itemType: "group",
 				colCount: 3,
 				items: [{
-					dataField: "CANTIDAD",
+					dataField: "Cantidad",
 					editorType: "dxTextBox",
 					editorOptions: {
 						width: 200
 					}
-				}, {
-					dataField: "ARTICULOS",
-					editorType: "dxLookup",
-					editorOptions: {
-						displayExpr: 'name',
-						dataSource: new DevExpress.data.DataSource({
-							store: this.articulos
-						})
-					}
-				}, "BODEGA"]
+                }, {
+                    dataField: "Articulos",
+                    editorType: "dxLookup",
+                    editorOptions: {
+                        displayExpr: 'Nombre',
+                        dataSource: this.productos
+                    }
+                    }, {
+
+                        dataField: "Bodega",
+                        editorType: "dxLookup",
+                        editorOptions: {
+                            displayExpr: 'Nombre',
+                            dataSource: this.bodegas
+                        }
+                    }]
 			}, {
 				itemType: "group",
 				colCount: 2,
 				items: [{
-					dataField: "ID_Autorizado",
+					dataField: "Autorizador",
 					editorType: "dxLookup",
 					editorOptions: {
-						displayExpr: 'name',
-						dataSource: new DevExpress.data.DataSource({
-							store: this.idAuth
-						})
-					}
-				}, {
-					dataField: "Campo_Asignado",
-					editorType: "dxLookup",
-					editorOptions: {
-						displayExpr: 'name',
-						dataSource: new DevExpress.data.DataSource({
-							store: this.campAsig
-						})
+						displayExpr: 'Nombre',
+                        dataSource: this.usuarios
 					}
 				}]
-			}, {
-				itemType: "group",
-				colCount: 3,
-				items: [{
-					editorType: "dxButton",
-					editorOptions: {
-						text: "Agregar",
-						type: "success",
-						onClick: function () {
-							DevExpress.ui.notify("Salida Registrada", "success", 2000);
-						}
-					}
-					}, {
-						editorType: "dxButton",
-						editorOptions: {
-							text: "Limpiar",
-							type: "default",
-							onClick: function () {								
-								DevExpress.ui.notify("Salida Registrada", "success", 2000);
-							}
-						}
-					}]
 			}]
 		};
 
 		dataGridOptions: any = {
-			dataSource: this.employees,
-			columns: ['FECHA', 'NUMERO', 'CODIGO', 'DESCRIP', 'GUIA', 'BODEGA', 'CANTIDAD', 'PROVEEDOR', 'PRECIO_UNI', 'PRECIO_TO']
-		}
+            dataSource: this.salidas,
+            columns: [{ dataField: 'Fecha', format: 'yyyy-MM-dd', dataType: 'date' }, 'Articulo', 'Cantidad','Unidad', 'TipoDocumento', 'NumeroDocumento','Autorizador'],
+            editing: {
+                texts: {
+                    confirmDeleteMessage: 'Esta seguro en eliminar registro?'
+                }
+            },
+            export: {
+                allowExportSelectedData: true,
+                enabled: true,
+                fileName: 'ingresos'
+            },
+            grouping: {
+                allowCollapsing: true
+            }, groupPanel: {
+                allowColumnDragging: true,
+                visible: true,
+                emptyPanelText: 'Arrastre algunas columnas para agrupar'
+            }, columnChooser: {
+                allowSearch: true,
+                enabled: true
+            }, scrolling: {
+                mode: 'virtual'
+            }, showBorders: true
+            ,rowAlternationEnabled: true
+            , showRowLines: true
+            , showColumnLines: false
+        }
+
+        buttonOptionsAdd: any = {
+            text: "Registrar",
+            icon: "plus",
+            onClick: () => {
+                this.registrarSalida();
+            }
+        }
+
+        buttonOptionsDelete: any = {
+            text: "Limpiar",
+            icon: "clear",
+            onClick: () => {              
+                $('#form-out').dxForm('instance').resetValues();
+
+            }
+        } 
+
+        buttonOptionsPrint: any = {
+            text: "Imprimir",
+            icon: "doc",
+            onClick: () => {
+                
+
+            }
+        }
 	}
 }
