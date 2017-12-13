@@ -9,7 +9,7 @@ namespace App {
         Nombre: string,
         Run:string,
         NickName: string,
-        Rol: string,
+        Rol: Rol,
         Password: string        
     }
     export interface Rol {

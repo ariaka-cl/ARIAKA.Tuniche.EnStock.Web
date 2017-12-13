@@ -11,7 +11,8 @@ namespace Productos {
         public enable: KnockoutObservable<boolean> = ko.observable(true);
         public idRow: KnockoutObservable<number> = ko.observable(0);
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
-        public categorias: KnockoutObservableArray<any> = ko.observableArray<any>();        
+        public categorias: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public subCategorias: KnockoutObservableArray<any> = ko.observableArray<any>(); 
     
         unidad = [{ 'name': 'Unidad' },{ 'name': 'Litro' }, { 'name': 'CC' }, { 'name': 'Kilogramo' }, { 'name': 'Gramo' }]
 
@@ -31,7 +32,26 @@ namespace Productos {
                     }
                 }
             });
-        }        
+        }  
+
+        getSubCategoria(): void {
+            this.subCategorias([]);
+            let url = window.location.origin + '/api/categorias/sub';
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: (data: any): void => {
+                    for (var i: number = 0; i < data.length; i++) {
+                        let subcate = {
+                            ID: data[i].id,
+                            Nombre: data[i].nombre,
+                            Categoria: data[i].categoria.nombre
+                        }
+                        this.subCategorias.push(subcate);
+                    }
+                }
+            });
+        }
 
         addProducto(): void {
             let formData: any = $('#form-productos').dxForm('option').formData;
@@ -44,7 +64,10 @@ namespace Productos {
                     Nombre: formData.Nombre,
                     Unidad: formData.Unidad.name,
                     StockMinimo: formData.StockMinimo,
-                    Categorias: formData.Categorias                  
+					Categorias: formData.Categorias,
+					StockActual: formData.stockActual,					
+					Tipo: formData.Tipo
+
                 },
                 success: (data: any): void => {
                     DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);
@@ -63,8 +86,34 @@ namespace Productos {
             });
         }
 
+		getProductos(): void {
+			this.productos([]);
+			let url = window.location.origin + '/api/productos';
+			$.ajax({
+				type: 'GET',
+				url: url,
+				success: (data: any): void => {
+					for (var i: number = 0; i < data.length; i++) {
+						let produ = {
+							ID: data[i].id,
+							Codigo: data[i].codigo,
+							Nombre: data[i].nombre,
+							Unidad: data[i].unidad,
+							StockMinimo: data[i].stockMinimo,
+							StockActual: data[i].stockActual,
+							Categorias: data[i].categorias.nombre,
+							Tipo: data[i].tipo
+						}
+						this.productos.push(produ);
+					}
+				}
+			});
+		} 
+
         constructor() {
             this.getCategoria();
+			this.getSubCategoria();
+			this.getProductos();
         }
         formInstance;
 
@@ -97,17 +146,53 @@ namespace Productos {
                     }
                 }, {
                         dataField: "Tipo",
-                        editorType: "dxSelectBox",
+                        editorType: "dxLookup",
                         editorOptions: {
-                            displayExpr: 'text',
-                            dataSource: this.categorias,
-                            visible:false
+                            displayExpr: 'Nombre',
+                            dataSource: this.subCategorias                            
                         }
                     }]
-            }]
+				}, {
+					itemType: "group",
+					colCount: 3,
+					items: ["StockActual"]
+			}]
         };	
 
-       
+		dataGridOptions: any = {
+			dataSource: this.productos,
+			loadPanel: {
+				enabled: true,
+				text: 'Cargando datos...'
+			},
+			columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo', 'StockActual', 'Unidad', 'Categorias','Tipo'],
+			editing: {
+				texts: {
+					confirmDeleteMessage: 'Esta seguro en eliminar registro?'
+				}
+			}, grouping: {
+				allowCollapsing: true
+			}, groupPanel: {
+				allowColumnDragging: true,
+				visible: true,
+				emptyPanelText: 'Arrastre algunas columnas para agrupar'
+			}, export: {
+				allowExportSelectedData: true,
+				enabled: true,
+				fileName: 'ingresos'
+			}, columnChooser: {
+				allowSearch: true
+			},
+			onRowClick: (e) => {
+				this.enable(false);
+				let cateData: App.Categoria = {
+					ID: e.data.ID,
+					Nombre: e.data.Nombre
+				}
+				this.idRow(cateData.ID);
+				this.idRowIndex(e.rowIndex);
+			}
+		}
 
         buttonOptionsAdd: any = {
             text: "Guardar",
@@ -127,7 +212,9 @@ namespace Productos {
                 grid.repaint();
                 this.deleteProducto(index);
             }
-        }       
+		}
+
+
 
     }
 }

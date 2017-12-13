@@ -16,8 +16,9 @@ End Code
 </div>
 <br />
 <br />
-<div id="grid-out" data-bind="dxDataGrid: dataGridOptions"></div>
+<div data-bind="dxPopup: popUpOptions"></div>
 
+<div id="grid-out" data-bind="dxDataGrid: dataGridOptions"></div>
 
 @Section scripts
     <script type="text/javascript" src="~/Scripts/app/Inout/salidas.js"></script>

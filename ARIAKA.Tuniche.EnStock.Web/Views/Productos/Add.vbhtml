@@ -13,6 +13,10 @@ End Code
     <div data-bind="dxButton: buttonOptionsAdd"></div>   
     <div data-bind="dxButton: buttonOptionsDelete"></div>
 </div>
+<br />
+<br />
+
+<div id="grid-produ" data-bind="dxDataGrid: dataGridOptions"></div>
 
 @Section scripts
     <script type="text/javascript" src="~/Scripts/app/Productos/Add.js"></script>

@@ -5,7 +5,7 @@
 
 namespace Inout {
 	'use strict';
-	export class InoutSalidasViewModel {
+    export class InoutSalidasViewModel {
 
         public productos: KnockoutObservableArray<any> = ko.observableArray<any>();
         public bodegas: KnockoutObservableArray<App.IBodega> = ko.observableArray<App.IBodega>();
@@ -31,7 +31,7 @@ namespace Inout {
                     }
                 }
             });
-        }     
+        }
         getBodegas(): void {
             this.bodegas([]);
             let url = window.location.origin + '/api/productos/bodegas';
@@ -54,7 +54,7 @@ namespace Inout {
             let url = window.location.origin + '/api/usuarios/autorizador'
             $.ajax({
                 type: 'GET',
-                url:url ,
+                url: url,
                 success: (data: any): void => {
                     for (var i: number = 0; i < data.length; i++) {
                         let users = {
@@ -79,7 +79,7 @@ namespace Inout {
                 data: {
                     Producto: formData.Articulos,
                     Fechas: formData.Fecha,
-                    Cantidad: formData.Cantidad,                    
+                    Cantidad: formData.Cantidad,
                     TipoDocumento: formData.TipoDocumento,
                     NumeroDocumento: formData.NumeroDocumento,
                     Autorizador: formData.Autorizador,
@@ -87,7 +87,7 @@ namespace Inout {
 
                 },
                 success: (data: any): void => {
-                    DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);                    
+                    DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);
                     $('#form-out').dxForm('instance').resetValues();
                 }
 
@@ -96,9 +96,9 @@ namespace Inout {
                 let grid = $('#grid-out').dxDataGrid('instance');
                 grid.refresh();
                 grid.repaint();
-                }).fail((result) => {
-                    DevExpress.ui.notify(result.responseText, "error", 2000);
-                });
+            }).fail((result) => {
+                DevExpress.ui.notify(result.responseText, "error", 2000);
+            });
         }
 
         getSalidas(): void {
@@ -115,9 +115,9 @@ namespace Inout {
                             Unidad: data[i].producto.unidad,
                             TipoDocumento: data[i].tipoDocumento,
                             NumeroDocumento: data[i].numeroDocumento,
-                            Cantidad: data[i].cantidad,                            
+                            Cantidad: data[i].cantidad,
                             Fecha: data[i].fechas,
-
+                            Autorizador: data[i].autorizador.nombre
                         }
                         this.salidas.push(salidas);
                     }
@@ -129,14 +129,14 @@ namespace Inout {
             this.getBodegas();
             this.getUser();
             this.getSalidas();
-        }	
-		
-		formOptions: any = {
-			formData: [],
-			labelLocation: "top",
-			items: [{
-				itemType: "group",
-				colCount: 3,
+        }
+
+        formOptions: any = {
+            formData: [],
+            labelLocation: "top",
+            items: [{
+                itemType: "group",
+                colCount: 3,
                 items: [{
                     dataField: "Fecha",
                     editorType: "dxDateBox",
@@ -144,22 +144,22 @@ namespace Inout {
                         type: "date"
                     }
                 }, {
-					dataField: "TipoDocumento",
-					editorType: "dxSelectBox",
-					editorOptions: {
-						items: ["Guia", "Movimiento Interno","Otro"],
-						value: ""
-					}
+                    dataField: "TipoDocumento",
+                    editorType: "dxSelectBox",
+                    editorOptions: {
+                        items: ["Guia", "Movimiento Interno", "Otro"],
+                        value: ""
+                    }
                 }, "NumeroDocumento"]
-			}, {
-				itemType: "group",
-				colCount: 3,
-				items: [{
-					dataField: "Cantidad",
-					editorType: "dxTextBox",
-					editorOptions: {
-						width: 200
-					}
+            }, {
+                itemType: "group",
+                colCount: 3,
+                items: [{
+                    dataField: "Cantidad",
+                    editorType: "dxTextBox",
+                    editorOptions: {
+                        width: 200
+                    }
                 }, {
                     dataField: "Articulos",
                     editorType: "dxLookup",
@@ -167,32 +167,32 @@ namespace Inout {
                         displayExpr: 'Nombre',
                         dataSource: this.productos
                     }
-                    }, {
+                }, {
 
-                        dataField: "Bodega",
-                        editorType: "dxLookup",
-                        editorOptions: {
-                            displayExpr: 'Nombre',
-                            dataSource: this.bodegas
-                        }
-                    }]
-			}, {
-				itemType: "group",
-				colCount: 2,
-				items: [{
-					dataField: "Autorizador",
-					editorType: "dxLookup",
-					editorOptions: {
-						displayExpr: 'Nombre',
+                    dataField: "Bodega",
+                    editorType: "dxLookup",
+                    editorOptions: {
+                        displayExpr: 'Nombre',
+                        dataSource: this.bodegas
+                    }
+                }]
+            }, {
+                itemType: "group",
+                colCount: 2,
+                items: [{
+                    dataField: "Autorizador",
+                    editorType: "dxLookup",
+                    editorOptions: {
+                        displayExpr: 'Nombre',
                         dataSource: this.usuarios
-					}
-				}]
-			}]
-		};
+                    }
+                }]
+            }]
+        };
 
-		dataGridOptions: any = {
+        dataGridOptions: any = {
             dataSource: this.salidas,
-            columns: [{ dataField: 'Fecha', format: 'yyyy-MM-dd', dataType: 'date' }, 'Articulo', 'Cantidad','Unidad', 'TipoDocumento', 'NumeroDocumento','Autorizador'],
+            columns: [{ dataField: 'Fecha', format: 'yyyy-MM-dd', dataType: 'date' }, 'Articulo', 'Cantidad', 'Unidad', 'TipoDocumento', 'NumeroDocumento', 'Autorizador'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'
@@ -215,9 +215,13 @@ namespace Inout {
             }, scrolling: {
                 mode: 'virtual'
             }, showBorders: true
-            ,rowAlternationEnabled: true
+            , rowAlternationEnabled: true
             , showRowLines: true
             , showColumnLines: false
+            , filterRow: {
+                visible: true,
+                showOperationChooser: false
+            }
         }
 
         buttonOptionsAdd: any = {
@@ -231,19 +235,35 @@ namespace Inout {
         buttonOptionsDelete: any = {
             text: "Limpiar",
             icon: "clear",
-            onClick: () => {              
+            onClick: () => {
                 $('#form-out').dxForm('instance').resetValues();
 
             }
-        } 
+        }
 
         buttonOptionsPrint: any = {
             text: "Imprimir",
             icon: "doc",
             onClick: () => {
-                
-
+                this.showInfo();
             }
         }
+
+        visiblePopup = ko.observable(false);
+
+        popUpOptions: any = {
+            width: 300,
+            height: 250,
+            contentTemplate: 'info',
+            showTitle: true,
+            title: 'Detalle de Salidas',
+            visible: this.visiblePopup,
+            dragEnabled: false,
+            closeOnOutsideClick: true
+        }
+
+        showInfo():void {
+           this.visiblePopup(true);
+        };
 	}
 }

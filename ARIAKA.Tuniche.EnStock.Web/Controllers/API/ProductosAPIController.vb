@@ -23,6 +23,7 @@ Namespace Controllers.API
                                                                     .Codigo = produ.Codigo,
                                                                     .Nombre = produ.Nombre,
                                                                     .StockMinimo = produ.StockMinimo,
+                                                                    .StockActual = produ.StockActual,
                                                                     .Unidad = produ.Unidad,
                                                                     .Categorias = New Models.CategoriaDTO With {.ID = cate.ID,
                                                                                                                 .Nombre = cate.Nombre}
@@ -54,6 +55,8 @@ Namespace Controllers.API
                         .Unidad = model.Unidad
                         .Categorias = db.Categoriaeos.Where(Function(c) c.ID = model.Categorias.ID).Single
                         .StockMinimo = model.StockMinimo
+                        .Tipo = model.Tipo
+                        .StockActual = model.StockActual
                     End With
                     db.SaveChanges()
                     Return Me.Ok(model)
@@ -64,6 +67,8 @@ Namespace Controllers.API
                                                     .Codigo = model.Codigo,
                                                     .Unidad = model.Unidad,
                                                     .StockMinimo = model.StockMinimo,
+                                                    .StockActual = model.StockActual,
+                                                    .Tipo = model.Tipo,
                                                     .Categorias = db.Categoriaeos.Where(Function(c) c.ID = model.Categorias.ID).SingleOrDefault
                 }
                 db.Productoes.Add(producto)
@@ -109,12 +114,15 @@ Namespace Controllers.API
                 Dim cate As List(Of Categorias) = db.Categoriaeos.ToList()
                 Dim listProdu As List(Of Productos) = db.Productoes.ToList()
                 For Each produ As Productos In listProdu
+                    Dim cateM As Categorias = cate.Where(Function(c) c.ID = produ.Categorias.ID).SingleOrDefault
                     listProduDto.Add(New Models.ProductosDTO With {.ID = produ.ID,
                                                                     .Codigo = produ.Codigo,
                                                                     .Nombre = produ.Nombre,
                                                                     .StockMinimo = produ.StockMinimo,
                                                                     .Unidad = produ.Unidad,
-                                                                    .StockActual = produ.StockActual
+                                                                    .StockActual = produ.StockActual,
+                                                                    .Categorias = New Models.CategoriaDTO With {.ID = cateM.ID, .Nombre = cateM.Nombre},
+                                                                    .Tipo = produ.Tipo
                                                                     })
 
                 Next

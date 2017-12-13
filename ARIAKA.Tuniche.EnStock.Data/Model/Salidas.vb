@@ -5,7 +5,7 @@
         Public Property TipoDocumentoa As String
         Public Property NumeroDocumento As String
         Public Property Cantidad As Double
-        Public Property Autorizador As Usuario
+        Public Overridable Property Autorizador As Usuario
         Public Property Producto As Productos
         Public Property Bodega As Bodega
 

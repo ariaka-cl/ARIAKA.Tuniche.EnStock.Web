@@ -108,6 +108,10 @@
       <DependentUpon>201712080452372_add_bodega_salida.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201712080452372_add_bodega_salida.vb" />
+    <Compile Include="Migrations\201712120346572_add_subcategoria_colummn.Designer.vb">
+      <DependentUpon>201712120346572_add_subcategoria_colummn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712120346572_add_subcategoria_colummn.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\bdTunicheContext.vb" />
     <Compile Include="Model\Bodega.vb" />
@@ -161,6 +165,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712080452372_add_bodega_salida.resx">
       <DependentUpon>201712080452372_add_bodega_salida.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712120346572_add_subcategoria_colummn.resx">
+      <DependentUpon>201712120346572_add_subcategoria_colummn.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

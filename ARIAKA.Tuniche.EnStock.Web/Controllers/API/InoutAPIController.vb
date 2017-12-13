@@ -64,8 +64,9 @@ Namespace Controllers.API
                                                                 .NumeroDocumento = salida.NumeroDocumento,
                                                                 .Cantidad = salida.Cantidad,
                                                                 .Fechas = salida.Fechas,
-                                                                .Producto = New Models.ProductosDTO With {.Nombre = produ.Nombre, .ID = produ.ID, .Unidad = produ.Unidad}
-                                                                }) '.Autorizador = New Models.UsuariosDTO With {.ID = salida.Autorizador.ID, .Nombre = salida.Autorizador.Nombre},
+                                                                .Producto = New Models.ProductosDTO With {.Nombre = produ.Nombre, .ID = produ.ID, .Unidad = produ.Unidad},
+                                                                 .Autorizador = New Models.UsuariosDTO With {.ID = salida.Autorizador.ID, .Nombre = salida.Autorizador.Nombre}
+                                   })
                 Next
                 Return Me.Ok(listOutDto)
             Catch ex As Exception
@@ -181,6 +182,49 @@ Namespace Controllers.API
                 db.Dispose()
             End Try
         End Function
+
+        <HttpGet>
+        <Route("traspasos/{id}", Name:="GetLugares")>
+        Public Function GetLugares(id As Integer) As IHttpActionResult
+            Dim db As New bdTunicheContext
+            Try
+                Dim listStockBodega As List(Of StockProductos) = db.StockProductos.Where(Function(p) p.Producto.ID = id).ToList()
+                If listStockBodega IsNot Nothing AndAlso listStockBodega.Count = 0 Then Return Me.Content(HttpStatusCode.BadRequest, "No existe producto disponible")
+                Dim traspasoBodegas As New List(Of Models.BodegaTraspasoDTO)
+
+                Dim stockProdu = From stock As StockProductos In listStockBodega
+                                 Group stock By k = New With {Key stock.Bodega}
+                                                                      Into Group
+                                 Select New With {.stock = Group.Sum(Function(b) b.Stock), .ID = k.Bodega.ID, .Nombre = k.Bodega.Nombre}
+
+                For Each item In stockProdu
+                    If item.stock > 0 Then
+                        Dim bodeDTO As New Models.BodegaDTO With {.ID = item.ID, .Nombre = item.Nombre}
+                        traspasoBodegas.Add(New Models.BodegaTraspasoDTO With {.Bodega = bodeDTO, .Stock = item.stock})
+                    End If
+                Next
+                Return Me.Ok(traspasoBodegas)
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
+        End Function
+
+        <HttpPost>
+        <Route("traspasos/save", Name:="PostTraspasos")>
+        Public Function PostTraspasos(model As List(Of Models.StockProductosDTO)) As IHttpActionResult
+            Dim db As New bdTunicheContext
+            Try
+                Dim detalleStock As New List(Of StockProductos)
+
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
+        End Function
+
 
         Public Function UpdateProductos(salida As Salidas) As Boolean
             Dim db As New bdTunicheContext

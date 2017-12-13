@@ -26,7 +26,8 @@ namespace Usuarios {
                             Nombre: data[i].nombre,
                             Run: data[i].run,
                             NickName: data[i].nickName,
-                            Password: data[i].password
+                            Password: data[i].password,
+                            Rol: data[i].rol.nombre
                         }
                         this.usuarios.push(users);
                     }
@@ -44,7 +45,7 @@ namespace Usuarios {
                     Nombre: formData.Nombre,
                     Run: formData.Run,
                     NickName: formData.NickName,
-                    Rol:{Nombre: formData.Rol },
+                    Rol: formData.Rol,
                     Password: formData.Password
             },
                 success: (data: any): void => {
@@ -79,7 +80,7 @@ namespace Usuarios {
             this.getUser();            
         }
 
-        Roles: App.Rol[] = [{ ID: 1, Nombre: "Administrador" }, { ID: 2, Nombre: "Bodegeros" }, { ID: 3, Nombre: "Client Manager" }];
+        Roles: App.Rol[] = [{ ID: 1, Nombre: "Administrador" }, { ID: 2, Nombre: "Bodegueros" }, { ID: 3, Nombre: "Client Manager" }, { ID:4 , Nombre: "Autorizador" }];
 
 
         formOptions: any = {
@@ -168,12 +169,7 @@ namespace Usuarios {
             onClick: () => {
                 this.addUsuario();
             }
-		}
-		buttonOptionsEdit: any = {
-			text: "Editar",
-			icon: "edit",
-			disabled: this.enable
-		}
+		}		
 		buttonOptionsDelete: any = {
 			text: "Borrar",
 			icon: "remove",

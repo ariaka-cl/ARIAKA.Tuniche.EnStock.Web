@@ -11,7 +11,7 @@
         Public Property StockActual As Integer
 
         Public Property Comentario As String
-        Public Property Categorias As Categorias
+        Public Overridable Property Categorias As Categorias
 
         Public Overridable Property StockProducto As List(Of StockProductos)
 
