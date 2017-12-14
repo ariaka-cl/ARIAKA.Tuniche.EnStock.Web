@@ -16,7 +16,7 @@ End Code
 <br />
 <br />
 
-<div id="grid-produ" data-bind="dxDataGrid: dataGridOptions"></div>
+<div id="grid-productos" data-bind="dxDataGrid: dataGridOptions"></div>
 
 @Section scripts
     <script type="text/javascript" src="~/Scripts/app/Productos/Add.js"></script>

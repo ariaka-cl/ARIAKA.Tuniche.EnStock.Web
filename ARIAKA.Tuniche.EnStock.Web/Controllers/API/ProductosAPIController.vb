@@ -25,6 +25,7 @@ Namespace Controllers.API
                                                                     .StockMinimo = produ.StockMinimo,
                                                                     .StockActual = produ.StockActual,
                                                                     .Unidad = produ.Unidad,
+                                                                    .Tipo = produ.Tipo,
                                                                     .Categorias = New Models.CategoriaDTO With {.ID = cate.ID,
                                                                                                                 .Nombre = cate.Nombre}
                                                                     })

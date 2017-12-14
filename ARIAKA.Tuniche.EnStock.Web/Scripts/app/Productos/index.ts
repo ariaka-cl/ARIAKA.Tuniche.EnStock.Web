@@ -46,7 +46,8 @@ namespace Productos {
                             Unidad: data[i].unidad,
                             StockMinimo: data[i].stockMinimo,
                             StockActual: data[i].stockActual,
-                            Categorias: data[i].categorias.nombre                            
+							Categorias: data[i].categorias.nombre,
+							Tipo: data[i].tipo
                         }
                         this.productos.push(produ);
                     }
@@ -81,7 +82,7 @@ namespace Productos {
                 enabled: true,
                 text: 'Cargando datos...'
             },
-            columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo','StockActual','Unidad','Categorias'],
+            columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo','StockActual','Unidad','Categorias', 'Tipo'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'

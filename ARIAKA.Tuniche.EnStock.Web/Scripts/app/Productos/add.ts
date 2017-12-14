@@ -12,7 +12,8 @@ namespace Productos {
         public idRow: KnockoutObservable<number> = ko.observable(0);
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
         public categorias: KnockoutObservableArray<any> = ko.observableArray<any>();
-        public subCategorias: KnockoutObservableArray<any> = ko.observableArray<any>(); 
+		public subCategorias: KnockoutObservableArray<any> = ko.observableArray<any>(); 
+		public nombre: KnockoutObservable<String> = ko.observable("");
     
         unidad = [{ 'name': 'Unidad' },{ 'name': 'Litro' }, { 'name': 'CC' }, { 'name': 'Kilogramo' }, { 'name': 'Gramo' }]
 
@@ -65,15 +66,20 @@ namespace Productos {
                     Unidad: formData.Unidad.name,
                     StockMinimo: formData.StockMinimo,
 					Categorias: formData.Categorias,
-					StockActual: formData.stockActual,					
-					Tipo: formData.Tipo
+					StockActual: formData.StockActual,					
+					Tipo: formData.Tipo.Nombre
 
                 },
                 success: (data: any): void => {
                     DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);
-                    $('#form-productos').dxForm('instance').resetValues();
+					$('#form-productos').dxForm('instance').resetValues();					
                 }
-            });
+			}).done((result) => {
+				this.getProductos();
+				let grid = $('#grid-productos').dxDataGrid('instance');
+				grid.refresh();
+				grid.repaint();
+			});
         }
 
         deleteProducto(id: number): void {
@@ -126,7 +132,13 @@ namespace Productos {
             items: [{
                 itemType: "group",
                 colCount: 3,
-                items: ["Codigo", "Nombre", {
+				items: ["Codigo", {
+					dataField: 'Nombre',
+					editorType: 'dxTextBox',
+					editorOptions: {
+						value: this.nombre
+					}
+				}, {
                     dataField: "Unidad",
                     editorType: "dxSelectBox",
                     editorOptions: {
@@ -185,12 +197,13 @@ namespace Productos {
 			},
 			onRowClick: (e) => {
 				this.enable(false);
-				let cateData: App.Categoria = {
+				let produData: App.Categoria = {
 					ID: e.data.ID,
 					Nombre: e.data.Nombre
 				}
-				this.idRow(cateData.ID);
+				this.idRow(produData.ID);
 				this.idRowIndex(e.rowIndex);
+				this.nombre(produData.Nombre);
 			}
 		}
 
