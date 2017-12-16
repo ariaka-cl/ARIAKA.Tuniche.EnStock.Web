@@ -55,7 +55,11 @@ namespace Productos {
         }
 
         addProducto(): void {
-            let formData: any = $('#form-productos').dxForm('option').formData;
+			let formData: any = $('#form-productos').dxForm('option').formData;
+			if (formData.Tipo === null) {
+				let sub = { ID: 0, Nombre: "" };
+				formData.Tipo = sub;
+			}
             let url = window.location.origin + '/api/productos';
             $.ajax({
                 type: 'POST',

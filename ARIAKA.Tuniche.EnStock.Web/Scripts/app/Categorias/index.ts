@@ -78,7 +78,7 @@ namespace Categorias {
                 data: {
                     ID: this.idRowSub,
                     Nombre: formData.Nombre,
-					Categoria: { ID: 0, Nombre: formData.Categoria }
+					Categoria: { ID: formData.Categorias().ID, Nombre: formData.Categorias().Nombre }
                 },
                 success: (data: any): void => {
                     DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);

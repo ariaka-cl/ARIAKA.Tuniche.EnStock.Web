@@ -10,7 +10,11 @@ namespace Inout {
         public productos: KnockoutObservable<App.IConsultaStock> = ko.observable(null);
         public articulos: KnockoutObservableArray<any> = ko.observableArray<any>();   
         public articulo: KnockoutObservableArray<any> = ko.observableArray<any>();
-        public lugares: KnockoutObservableArray<any> = ko.observableArray<any>();
+		public lugares: KnockoutObservableArray<any> = ko.observableArray<any>();
+		public codigo: KnockoutObservable<String> = ko.observable("");
+		public nombre: KnockoutObservable<String> = ko.observable("");
+		public ID: KnockoutObservable<string> = ko.observable("");
+
 
         producto: App.IConsultaStock = {
             ID: null,
@@ -21,35 +25,9 @@ namespace Inout {
             Categoria: null
         }
 	
-        getProductos(): void {           
-                     
+        getProductos(): void {                                
             let grid = $('#grid-detalle').dxDataGrid('instance');
-            grid.option('dataSource', this.articulo());
-           // grid.refresh()
-           // grid.repaint()
-
-
-            //let url = window.location.origin + '/api/inout/stock';            
-            //$.ajax({
-            //    type: 'POST',
-            //    url: url,
-            //    data: 
-            //    success: (data: any): void => {
-            //            let produ = {
-            //                ID: data.id,
-            //                Nombre: data.nombre,
-            //                StockMinimo: data.stockMinimo,
-            //                Codigo: data.codigo,
-            //                Unidad: data.unidad,
-            //                Categoria: null
-                            
-            //            }
-            //            this.productos(produ);                   
-            //    },
-            //    error: (data: any): void => {
-            //        DevExpress.ui.notify("No se encontro producto", "warning", 2000);
-            //    }
-            //});
+            grid.option('dataSource', this.articulo());           
         } 
 
         getArticulos(): void {
@@ -66,7 +44,10 @@ namespace Inout {
                             Nombre: data[i].nombre,
                             Unidad: data[i].unidad,
                             StockMinimo: data[i].stockMinimo,
-                            StockActual: data[i].stockActual 
+							StockActual: data[i].stockActual,
+							Categoria: data[i].categorias.nombre,
+							Tipo: data[i].tipo 
+
                         }
                         this.articulos.push(produ);
                     }
@@ -121,14 +102,32 @@ namespace Inout {
                     editorType: "dxLookup",
                     editorOptions: {
                         displayExpr: 'Codigo',
-                        dataSource: this.articulos
+						dataSource: this.articulos,
+						value: this.codigo,
+						closeOnOutsideClick:true,
+						onValueChanged: (data: any) => {
+							this.articulo([]);
+							//this.codigo(data.value.Codigo);
+							this.ID(data.value.ID);
+							this.nombre(data.value.Nombre);
+							this.articulo.push(data.value);
+						}
                     }
                 }, {
                     dataField: "Nombre",
                     editorType: "dxLookup",
                     editorOptions: {
                         displayExpr: 'Nombre',
-                        dataSource: this.articulos
+						dataSource: this.articulos,
+						value: this.nombre,
+						closeOnOutsideClick: true,
+						onValueChanged: (data: any) => {
+							this.articulo([]);
+							this.codigo(data.value.Codigo);
+							this.ID(data.value.ID);
+							this.nombre(data.value.Nombre);
+							this.articulo.push(data.value);
+						}
                     }
                 },{					
 					editorType: "dxButton",
@@ -136,23 +135,19 @@ namespace Inout {
 						text: "Buscar",						
 						icon: "search",
                         onClick: () => {
-                            this.articulo([]);
-                            let form: any = $('#form-stock').dxForm('instance');
-                            let obj: any = {
-                                Codigo: form.option("formData").Codigo,
-                                Nombre: form.option("formData").Nombre
-                            }
+							
+							let gridDetalle = $('#grid-detalle').dxDataGrid('instance');
+							gridDetalle.option('dataSource', []);
+							gridDetalle.refresh();
+							gridDetalle.repaint();
 
-                            if (obj.Codigo !== 'undefined') {
-                                this.getLugares(obj.Codigo.ID);
-                                this.articulo.push(obj.Codigo);
-                                this.getProductos();
-                            } else {
-                                this.getLugares(obj.Nombre.ID);
-                                this.articulo.push(obj.Nombre);
-                                this.getProductos();
-                            }                                                                                              
-                           
+							let gridLocacion = $('#grid-locacion').dxDataGrid('instance');
+							gridLocacion.option('dataSource', []);
+							gridLocacion.refresh();
+							gridLocacion.repaint();
+
+							this.getLugares(this.ID());							
+							this.getProductos();
 						}
 					}
 				}]
@@ -190,12 +185,12 @@ namespace Inout {
         }
 
         dataGridProduOptions: any = {
-            dataSource: this.articulo,
+            dataSource: [],
             loadPanel: {
                 enabled: true,
                 text: 'Cargando datos...'
             },
-            columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo', 'StockActual', 'Unidad'],
+            columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo', 'StockActual', 'Unidad','Categoria','Tipo'],
             export: {
                 allowExportSelectedData: true,
                 enabled: true,
