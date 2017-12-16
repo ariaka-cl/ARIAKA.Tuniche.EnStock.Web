@@ -15,6 +15,7 @@ End Code
 <div id="grid-detalle" data-bind="dxDataGrid: dataGridProduOptions"></div>
 <div class="long-title"><h3>Detallles Ubicación</h3></div>
 <div id="grid-locacion" data-bind="dxDataGrid: dataGridOptions"></div>
+    
 
 @Section scripts
     <script type="text/javascript" src="~/Scripts/app/Inout/stock.js"></script>

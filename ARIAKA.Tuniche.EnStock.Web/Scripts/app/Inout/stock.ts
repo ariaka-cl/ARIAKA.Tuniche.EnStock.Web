@@ -211,6 +211,7 @@ namespace Inout {
             , rowAlternationEnabled: true
             , showRowLines: true
             , showColumnLines: false
-        }
+		}
+		
 	}
 }

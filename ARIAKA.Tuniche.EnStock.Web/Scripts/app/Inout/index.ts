@@ -263,7 +263,12 @@ namespace Inout {
                             .dxDataGrid({
                                 dataSource: this.detalle,
                                 columns: ['Bodega.Nombre', 'Stock'],
-                                rowAlternationEnabled: true
+								rowAlternationEnabled: true,
+								editing: {
+									mode: "row",						
+									allowDeleting: true,
+									allowUpdating: true
+								}, 
                             });
                     }
                     },"PrecioUnitario"]

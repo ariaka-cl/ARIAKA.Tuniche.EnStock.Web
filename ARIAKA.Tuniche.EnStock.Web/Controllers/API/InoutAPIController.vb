@@ -125,13 +125,7 @@ Namespace Controllers.API
                     Return Me.Content(HttpStatusCode.NotFound, "Codigo vacío")
                 End If
                 Dim produ As Productos = db.Productoes.Where(Function(p) p.Codigo = id).SingleOrDefault()
-                'Dim bodegas As New List(Of Models.StockProductosDTO)
-                'For Each bodega As Bodega In produ.Bodegas
-                '    bodegas.Add(New Models.BodegaDTO With {.ID = bodega.ID,
-                '                                           .Nombre = bodega.Nombre,
-                '                                           .Stock = bodega.Stock})
-                'Next
-                'TODO: agregar Productos
+
                 If produ Is Nothing Then Return Me.Content(HttpStatusCode.NotFound, "Elemento no encontrado")
                 Dim produDto As New Models.ProductosDTO With {.ID = produ.ID,
                                                                     .Codigo = produ.Codigo,
@@ -213,10 +207,36 @@ Namespace Controllers.API
 
         <HttpPost>
         <Route("traspasos/save", Name:="PostTraspasos")>
-        Public Function PostTraspasos(model As List(Of Models.StockProductosDTO)) As IHttpActionResult
+        Public Function PostTraspasos(<FromBody> model As List(Of Models.StockProductosDTO)) As IHttpActionResult
             Dim db As New bdTunicheContext
             Try
-                Dim detalleStock As New List(Of StockProductos)
+                If model Is Nothing AndAlso model.Count = 0 Then Return Me.Content(HttpStatusCode.BadRequest, "Los campos no deben estar en blanco")
+
+                Dim id As Integer = model.Item(0).Producto.ID
+                Dim producto As Productos = db.Productoes.Where(Function(p) p.ID = id).SingleOrDefault()
+                Dim cont As Integer = 0
+                For Each produDto As Models.StockProductosDTO In model
+                    cont = cont + produDto.Stock
+                Next
+                If producto.StockActual <> cont Then Return Me.Content(HttpStatusCode.BadRequest, String.Format("Cantidades No Coinciden con el Stock Actual de {0}", producto.StockActual))
+
+                For Each produDto As Models.StockProductosDTO In model
+                    If produDto.Producto Is Nothing OrElse produDto.Producto.ID = 0 Then Return Me.Content(HttpStatusCode.BadRequest, "Debe seleccionar un Producto")
+
+                    Dim listSotckUpdate As List(Of StockProductos) = db.StockProductos.Where(Function(sp) sp.Producto.ID = produDto.Producto.ID).Where(Function(b) b.Bodega.ID = produDto.Bodega.ID).ToList()
+                    For Each listStockProdu As StockProductos In listSotckUpdate
+                        listStockProdu.Stock = 0
+                    Next
+                    db.SaveChanges()
+                    Dim stockProduUpdate As New StockProductos With {.Bodega = db.Bodegaeos.Where(Function(b) b.ID = produDto.Bodega.ID).SingleOrDefault(),
+                                                                     .Producto = db.Productoes.Where(Function(p) p.ID = produDto.Producto.ID).SingleOrDefault(),
+                                                                     .Stock = produDto.Stock
+                    }
+                    db.StockProductos.Add(stockProduUpdate)
+                    db.SaveChanges()
+                Next
+
+                Return Me.Content(HttpStatusCode.OK, "Datos Actualizados Correctamente")
 
             Catch ex As Exception
                 Return Me.Content(HttpStatusCode.BadRequest, ex.Message)

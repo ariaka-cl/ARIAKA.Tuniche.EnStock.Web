@@ -87,8 +87,7 @@ namespace Inout {
 
                 },
                 success: (data: any): void => {
-                    DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);
-                    $('#form-out').dxForm('instance').resetValues();
+                    DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);                    
                 }
 
             }).done((result) => {

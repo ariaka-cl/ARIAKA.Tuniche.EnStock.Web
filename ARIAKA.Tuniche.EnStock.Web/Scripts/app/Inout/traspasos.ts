@@ -9,11 +9,12 @@ namespace Inout {
         public productos: KnockoutObservableArray<any> = ko.observableArray<any>();
         public lugares: KnockoutObservableArray<any> = ko.observableArray<any>();
         public bodegas: KnockoutObservableArray<App.IBodega> = ko.observableArray<App.IBodega>();
-        public cambiosLugar: KnockoutObservableArray<App.IDetalleStock> = ko.observableArray<App.IDetalleStock>();
+        public cambiosLugar: KnockoutObservableArray<any> = ko.observableArray<any>();
         public enable: KnockoutObservable<boolean> = ko.observable(true);
         public idRow: KnockoutObservable<number> = ko.observable(0);
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
-        public selectedTab: KnockoutObservable<number> = ko.observable(-1);
+		public selectedTab: KnockoutObservable<number> = ko.observable(-1);
+		public ID: KnockoutObservable<number> = ko.observable(0);
 
 
         constructor() {
@@ -67,7 +68,8 @@ namespace Inout {
                 url: url,
                 success: (data: any): void => {
                     for (var i: number = 0; i < data.length; i++) {
-                        let lugar: any = {                            
+						let lugar: any = {
+							ID: data[i].bodega.id,
                             Bodega: data[i].bodega.nombre,
                             Stock: data[i].stock
                         }
@@ -93,20 +95,20 @@ namespace Inout {
             let grid: any = $('#grid-traspaso').dxDataGrid('instance');
             let detalles: any = grid.option("dataSource");
             for (var i: number = 0; i < detalles.length; i++) {
-                let stockDetalle: App.IDetalleStock = {
-                    ID: 0,
-                    Bodega: {ID:0, Nombre: detalles[i].Bodega },
-                    Stock: detalles[i].Stock
+                let stockDetalle: any = {
+					ID: 0,
+					Stock: detalles[i].Stock,
+					Bodega: { ID: detalles[i].ID, Nombre: detalles[i].Bodega },
+                    Producto: {ID:this.ID}
                 }
                 this.cambiosLugar.push(stockDetalle);
-            }
-            let change: any = this.cambiosLugar
+            }           
             let url = window.location.origin + '/api/inout/traspasos/save';
             $.ajax({
                 type: 'POST',
                 url: url,
                 data: {
-                    DetalleStock: this.cambiosLugar()
+                    '': this.cambiosLugar()
                 },
                 success: (data: any): void => {
                     DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);
@@ -115,10 +117,14 @@ namespace Inout {
                     grid.option('dataSource', []);
                     grid.refresh();
                     grid.repaint();
-                    $('#form-in').dxForm('instance').resetValues();
+					$('#form-in').dxForm('instance').resetValues();
+					this.cambiosLugar([]);
                 }
 
-            });
+			}).fail((result) => {
+				DevExpress.ui.notify(result.responseText, "error", 2000);
+				this.cambiosLugar([]);
+			});
         }
 
 
@@ -143,8 +149,10 @@ namespace Inout {
                     editorOptions: {
                         text: "Buscar",                       
                         icon: "search",
-                        onClick: () => {
-                            let form: any = $('#form-traspasos').dxForm('instance');
+						onClick: () => {
+							this.lugares([]);
+							let form: any = $('#form-traspasos').dxForm('instance');
+							this.ID(form.option("formData").Articulos.ID);
                             this.getLugares(form.option("formData").Articulos.ID);                            
                         }
                     }
@@ -168,7 +176,8 @@ namespace Inout {
                         onClick: () => {
                             let form: any = $('#form-traspasos').dxForm('instance');
                             let lugar: any = {
-                                Bodega: form.option("formData").Bodega.Nombre,
+								ID: form.option("formData").Bodega.ID,
+								Bodega: form.option("formData").Bodega.Nombre,
                                 Stock: 0
                             }
                             this.lugares.push(lugar);                                                
@@ -189,7 +198,7 @@ namespace Inout {
                     enabled: true,
                     text: 'Cargando datos...'
                 },
-                columns: [{ dataField: 'Bodega', dataType: 'string' }, 'Stock'],
+				columns: [{ dataField: 'ID', visible: false },{ dataField: 'Bodega', dataType: 'string' }, 'Stock'],
                 editing: {
                     texts: {
                         confirmDeleteMessage: 'Esta seguro en eliminar registro?'
