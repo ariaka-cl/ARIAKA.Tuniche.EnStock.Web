@@ -144,8 +144,36 @@ Namespace Controllers.API
 
         <HttpPost>
         <Route("retorno", Name:="Retorno")>
-        Public Function Retorno() As IHttpActionResult
-            Return Me.Ok("todo ok")
+        Public Function Retorno(model As Models.SalidasDTO) As IHttpActionResult
+            Dim db As New bdTunicheContext
+            Try
+                If model Is Nothing Then
+                    Return Me.Content(HttpStatusCode.NotFound, "No se encontraron valores para agregar")
+                End If
+                Dim retorn As New Retorno With {.NumeroDocumento = model.NumeroDocumento,
+                                                 .Cantidad = model.Cantidad,
+                                                 .Fechas = Date.Now.Date,
+                                                 .Autorizador = db.Usuarieos.Where(Function(u) u.ID = model.Autorizador.ID).SingleOrDefault(),
+                                                  .Producto = db.Productoes.Where(Function(p) p.ID = model.Producto.ID).SingleOrDefault(),
+                                                  .Bodega = db.Bodegaeos.Where(Function(b) b.ID = model.Bodega.ID).SingleOrDefault()
+                }
+                db.Retorneos.Add(retorn)
+                db.SaveChanges()
+                Dim produ As Productos = db.Productoes.Where(Function(p) p.ID = model.Producto.ID).SingleOrDefault()
+                produ.StockActual = produ.StockActual + model.Cantidad
+                db.SaveChanges()
+                Dim stockProduUpdate As New StockProductos With {.Bodega = db.Bodegaeos.Where(Function(b) b.ID = model.Bodega.ID).SingleOrDefault(),
+                                                                     .Producto = db.Productoes.Where(Function(p) p.ID = model.Producto.ID).SingleOrDefault(),
+                                                                     .Stock = model.Cantidad
+                    }
+                db.StockProductos.Add(stockProduUpdate)
+                db.SaveChanges()
+                Return Me.Ok(model)
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
         End Function
 
         <HttpGet>
@@ -245,6 +273,32 @@ Namespace Controllers.API
             End Try
         End Function
 
+        <HttpGet>
+        <Route("retornos", Name:="GetRetornos")>
+        Public Function GetRetornos() As IHttpActionResult
+            Dim db As New bdTunicheContext
+            Try
+                Dim listRetornos As List(Of Retorno) = db.Retorneos.ToList()
+                If listRetornos Is Nothing OrElse listRetornos.Count = 0 Then Return Me.Ok(New List(Of Models.SalidasDTO))
+                Dim listOutDto As New List(Of Models.SalidasDTO)
+                Dim listProdu As List(Of Productos) = db.Productoes.ToList()
+                For Each retorn As Retorno In listRetornos
+                    Dim produ As Productos = listProdu.Where(Function(p) p.ID = retorn.Producto.ID).SingleOrDefault()
+                    listOutDto.Add(New Models.SalidasDTO With {.ID = retorn.ID,
+                                                                .NumeroDocumento = retorn.NumeroDocumento,
+                                                                .Cantidad = retorn.Cantidad,
+                                                                .Fechas = retorn.Fechas,
+                                                                .Producto = New Models.ProductosDTO With {.Nombre = produ.Nombre, .ID = produ.ID, .Unidad = produ.Unidad},
+                                                                .Autorizador = New Models.UsuariosDTO With {.ID = retorn.Autorizador.ID, .Nombre = retorn.Autorizador.Nombre}
+                                   })
+                Next
+                Return Me.Ok(listOutDto)
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
+        End Function
 
         Public Function UpdateProductos(salida As Salidas) As Boolean
             Dim db As New bdTunicheContext

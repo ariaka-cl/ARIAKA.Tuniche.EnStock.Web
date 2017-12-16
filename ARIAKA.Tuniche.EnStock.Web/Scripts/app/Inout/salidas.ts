@@ -172,7 +172,8 @@ namespace Inout {
                     editorType: "dxLookup",
                     editorOptions: {
                         displayExpr: 'Nombre',
-                        dataSource: this.bodegas
+						dataSource: this.bodegas,
+						closeOnOutsideClick: true
                     }
                 }]
             }, {
@@ -183,7 +184,8 @@ namespace Inout {
                     editorType: "dxLookup",
                     editorOptions: {
                         displayExpr: 'Nombre',
-                        dataSource: this.usuarios
+						dataSource: this.usuarios,
+						closeOnOutsideClick: true
                     }
                 }]
             }]
@@ -200,7 +202,7 @@ namespace Inout {
             export: {
                 allowExportSelectedData: true,
                 enabled: true,
-                fileName: 'ingresos'
+                fileName: 'salidas'
             },
             grouping: {
                 allowCollapsing: true

@@ -108,7 +108,18 @@ namespace Productos {
                 }
                 this.idRow(cateData.ID);
                 this.idRowIndex(e.rowIndex);
-            }
+			},
+			onRowPrepared: (rowInfo) =>{
+				if (this.productos().length > 0) {
+					if (rowInfo.rowType !== 'header') {
+						if (rowInfo.data.StockMinimo >= rowInfo.data.StockActual && rowInfo.data.StockActual !== 0) 
+							rowInfo.rowElement.css('background', 'yellow');
+						else if (rowInfo.data.StockActual == 0)
+							rowInfo.rowElement.css('background', 'red');
+					}				
+					
+				}
+			}
         } 
 
     }

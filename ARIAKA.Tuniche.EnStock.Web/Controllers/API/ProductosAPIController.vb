@@ -135,6 +135,36 @@ Namespace Controllers.API
             End Try
         End Function
 
+        <HttpGet>
+        <Route("tools", Name:="GetProductoHerramientas")>
+        Public Function GetProductoHerramientas() As IHttpActionResult
+            Dim db As New bdTunicheContext
+            Try
+                Dim listProduDto As New List(Of Models.ProductosDTO)
+
+                Dim cateM As Categorias = db.Categoriaeos.Where(Function(h) h.Nombre = "HERRAMIENTAS").SingleOrDefault()
+                Dim listProdu As List(Of Productos) = db.Productoes.Where(Function(p) p.Categorias.ID = cateM.ID).ToList()
+                For Each produ As Productos In listProdu
+                    'Dim cateM As Categorias = cate.Where(Function(c) c.ID = produ.Categorias.ID).SingleOrDefault
+                    listProduDto.Add(New Models.ProductosDTO With {.ID = produ.ID,
+                                                                    .Codigo = produ.Codigo,
+                                                                    .Nombre = produ.Nombre,
+                                                                    .StockMinimo = produ.StockMinimo,
+                                                                    .Unidad = produ.Unidad,
+                                                                    .StockActual = produ.StockActual,
+                                                                    .Categorias = New Models.CategoriaDTO With {.ID = cateM.ID, .Nombre = cateM.Nombre},
+                                                                    .Tipo = produ.Tipo
+                                                                    })
+
+                Next
+                Return Me.Ok(listProduDto)
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
+        End Function
+
 
 
 
