@@ -217,6 +217,7 @@
     <Compile Include="Models\BodegaDTO.vb" />
     <Compile Include="Models\CategoriaDTO.vb" />
     <Compile Include="Models\IngresosDTO.vb" />
+    <Compile Include="Models\ProductoBodegaDTO.vb" />
     <Compile Include="Models\ProductosDTO.vb" />
     <Compile Include="Models\ProveedorDTO.vb" />
     <Compile Include="Models\SalidasDTO.vb" />
@@ -333,6 +334,7 @@
     <Content Include="Views\Productos\Add.vbhtml" />
     <Content Include="Views\Proveedor\Index.vbhtml" />
     <Content Include="Views\Inout\Traspaso.vbhtml" />
+    <Content Include="Views\Productos\Localidad.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -408,6 +410,7 @@
     <TypeScriptCompile Include="Scripts\app\Inout\traspasos.ts" />
     <TypeScriptCompile Include="Scripts\app\Productos\add.ts" />
     <TypeScriptCompile Include="Scripts\app\Productos\index.ts" />
+    <TypeScriptCompile Include="Scripts\app\Productos\localidad.ts" />
     <TypeScriptCompile Include="Scripts\app\Proveedor\index.ts" />
     <TypeScriptCompile Include="Scripts\app\Usuarios\index.ts" />
     <TypeScriptCompile Include="Scripts\typings\devextreme\devextreme.d.ts" />

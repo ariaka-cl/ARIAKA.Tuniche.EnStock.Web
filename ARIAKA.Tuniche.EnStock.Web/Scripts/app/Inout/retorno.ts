@@ -197,12 +197,7 @@ namespace Inout {
 		buttonOptionsClean: any = {
 			text: "Limpiar",
 			icon: "clear",
-			onClick: () => {
-				//this.detalle([]);
-				//let grid = $('#grid-return').dxDataGrid('instance');
-				//grid.option('dataSource', []);
-				//grid.refresh();
-				//grid.repaint();
+			onClick: () => {				
 				$('#form-return').dxForm('instance').resetValues();
 
 			}

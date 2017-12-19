@@ -14,5 +14,10 @@ Namespace Controllers
         Function Add() As ActionResult
             Return View()
         End Function
+
+        <Route("localidad")>
+        Function Localidad() As ActionResult
+            Return View()
+        End Function
     End Class
 End Namespace

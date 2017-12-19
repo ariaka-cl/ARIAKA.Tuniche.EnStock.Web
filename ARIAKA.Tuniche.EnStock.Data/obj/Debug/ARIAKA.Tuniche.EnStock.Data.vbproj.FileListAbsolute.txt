@@ -15,6 +15,7 @@ C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\bin\Debug\En
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\bin\Debug\EntityFramework.SqlServer.dll
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\bin\Debug\EntityFramework.xml
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.vbprojResolveAssemblyReference.cache
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.Migrations.initial_migration.resources
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.Migrations.add_bodega.resources
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.Migrations.add_bodega_names.resources
@@ -24,10 +25,10 @@ C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\AR
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.Migrations.add_ingresos_stock.resources
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.Migrations.add_bodega_salida.resources
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.Migrations.add_subcategoria_colummn.resources
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.Migrations.add_retornos.resources
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.Resources.resources
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.vbproj.GenerateResource.Cache
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.vbproj.CoreCompileInputs.cache
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.dll
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.xml
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.pdb
-C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Data\obj\Debug\ARIAKA.Tuniche.EnStock.Data.Migrations.add_retornos.resources

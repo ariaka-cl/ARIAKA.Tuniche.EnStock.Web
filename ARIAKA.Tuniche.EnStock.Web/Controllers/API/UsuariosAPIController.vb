@@ -99,8 +99,8 @@ Namespace Controllers.API
         Public Function GetAutorizador() As IHttpActionResult
             Dim db As New bdTunicheContext
             Try
-                Dim listUser As List(Of Usuario) = db.Usuarieos.Where(Function(u) u.Rol.ID = 4).ToList()
-                'Dim listUser As List(Of Usuario) = db.Usuarieos.ToList()
+                'Dim listUser As List(Of Usuario) = db.Usuarieos.Where(Function(u) u.Rol.ID = 4).ToList()
+                Dim listUser As List(Of Usuario) = db.Usuarieos.ToList()
                 If listUser Is Nothing OrElse listUser.Count = 0 Then Return Me.Ok(New List(Of Models.UsuariosDTO))
                 Dim listUserDto As New List(Of Models.UsuariosDTO)
                 For Each usuario As Usuario In listUser

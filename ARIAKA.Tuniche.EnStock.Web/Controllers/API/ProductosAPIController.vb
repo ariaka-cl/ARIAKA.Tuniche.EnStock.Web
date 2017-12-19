@@ -54,7 +54,7 @@ Namespace Controllers.API
                         .Nombre = model.Nombre
                         .Codigo = model.Codigo
                         .Unidad = model.Unidad
-                        .Categorias = db.Categoriaeos.Where(Function(c) c.ID = model.Categorias.ID).Single
+                        .Categorias = db.Categoriaeos.Where(Function(c) c.Nombre = model.Categorias.Nombre).Single
                         .StockMinimo = model.StockMinimo
                         .Tipo = model.Tipo
                         .StockActual = model.StockActual
@@ -145,7 +145,6 @@ Namespace Controllers.API
                 Dim cateM As Categorias = db.Categoriaeos.Where(Function(h) h.Nombre = "HERRAMIENTAS").SingleOrDefault()
                 Dim listProdu As List(Of Productos) = db.Productoes.Where(Function(p) p.Categorias.ID = cateM.ID).ToList()
                 For Each produ As Productos In listProdu
-                    'Dim cateM As Categorias = cate.Where(Function(c) c.ID = produ.Categorias.ID).SingleOrDefault
                     listProduDto.Add(New Models.ProductosDTO With {.ID = produ.ID,
                                                                     .Codigo = produ.Codigo,
                                                                     .Nombre = produ.Nombre,
@@ -165,6 +164,86 @@ Namespace Controllers.API
             End Try
         End Function
 
+        <HttpGet>
+        <Route("gral", Name:="GetProductosGral")>
+        Public Function GetProductosGral() As IHttpActionResult
+            Dim db As New bdTunicheContext
+            Try
+                Dim listProduDto As New List(Of Models.ProductosDTO)
+
+                Dim cate As List(Of Categorias) = db.Categoriaeos.ToList()
+                Dim listProdu As List(Of Productos) = db.Productoes.ToList()
+                For Each produ As Productos In listProdu
+                    Dim cateM As Categorias = cate.Where(Function(c) c.ID = produ.Categorias.ID).SingleOrDefault
+                    listProduDto.Add(New Models.ProductosDTO With {.ID = produ.ID,
+                                                                    .Codigo = produ.Codigo,
+                                                                    .Nombre = produ.Nombre,
+                                                                    .StockMinimo = produ.StockMinimo,
+                                                                    .Unidad = produ.Unidad,
+                                                                    .StockActual = produ.StockActual,
+                                                                    .Categorias = New Models.CategoriaDTO With {.ID = cateM.ID, .Nombre = cateM.Nombre},
+                                                                    .Tipo = produ.Tipo
+                                                                    })
+
+                Next
+                Return Me.Ok(listProduDto)
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
+        End Function
+
+        <HttpGet>
+        <Route("lugares", Name:="GetProductosLugares")>
+        Public Function GetProductosLugares() As IHttpActionResult
+            Dim db As New bdTunicheContext
+            Try
+                Dim listStockBodega As List(Of StockProductos) = db.StockProductos.ToList()
+                Dim listProdu As List(Of Productos) = db.Productoes.ToList()
+                If listStockBodega IsNot Nothing AndAlso listStockBodega.Count = 0 Then Return Me.Content(HttpStatusCode.BadRequest, "No existe producto disponible")
+                Dim traspasoBodegas As New List(Of Models.ProductoBodegaDTO)
+
+                Dim stockProdu = From stock As StockProductos In listStockBodega
+                                 Group stock By k = New With {Key stock.Bodega, Key stock.Producto}
+                                                                      Into Group
+                                 Select New With {.stock = Group.Sum(Function(b) b.Stock), .ID = k.Bodega.ID, .Nombre = k.Bodega.Nombre, .Producto = k.Producto}
+
+                For Each item In stockProdu
+                    If item.stock > 0 Then
+                        Dim produ As Productos = listProdu.Where(Function(p) p.ID = item.Producto.ID).SingleOrDefault()
+                        Dim produDTO As New Models.ProductosDTO With {.Nombre = produ.Nombre, .ID = produ.ID, .Codigo = produ.Codigo}
+                        Dim bodeDTO As New Models.BodegaDTO With {.ID = item.ID, .Nombre = item.Nombre}
+                        traspasoBodegas.Add(New Models.ProductoBodegaDTO With {.Bodega = bodeDTO, .Stock = item.stock, .Producto = produDTO})
+                    End If
+                Next
+                Return Me.Ok(traspasoBodegas)
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
+        End Function
+
+        <HttpDelete>
+        <Route("{id}", Name:="DeleteProducto")>
+        Public Function DeleteProducto(id As Integer) As IHttpActionResult
+            If id = 0 Then
+                Return Me.Content(HttpStatusCode.NotFound, "Usuario No Encontrado")
+            End If
+
+            Dim db As New bdTunicheContext
+            Try
+                Dim produ As Productos = db.Productoes.Where(Function(u) u.ID = id).SingleOrDefault()
+                db.Productoes.Remove(produ)
+                db.SaveChanges()
+                Return Me.Content(HttpStatusCode.OK, String.Format("Producto Eliminado {0}", id))
+            Catch ex As Exception
+                Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
+            Finally
+                db.Dispose()
+            End Try
+        End Function
 
 
 

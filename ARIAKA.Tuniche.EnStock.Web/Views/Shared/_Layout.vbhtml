@@ -34,6 +34,9 @@
                             <li data-toggle="collapse" data-target="#stock">
                                 <a href="@Url.Action("Stock", "Inout")"><i class="glyphicon glyphicon glyphicon-eye-open fa-lg"></i> Stock Online </a>
                             </li>
+                            <li data-toggle="collapse" data-target="#stock">
+                                <a href="@Url.Action("Localidad", "Productos")"><i class="glyphicon glyphicon glyphicon-globe fa-lg"></i> Stock Localidad </a>
+                            </li>
                             <li data-toggle="collapse" data-target="#proveedor">
                                 <a href="@Url.Action("Index", "Proveedor")"><i class="glyphicon glyphicon glyphicon glyphicon-list-alt fa-lg"></i> Proveedores </a>
                             </li>

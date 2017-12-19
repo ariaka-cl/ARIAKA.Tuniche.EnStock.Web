@@ -15,7 +15,7 @@ namespace Productos {
 		public subCategorias: KnockoutObservableArray<any> = ko.observableArray<any>(); 
 		public nombre: KnockoutObservable<String> = ko.observable("");
     
-        unidad = [{ 'name': 'Unidad' },{ 'name': 'Litro' }, { 'name': 'CC' }, { 'name': 'Kilogramo' }, { 'name': 'Gramo' }]
+		unidad: any = [{ 'Nombre': 'Unidad' }, { 'Nombre': 'Litro' }, { 'Nombre': 'CC' }, { 'Nombre': 'Kilogramo' }, { 'Nombre': 'Gramo' }]
 
         getCategoria(): void {
             this.categorias([]);
@@ -60,16 +60,20 @@ namespace Productos {
 				let sub = { ID: 0, Nombre: "" };
 				formData.Tipo = sub;
 			}
+			if (formData.Unidad === null || formData.Unidad === 'undefined') {
+				formData.Unidad = { Nombre: "" };
+			}
             let url = window.location.origin + '/api/productos';
             $.ajax({
                 type: 'POST',
                 url: url,
                 data: {
-                    Codigo: formData.Codigo,
+					ID : formData.ID,
+					Codigo: formData.Codigo,
                     Nombre: formData.Nombre,
-                    Unidad: formData.Unidad.name,
+					Unidad: formData.Unidad.Nombre,
                     StockMinimo: formData.StockMinimo,
-					Categorias: formData.Categorias,
+					Categorias: { ID: 0, Nombre: formData.Categorias},
 					StockActual: formData.StockActual,					
 					Tipo: formData.Tipo.Nombre
 
@@ -87,13 +91,13 @@ namespace Productos {
         }
 
         deleteProducto(id: number): void {
-            $.ajax({
+			let url = window.location.origin + '/api/productos/'+id;
+			$.ajax({
                 type: 'DELETE',
-                url: 'api/productos/' + id,
-                success: (data: any): void => {
-                    $('#form-productos').dxForm('instance').resetValues();                   
-                }
-            });
+                url: url
+			}).done((result) => {				
+				$('#form-productos').dxForm('instance').resetValues();
+			});;
         }
 
 		getProductos(): void {
@@ -136,18 +140,13 @@ namespace Productos {
             items: [{
                 itemType: "group",
                 colCount: 3,
-				items: ["Codigo", {
-					dataField: 'Nombre',
-					editorType: 'dxTextBox',
-					editorOptions: {
-						value: this.nombre
-					}
-				}, {
+				items: ["Codigo","Nombre", {
                     dataField: "Unidad",
-                    editorType: "dxSelectBox",
+					editorType: "dxLookup",
                     editorOptions: {
-                        displayExpr: 'name',
-                        dataSource: this.unidad
+						displayExpr: 'Nombre',
+						dataSource: this.unidad,
+						closeOnOutsideClick: true
                     }
                 }]
             }, {
@@ -158,21 +157,19 @@ namespace Productos {
                     editorType: "dxLookup",
                     editorOptions: {
                         displayExpr: 'text',
-                        dataSource: this.categorias
+						dataSource: this.categorias,
+						closeOnOutsideClick: true
                     }
                 }, {
                         dataField: "Tipo",
                         editorType: "dxLookup",
                         editorOptions: {
                             displayExpr: 'Nombre',
-                            dataSource: this.subCategorias                            
+							dataSource: this.subCategorias,
+							closeOnOutsideClick: true
                         }
                     }]
-				}, {
-					itemType: "group",
-					colCount: 3,
-					items: ["StockActual"]
-			}]
+				}]
         };	
 
 		dataGridOptions: any = {
@@ -181,7 +178,7 @@ namespace Productos {
 				enabled: true,
 				text: 'Cargando datos...'
 			},
-			columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo', 'StockActual', 'Unidad', 'Categorias','Tipo'],
+			columns: [{ dataField: 'ID', visible: false }, 'Codigo', 'Nombre', 'StockMinimo', 'StockActual', 'Unidad', 'Categorias','Tipo'],
 			editing: {
 				texts: {
 					confirmDeleteMessage: 'Esta seguro en eliminar registro?'
@@ -201,13 +198,29 @@ namespace Productos {
 			},
 			onRowClick: (e) => {
 				this.enable(false);
-				let produData: App.Categoria = {
-					ID: e.data.ID,
-					Nombre: e.data.Nombre
+				let formData: any = $('#form-productos').dxForm('option');
+				if (e.data.Tipo === null) {
+					e.data.Tipo = { ID: 0, Nombre: "" };
 				}
+				if (e.data.Unidad === null) {
+					e.data.Unidad = { ID: 0, Nombre: "" };
+				}
+				let produData: any = {
+					ID: e.data.ID,
+					Nombre: e.data.Nombre,
+					Codigo: e.data.Codigo,					
+					Unidad: e.data.Unidad,
+					StockMinimo: e.data.StockMinimo,
+					Categorias: e.data.Categorias,					
+					Tipo: e.data.Tipo.Nombre
+				}
+
 				this.idRow(produData.ID);
 				this.idRowIndex(e.rowIndex);
-				this.nombre(produData.Nombre);
+				formData.formData = produData;
+				let form = $('#form-productos').dxForm('instance');
+				form.repaint();
+				
 			}
 		}
 

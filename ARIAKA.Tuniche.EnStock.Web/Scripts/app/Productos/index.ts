@@ -54,7 +54,13 @@ namespace Productos {
                 }
             });
         } 
-                      
+
+		getStockGeneral(): void {
+			$.get('api/productos/gral', (data) => {
+
+			});
+
+		}
         
         constructor() {       
             this.getCategoria();
@@ -112,15 +118,23 @@ namespace Productos {
 			onRowPrepared: (rowInfo) =>{
 				if (this.productos().length > 0) {
 					if (rowInfo.rowType !== 'header') {
-						if (rowInfo.data.StockMinimo >= rowInfo.data.StockActual && rowInfo.data.StockActual !== 0) 
+						if (rowInfo.data.StockMinimo == rowInfo.data.StockActual) 
 							rowInfo.rowElement.css('background', 'yellow');
-						else if (rowInfo.data.StockActual == 0)
+						else if (rowInfo.data.StockMinimo > rowInfo.data.StockActual && rowInfo.data.StockActual !== 0 )
 							rowInfo.rowElement.css('background', 'red');
 					}				
 					
 				}
 			}
-        } 
+		} 
+
+		buttonOptionsDown: any = {
+			text: "Descargar Stock Gral",
+			icon: "download",
+			onClick: () => {
+				this.getStockGeneral();
+			}
+		}
 
     }
 }
