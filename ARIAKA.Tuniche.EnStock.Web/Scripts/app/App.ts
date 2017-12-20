@@ -52,7 +52,17 @@ namespace App {
         ID: number,
         Stock: number,
         Bodega: IBodega
-    }
+	}
+
+	export interface ITipo {
+		ID: number,
+		Nombre: string
+	}
+
+	export interface IUnidad {
+		ID: number,
+		Nombre: string
+	}
 
 
 

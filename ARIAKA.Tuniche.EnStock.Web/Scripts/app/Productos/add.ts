@@ -13,7 +13,9 @@ namespace Productos {
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
         public categorias: KnockoutObservableArray<any> = ko.observableArray<any>();
 		public subCategorias: KnockoutObservableArray<any> = ko.observableArray<any>(); 
-		public nombre: KnockoutObservable<String> = ko.observable("");
+		public tipo: KnockoutObservable<App.ITipo> = ko.observable<App.ITipo>();
+		public categoria: KnockoutObservable<App.Categoria> = ko.observable<App.Categoria>();
+		public unidades: KnockoutObservable<App.IUnidad> = ko.observable<App.IUnidad>();
     
 		unidad: any = [{ 'Nombre': 'Unidad' }, { 'Nombre': 'Litro' }, { 'Nombre': 'CC' }, { 'Nombre': 'Kilogramo' }, { 'Nombre': 'Gramo' }]
 
@@ -26,8 +28,8 @@ namespace Productos {
                 success: (data: any): void => {
                     for (var i: number = 0; i < data.length; i++) {
                         let cate = {
-                            id: data[i].id,
-                            text: data[i].nombre
+                            ID: data[i].id,
+                            Nombre: data[i].nombre
                         }
                         this.categorias.push(cate);
                     }
@@ -56,11 +58,14 @@ namespace Productos {
 
         addProducto(): void {
 			let formData: any = $('#form-productos').dxForm('option').formData;
-			if (formData.Tipo === null) {
+			if (formData.Tipo === null || formData.Tipo == undefined || formData.Tipo == ""  ) {
 				let sub = { ID: 0, Nombre: "" };
 				formData.Tipo = sub;
 			}
-			if (formData.Unidad === null || formData.Unidad === 'undefined') {
+			if (formData.Unidad === null || formData.Unidad == undefined) {
+				formData.Unidad = { Nombre: "" };
+			}
+			if (formData.Unidad === null || formData.Unidad == undefined) {
 				formData.Unidad = { Nombre: "" };
 			}
             let url = window.location.origin + '/api/productos';
@@ -73,7 +78,7 @@ namespace Productos {
                     Nombre: formData.Nombre,
 					Unidad: formData.Unidad.Nombre,
                     StockMinimo: formData.StockMinimo,
-					Categorias: { ID: 0, Nombre: formData.Categorias},
+					Categorias: { ID: formData.Categorias.ID, Nombre: formData.Categorias.Nombre},
 					StockActual: formData.StockActual,					
 					Tipo: formData.Tipo.Nombre
 
@@ -120,6 +125,9 @@ namespace Productos {
 						}
 						this.productos.push(produ);
 					}
+				},
+				error: (data: any): void => {
+					DevExpress.ui.notify(data.responseJSON, "error", 3000);
 				}
 			});
 		} 
@@ -156,7 +164,7 @@ namespace Productos {
                     dataField: "Categorias",
                     editorType: "dxLookup",
                     editorOptions: {
-                        displayExpr: 'text',
+                        displayExpr: 'Nombre',
 						dataSource: this.categorias,
 						closeOnOutsideClick: true
                     }
@@ -196,15 +204,43 @@ namespace Productos {
 			}, columnChooser: {
 				allowSearch: true
 			},
+			 showBorders: true
+			, rowAlternationEnabled: true
+			, showRowLines: true
+			, showColumnLines: false
+			, filterRow: {
+				visible: true,
+				showOperationChooser: false
+			},
 			onRowClick: (e) => {
 				this.enable(false);
 				let formData: any = $('#form-productos').dxForm('option');
 				if (e.data.Tipo === null) {
-					e.data.Tipo = { ID: 0, Nombre: "" };
+					let tipo: App.ITipo = { ID: 0, Nombre: "" };
+					this.tipo(tipo);					
+				} else {
+					let tipo: App.ITipo = { ID: 0, Nombre: e.data.Tipo.Nombre };
+					this.tipo(tipo);
 				}
+
 				if (e.data.Unidad === null) {
-					e.data.Unidad = { ID: 0, Nombre: "" };
+					let unidad: App.IUnidad = { ID: 0, Nombre: "" };
+					this.unidades(unidad);					
+				} else {
+					let unidad: App.IUnidad = { ID: 0, Nombre: e.data.Unidad };
+					this.unidades(unidad);
 				}
+
+				if (e.data.Categorias === null) {
+					let cate: App.Categoria = { ID: 0, Nombre: "" };
+					this.categoria(cate);
+				} else {
+					let cate: App.Categoria = { ID: 0, Nombre: e.data.Categorias };
+					this.categoria(cate);
+				}				
+				e.data.Categorias = this.categoria();
+				e.data.Unidad = this.unidades();
+				e.data.Tipo = this.tipo();
 				let produData: any = {
 					ID: e.data.ID,
 					Nombre: e.data.Nombre,
@@ -212,15 +248,14 @@ namespace Productos {
 					Unidad: e.data.Unidad,
 					StockMinimo: e.data.StockMinimo,
 					Categorias: e.data.Categorias,					
-					Tipo: e.data.Tipo.Nombre
+					Tipo: e.data.Tipo
 				}
 
 				this.idRow(produData.ID);
 				this.idRowIndex(e.rowIndex);
 				formData.formData = produData;
 				let form = $('#form-productos').dxForm('instance');
-				form.repaint();
-				
+				form.repaint();				
 			}
 		}
 
@@ -242,6 +277,15 @@ namespace Productos {
                 grid.repaint();
                 this.deleteProducto(index);
             }
+		}
+
+		buttonOptionsClean: any = {
+			text: "Limpiar",
+			icon: "clear",
+			disabled: this.enable,
+			onClick: () => {
+				$('#form-productos').dxForm('instance').resetValues();
+			}
 		}
 
 

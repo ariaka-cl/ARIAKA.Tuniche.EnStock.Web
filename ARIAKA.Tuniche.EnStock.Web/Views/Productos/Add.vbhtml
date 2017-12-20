@@ -10,7 +10,8 @@ End Code
 <br />
 <br />
 <div class="btn-group" role="group">
-    <div data-bind="dxButton: buttonOptionsAdd"></div>   
+    <div data-bind="dxButton: buttonOptionsAdd"></div>
+    <div data-bind="dxButton: buttonOptionsClean"></div>
     <div data-bind="dxButton: buttonOptionsDelete"></div>
 </div>
 <br />
