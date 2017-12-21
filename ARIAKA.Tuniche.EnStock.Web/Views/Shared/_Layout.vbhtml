@@ -25,7 +25,7 @@
                                 <a href="@Url.Action("Salidas", "Inout")"><i class="glyphicon glyphicon glyphicon-resize-full fa-lg"></i> Ver Salidas </a>
                             </li>
                             <li data-toggle="collapse" data-target="#traslados">
-                                <a href="@Url.Action("Salidas", "Inout")"><i class="glyphicon glyphicon glyphicon-retweet fa-lg"></i> Translados </a>
+                                <a href="@Url.Action("Traspaso", "Inout")"><i class="glyphicon glyphicon glyphicon-retweet fa-lg"></i> Traslados </a>
                             </li>                            
                             <li data-toggle="collapse" data-target="#retorno">
                                 <a href="@Url.Action("Retorno", "Inout")"><i class="glyphicon glyphicon glyphicon-download-alt fa-lg"></i> Retorno Herramientas </a>
@@ -33,6 +33,9 @@
 
                             <li data-toggle="collapse" data-target="#stock">
                                 <a href="@Url.Action("Stock", "Inout")"><i class="glyphicon glyphicon glyphicon-eye-open fa-lg"></i> Stock Online </a>
+                            </li>
+                            <li data-toggle="collapse" data-target="#stock">
+                                <a href="@Url.Action("Localidad", "Productos")"><i class="glyphicon glyphicon glyphicon-globe fa-lg"></i> Stock Localidad </a>
                             </li>
                             <li data-toggle="collapse" data-target="#proveedor">
                                 <a href="@Url.Action("Index", "Proveedor")"><i class="glyphicon glyphicon glyphicon glyphicon-list-alt fa-lg"></i> Proveedores </a>

@@ -119,8 +119,13 @@ namespace Inout {
          
         
         addProducto(): void {
-            let formData: any = $('#form-in').dxForm('option').formData;
             
+            let formData: any = $('#form-in').dxForm('option').formData;
+            if (!this.verificaCantidad(formData.Cantidad)) {
+                DevExpress.ui.notify("La cantidad no es igual al ingresado", "warning", 2000);
+                return;
+            }
+
             $.ajax({
                 type: 'POST',
                 url: 'api/inout',
@@ -258,7 +263,12 @@ namespace Inout {
                             .dxDataGrid({
                                 dataSource: this.detalle,
                                 columns: ['Bodega.Nombre', 'Stock'],
-                                rowAlternationEnabled: true
+								rowAlternationEnabled: true,
+								editing: {
+									mode: "row",						
+									allowDeleting: true,
+									allowUpdating: true
+								}, 
                             });
                     }
                     },"PrecioUnitario"]
@@ -293,7 +303,10 @@ namespace Inout {
                 enabled: true
             }, scrolling: {
                 mode:'virtual'
-            }
+            }, showBorders: true
+            , rowAlternationEnabled: true
+            , showRowLines: true
+            , showColumnLines: false
         }
 
         buttonOptionsAdd: any = {
@@ -315,6 +328,22 @@ namespace Inout {
                 $('#form-in').dxForm('instance').resetValues();
                 
             }
-        } 
+        }
+
+        public verificaCantidad(cantidad: string):boolean {
+
+            let cont = 0;
+            let contAux: string;
+
+            for (let i of this.detalle()) {
+                cont = cont + i.Stock;
+            }
+            contAux = String(cont);
+            
+            if (cantidad === contAux) {
+                return true;
+            }
+            return false;
+        }
     }
 }

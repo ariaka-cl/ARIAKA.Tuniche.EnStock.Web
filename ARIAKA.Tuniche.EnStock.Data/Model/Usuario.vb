@@ -5,6 +5,6 @@
         Public Property Run As String
         Public Property NickName As String
         Public Property Password As String
-        Public Property Rol As Rol
+        Public Overridable Property Rol As Rol
     End Class
 End Namespace

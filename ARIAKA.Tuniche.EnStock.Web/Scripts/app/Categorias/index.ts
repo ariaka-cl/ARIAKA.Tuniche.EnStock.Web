@@ -7,10 +7,15 @@ namespace Categorias {
     export class CategoriasIndexViewModel {
         		
         public categorias: KnockoutObservableArray<any> = ko.observableArray<any>();
+        public subCategorias: KnockoutObservableArray<any> = ko.observableArray<any>();
         public enable: KnockoutObservable<boolean> = ko.observable(true);
         public idRow: KnockoutObservable<number> = ko.observable(0);
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
-        public nombre: KnockoutObservable<String> = ko.observable("");
+		public nombre: KnockoutObservable<String> = ko.observable("");
+		public subCateNombre: KnockoutObservable<String> = ko.observable("");
+		public idRowSub: KnockoutObservable<number> = ko.observable(0);
+		public idRowIndexSub: KnockoutObservable<number> = ko.observable(-1);
+		public nombreCateSub: KnockoutObservable<String> = ko.observable("");
 
         getCategoria(): void {
             this.categorias([]);
@@ -65,8 +70,65 @@ namespace Categorias {
 
         }
 
+        addSubCategoria(): void {
+            let formData: any = $('#form-sub-cate').dxForm('option').formData;
+            $.ajax({
+                type: 'POST',
+                url: 'api/categorias/sub',
+                data: {
+                    ID: this.idRowSub,
+                    Nombre: formData.Nombre,
+					Categoria: { ID: formData.Categorias().ID, Nombre: formData.Categorias().Nombre }
+                },
+                success: (data: any): void => {
+                    DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);
+                    $('#text-nombre').dxTextBox('instance').repaint();
+                }
+            }).done((result) => {
+                this.getSubCategoria();
+                let grid = $('#grid-sub-cate').dxDataGrid('instance');
+                grid.refresh();
+                grid.repaint();
+            });
+        }
+
+        getSubCategoria(): void {
+            this.subCategorias([]);
+            $.ajax({
+                type: 'GET',
+                url: 'api/categorias/sub',
+                success: (data: any): void => {
+                    for (var i: number = 0; i < data.length; i++) {
+                        let subcate = {
+                            ID: data[i].id,
+                            Nombre: data[i].nombre,
+                            Categoria: data[i].categoria.nombre
+                        }
+                        this.subCategorias.push(subcate);
+                    }
+                }
+            });
+        }
+
+		deleteSubCategoria(id: number): void {
+			
+			$.ajax({
+				type: 'DELETE',
+				url: 'api/categorias/sub/' + id,
+				success: (data: any): void => {
+					let grid = $('#grid-sub-cate').dxDataGrid('instance');
+					grid.refresh();
+					grid.repaint();
+				}
+			});
+
+
+		}
+
+
         constructor() {
             this.getCategoria();
+            this.getSubCategoria();
         }
 
         textBoxOptions: any = {
@@ -75,8 +137,7 @@ namespace Categorias {
             showClearButton: true,
             value: this.nombre
         }
-
-
+        
         dataGridOptions: any = {
             dataSource: this.categorias,
             loadPanel: {
@@ -120,6 +181,82 @@ namespace Categorias {
                 grid.repaint();
                 this.deleteCategoria(index);
             }
-        } 
+        }
+
+        formOptions: any = {
+            formData: this.subCategorias,
+            labelLocation: "top",            
+            items: [{
+                itemType: "group",
+                colCount: 3,
+                items: [{
+                    dataField: "Categorias",
+                    editorType: "dxSelectBox",
+                    editorOptions: {
+                        displayExpr: 'Nombre',
+						dataSource: this.categorias,
+						value: this.nombreCateSub
+                    }
+				}, {
+					dataField: "Nombre",
+					editorType: "dxTextBox",
+					editorOptions: {
+						width: 200,
+						label: "Nombre",
+						showClearButton: true,
+						value: this.subCateNombre
+					}
+					}]
+            }]
+        };
+
+        dataGridOptionsSubCate: any = {
+            dataSource: this.subCategorias,
+            loadPanel: {
+                enabled: true,
+                text: 'Cargando datos...'
+            },
+            columns: [{dataField: 'Categoria', groupIndex: 0}, 'Nombre'],
+            editing: {
+                texts: {
+                    confirmDeleteMessage: 'Esta seguro en eliminar registro?'
+                }
+            }, groupPanel: {
+                visible: true
+            },
+            onRowClick: (e) => {
+                this.enable(false);
+                let subCateData: any = {
+                    ID: e.data.ID,
+					Nombre: e.data.Nombre,
+					Categoria: e.data.Categoria
+                }
+				this.idRowSub(subCateData.ID);
+                this.idRowIndexSub(e.rowIndex);
+				this.subCateNombre(subCateData.Nombre);
+				this.nombreCateSub(subCateData.Categoria);
+            }
+        }
+
+        buttonOptionsAddSub: any = {
+            text: "Guardar",
+            icon: "save",
+            onClick: () => {
+                this.addSubCategoria();
+            }
+        }
+
+        buttonOptionsDeleteSub: any = {
+            text: "Borrar",
+            icon: "remove",
+            disabled: this.enable,
+            onClick: () => {
+				let grid = $('#grid-sub-cate').dxDataGrid('instance');
+                let index = this.idRowSub();
+                grid.deleteRow(this.idRowIndexSub());
+                grid.repaint();
+				this.deleteSubCategoria(index);
+            }
+        }
     }
 }

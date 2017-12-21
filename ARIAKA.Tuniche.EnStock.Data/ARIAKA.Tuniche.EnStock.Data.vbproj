@@ -104,6 +104,18 @@
       <DependentUpon>201712050442328_add_ingresos_stock.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201712050442328_add_ingresos_stock.vb" />
+    <Compile Include="Migrations\201712080452372_add_bodega_salida.Designer.vb">
+      <DependentUpon>201712080452372_add_bodega_salida.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712080452372_add_bodega_salida.vb" />
+    <Compile Include="Migrations\201712120346572_add_subcategoria_colummn.Designer.vb">
+      <DependentUpon>201712120346572_add_subcategoria_colummn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712120346572_add_subcategoria_colummn.vb" />
+    <Compile Include="Migrations\201712160925422_add_retornos.Designer.vb">
+      <DependentUpon>201712160925422_add_retornos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712160925422_add_retornos.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\bdTunicheContext.vb" />
     <Compile Include="Model\Bodega.vb" />
@@ -111,6 +123,7 @@
     <Compile Include="Model\Ingresos.vb" />
     <Compile Include="Model\Productos.vb" />
     <Compile Include="Model\Proveedor.vb" />
+    <Compile Include="Model\Retorno.vb" />
     <Compile Include="Model\Rol.vb" />
     <Compile Include="Model\Salidas.vb" />
     <Compile Include="Model\StockProductos.vb" />
@@ -154,6 +167,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712050442328_add_ingresos_stock.resx">
       <DependentUpon>201712050442328_add_ingresos_stock.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712080452372_add_bodega_salida.resx">
+      <DependentUpon>201712080452372_add_bodega_salida.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712120346572_add_subcategoria_colummn.resx">
+      <DependentUpon>201712120346572_add_subcategoria_colummn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712160925422_add_retornos.resx">
+      <DependentUpon>201712160925422_add_retornos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

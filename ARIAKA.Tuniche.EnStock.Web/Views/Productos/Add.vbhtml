@@ -10,9 +10,14 @@ End Code
 <br />
 <br />
 <div class="btn-group" role="group">
-    <div data-bind="dxButton: buttonOptionsAdd"></div>   
+    <div data-bind="dxButton: buttonOptionsAdd"></div>
+    <div data-bind="dxButton: buttonOptionsClean"></div>
     <div data-bind="dxButton: buttonOptionsDelete"></div>
 </div>
+<br />
+<br />
+
+<div id="grid-productos" data-bind="dxDataGrid: dataGridOptions"></div>
 
 @Section scripts
     <script type="text/javascript" src="~/Scripts/app/Productos/Add.js"></script>

@@ -16,6 +16,7 @@ Namespace Model
         Public Property Proveedoreos As DbSet(Of Proveedor)
         Public Property SubCategoriaeos As DbSet(Of SubCategoria)
         Public Property StockProductos As DbSet(Of StockProductos)
+        Public Property Retorneos As DbSet(Of Retorno)
 
         Public Sub New()
             MyBase.New("name=bdTunicheContext")

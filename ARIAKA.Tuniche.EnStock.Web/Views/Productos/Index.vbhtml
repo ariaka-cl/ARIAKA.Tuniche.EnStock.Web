@@ -3,6 +3,9 @@
 End Code
 
 <div class="long-title"><h3>Insumos</h3></div>
+<div data-bind="dxButton: buttonOptionsDown"></div>
+<br />
+<br />
 <div class="row">
     <div id="tabs">        
         <div data-bind="dxTabs: tabOptions"></div>

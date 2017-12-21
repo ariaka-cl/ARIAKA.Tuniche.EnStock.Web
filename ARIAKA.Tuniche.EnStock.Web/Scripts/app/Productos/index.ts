@@ -45,14 +45,22 @@ namespace Productos {
                             Nombre: data[i].nombre,
                             Unidad: data[i].unidad,
                             StockMinimo: data[i].stockMinimo,
-                            Categorias: data[i].categorias.nombre                            
+                            StockActual: data[i].stockActual,
+							Categorias: data[i].categorias.nombre,
+							Tipo: data[i].tipo
                         }
                         this.productos.push(produ);
                     }
                 }
             });
         } 
-                      
+
+		getStockGeneral(): void {
+			$.get('api/productos/gral', (data) => {
+
+			});
+
+		}
         
         constructor() {       
             this.getCategoria();
@@ -80,7 +88,7 @@ namespace Productos {
                 enabled: true,
                 text: 'Cargando datos...'
             },
-            columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo','Unidad','Categorias'],
+            columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo','StockActual','Unidad','Categorias', 'Tipo'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'
@@ -106,8 +114,27 @@ namespace Productos {
                 }
                 this.idRow(cateData.ID);
                 this.idRowIndex(e.rowIndex);
-            }
-        } 
+			},
+			onRowPrepared: (rowInfo) =>{
+				if (this.productos().length > 0) {
+					if (rowInfo.rowType !== 'header') {
+						if (rowInfo.data.StockMinimo == rowInfo.data.StockActual) 
+							rowInfo.rowElement.css('background', 'yellow');
+						else if (rowInfo.data.StockMinimo > rowInfo.data.StockActual && rowInfo.data.StockActual !== 0 )
+							rowInfo.rowElement.css('background', 'red');
+					}				
+					
+				}
+			}
+		} 
+
+		buttonOptionsDown: any = {
+			text: "Descargar Stock Gral",
+			icon: "download",
+			onClick: () => {
+				this.getStockGeneral();
+			}
+		}
 
     }
 }

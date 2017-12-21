@@ -23,5 +23,10 @@ Namespace Controllers
         Function Retorno() As ActionResult
             Return View()
         End Function
+
+        <Route("traspaso")>
+        Function Traspaso() As ActionResult
+            Return View()
+        End Function
     End Class
 End Namespace

@@ -5,45 +5,168 @@
 namespace Inout {
 	'use strict';
 	export class InoutRetornoViewModel {
+		public productos: KnockoutObservableArray<any> = ko.observableArray<any>();
+		public usuarios: KnockoutObservableArray<any> = ko.observableArray<any>();
+		public bodegas: KnockoutObservableArray<App.IBodega> = ko.observableArray<App.IBodega>();
+		public retornos: KnockoutObservableArray<any> = ko.observableArray<any>();
 
-		employees = {
-			"FECHA": new Date(2017, 2, 16),
-			"Tipo_Documento": "Guia",
-			"Num_Doc": "188998",
-			"BODEGA": "LAS PALMAS",
-			"CANTIDAD": "1",
-			"EMBASE": "",
-			"PRECIOUNIT": "$2.000",
-			"DESC": "",
-			"PRECIO_UNI": "1.000",
-			"PRECIO_TOT": "6000"
-		};
-		idAuth = [{ "name": "Jorge Escudero" }, { "name": "IVAN CAlle" }];
-		campAsig = [{ "name": "Dato Ejemplo 1" }, { "name": "Dato ejemplo 2" }];
-		articulos = [{ "name": "Azadilla" }, { "name": "Alicate Universal" }];
+		constructor() {
+			this.getProductos();
+			this.getBodegas();
+			this.getUser();
+			this.getRetornos();
+		}	
 
+		getProductos(): void {
+			this.productos([]);
+			let url = window.location.origin + '/api/productos/tools';
+			$.ajax({
+				type: 'GET',
+				url: url,
+				success: (data: any): void => {
+					for (var i: number = 0; i < data.length; i++) {
+						let produ: any = {
+							ID: data[i].id,
+							Codigo: data[i].codigo,
+							Nombre: data[i].nombre,
+							Unidad: data[i].unidad,
+							StockMinimo: data[i].stockMinimo
+						}
+						this.productos.push(produ);
+					}
+				}
+			});
+		}
 
+		getUser(): void {
+			this.usuarios([]);
+			let url = window.location.origin + '/api/usuarios/autorizador'
+			$.ajax({
+				type: 'GET',
+				url: url,
+				success: (data: any): void => {
+					for (var i: number = 0; i < data.length; i++) {
+						let users = {
+							ID: data[i].id,
+							Nombre: data[i].nombre,
+							Run: data[i].run,
+							NickName: data[i].nickName,
+							Password: data[i].password
+						}
+						this.usuarios.push(users);
+					}
+				}
+			});
+		}
+
+		getBodegas(): void {
+			this.bodegas([]);
+			let url = window.location.origin + '/api/productos/bodegas';
+			$.ajax({
+				type: 'GET',
+				url: url,
+				success: (data: any): void => {
+					for (var i: number = 0; i < data.length; i++) {
+						let bodega: App.IBodega = {
+							ID: data[i].id,
+							Nombre: data[i].nombre
+						}
+						this.bodegas.push(bodega);
+					}
+				}
+			});
+		}
+
+		getRetornos(): void {
+			this.retornos([]);
+			let url = window.location.origin + '/api/inout/retornos';
+			$.ajax({
+				type: 'GET',
+				url: url,
+				success: (data: any): void => {
+					for (var i: number = 0; i < data.length; i++) {
+						let retorn = {
+							ID: data[i].id,
+							Articulo: data[i].producto.nombre,
+							NumeroDocumento: data[i].numeroDocumento,
+							Cantidad: data[i].cantidad,
+							Fecha: data[i].fechas,
+							Autorizador: data[i].autorizador.nombre
+						}
+						this.retornos.push(retorn);
+					}
+				}
+			});
+		}
+		registrarRetorno(): void {
+			let formData: any = $('#form-return').dxForm('option').formData;
+			let url = window.location.origin + '/api/inout/retorno'
+			$.ajax({
+				type: 'POST',
+				url: url,
+				data: {
+					Producto: formData.Articulos,
+					Fechas: formData.Fecha,
+					Cantidad: formData.Cantidad,					
+					NumeroDocumento: formData.NumeroDocumento,
+					Autorizador: formData.Autorizador,
+					Bodega: formData.Bodega
+				},
+				success: (data: any): void => {
+					DevExpress.ui.notify("Datos Guardados Satisfactoriamente", "success", 2000);
+				}
+
+			}).done((result) => {
+				this.getRetornos();
+				let grid = $('#grid-return').dxDataGrid('instance');
+				grid.refresh();
+				grid.repaint();
+			}).fail((result) => {
+				DevExpress.ui.notify(result.responseText, "error", 2000);
+			});
+		}		
+		
 		formOptions: any = {
-			formData: this.employees,
+			formData: [],
 			labelLocation: "top",
 			items: [{
 				itemType: "group",
 				colCount: 3,
-				items: ["FECHA","Num_Doc"]
+				items: [{
+					dataField: "Fecha",
+					editorType: "dxDateBox",
+					editorOptions: {
+						type: "date"
+					}
+				}, {
+					dataField: "NumeroDocumento",
+					editorType: "dxTextBox",
+					editorOptions: {
+						width: 200
+					}
+				}]
 			}, {
 				itemType: "group",
 				colCount: 3,
 				items: [{
-					dataField: "ARTICULOS",
+					dataField: "Articulos",
 					editorType: "dxLookup",
 					editorOptions: {
-						displayExpr: 'name',
-						dataSource: new DevExpress.data.DataSource({
-							store: this.articulos
-						})
+						displayExpr: 'Nombre',
+						dataSource: this.productos,
+						closeOnOutsideClick: true
 					}
 				}, {
-					dataField: "CANTIDAD",
+
+					dataField: "Bodega",
+					editorType: "dxLookup",
+					editorOptions: {
+						displayExpr: 'Nombre',
+						dataSource: this.bodegas,
+						closeOnOutsideClick: true
+					}
+				},{
+					dataField: "Cantidad",
 					editorType: "dxTextBox",
 					editorOptions: {
 						width: 200
@@ -53,52 +176,79 @@ namespace Inout {
 				itemType: "group",
 				colCount: 2,
 				items: [{
-					dataField: "ID_Autorizado",
+					dataField: "Autorizador",
 					editorType: "dxLookup",
 					editorOptions: {
-						displayExpr: 'name',
-						dataSource: new DevExpress.data.DataSource({
-							store: this.idAuth
-						})
+						displayExpr: 'Nombre',
+						dataSource: this.usuarios,
+						closeOnOutsideClick: true
 					}
 				}]
-			}, {
-				itemType: "group",
-				colCount: 3,
-				items: [{
-					editorType: "dxButton",
-					editorOptions: {
-						text: "Agregar",
-						type: "success",
-						onClick: function () {
-							DevExpress.ui.notify("Salida Registrada", "success", 2000);
-						}
-					}
-				}, {
-					editorType: "dxButton",
-					editorOptions: {
-						text: "Cancelar",
-						type: "danger",
-						onClick: function () {
-							DevExpress.ui.notify("Salida Registrada", "success", 2000);
-						}
-					}
-					}, {
-						editorType: "dxButton",
-						editorOptions: {
-							text: "Limpiar",
-							type: "default",
-							onClick: function () {
-								DevExpress.ui.notify("Salida Registrada", "success", 2000);
-							}
-						}
-					}]
 			}]
 		};
 
+		buttonOptionsAdd: any = {
+			text: "Agregar",
+			icon: "plus",
+			onClick: () => {
+				this.registrarRetorno();
+			}
+		}
+		buttonOptionsClean: any = {
+			text: "Limpiar",
+			icon: "clear",
+			onClick: () => {				
+				$('#form-return').dxForm('instance').resetValues();
+
+			}
+		}
+
+		buttonOptionsDelete: any = {
+			text: "Eliminar",
+			icon: "clear",
+			onClick: () => {
+				//this.detalle([]);
+				//let grid = $('#grid-return').dxDataGrid('instance');
+				//grid.option('dataSource', []);
+				//grid.refresh();
+				//grid.repaint();
+				//$('#form-return').dxForm('instance').resetValues();
+
+			}
+		}
+
 		dataGridOptions: any = {
-			dataSource: this.employees,
-			columns: ['FECHA', 'NUMERO', 'CODIGO', 'DESCRIP', 'GUIA', 'BODEGA', 'CANTIDAD', 'PROVEEDOR', 'PRECIO_UNI', 'PRECIO_TO']
+			dataSource: this.retornos,
+			columns: [{ dataField: 'Fecha', format: 'yyyy-MM-dd', dataType: 'date' }, 'Articulo', 'Cantidad', 'NumeroDocumento','Autorizador'],
+			editing: {
+				texts: {
+					confirmDeleteMessage: 'Esta seguro en eliminar registro?'
+				}
+			},
+			export: {
+				allowExportSelectedData: true,
+				enabled: true,
+				fileName: 'retornos'
+			},
+			grouping: {
+				allowCollapsing: true
+			}, groupPanel: {
+				allowColumnDragging: true,
+				visible: true,
+				emptyPanelText: 'Arrastre algunas columnas para agrupar'
+			}, columnChooser: {
+				allowSearch: true,
+				enabled: true
+			}, scrolling: {
+				mode: 'virtual'
+			}, showBorders: true
+			, rowAlternationEnabled: true
+			, showRowLines: true
+			, showColumnLines: false
+			, filterRow: {
+				visible: true,
+				showOperationChooser: false
+			}
 		}
 	}
 }
