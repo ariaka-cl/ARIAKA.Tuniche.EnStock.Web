@@ -6,22 +6,22 @@
     <title>@ViewBag.Title -  EnStock</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+</head>
 <body>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row navbar-fixed-top">            
             <div class="col-sm-3 col-lg-4 col-md-3">
-                <div class="nav-side-menu">
-                    <div class="brand">TUNICHE</div>
+                <div class="nav-side-menu ">
+                    <div class="brand"><a href="@Url.Action("Index", "Home")">TUNICHE</a></div>
                     <i class="glyphicon glyphicon-menu-hamburger toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 
                     <div class="menu-list">
 
                         <ul id="menu-content" class="menu-content collapse out">
-                            <li data-toggle="collapse" data-target="#ingreso" class="collapsed active">
-                                <a href="@Url.Action("Index", "Inout")"><i class="glyphicon glyphicon glyphicon-resize-small fa-lg"></i> Ver Ingresos</a>                                                              
+                            <li data-toggle="collapse" data-target="#ingreso">
+                                <a href="@Url.Action("Index", "Inout")"><i class="glyphicon glyphicon glyphicon-resize-small fa-lg"></i> Ver Ingresos</a>
                             </li>
-                            <li data-toggle="collapse" data-target="#salida">
+                            <li data-toggle="collapse" id="salida" data-target="#salida">
                                 <a href="@Url.Action("Salidas", "Inout")"><i class="glyphicon glyphicon glyphicon-resize-full fa-lg"></i> Ver Salidas </a>
                             </li>
                             <li data-toggle="collapse" data-target="#traslados">
@@ -51,26 +51,37 @@
                             </li>                            
                             <li data-toggle="collapse" data-target="#usuarios">
                                 <a href="@Url.Action("Index", "Usuarios")"><i class="glyphicon glyphicon glyphicon glyphicon-user fa-lg"></i> Usuarios </a>
+                            </li>                          
+                            <li data-toggle="collapse" data-target="#logout">
+                                <a href="@Url.Action("Index", "Login")"><i class="glyphicon glyphicon glyphicon glyphicon-log-out fa-lg"></i> Cerrar Sesion </a>
                             </li>
                         </ul>
-                    </div>
+                    </div>                    
                 </div>
             </div>
-            <div class="col-sm-9 col-lg-8 col-md-9">
+            <div class="col-sm-9 col-lg-8 col-md-9 left">
+                
                 @RenderBody()
-                <hr />  
+                                   
+                <hr />
                 <footer>
                     <p>&copy; @DateTime.Now.Year - TUNICHE EnStock - Desarrollado por Ariaka</p>
                 </footer>
             </div>            
-        </div>
-    </div>
+        </div>        
+    </div>    
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/knockout")
     @Scripts.Render("~/bundles/devextreme")
     @Scripts.Render("~/bundles/bootstrap")
     <script>
         var apiRoot = '@Url.Content("~/")api/';
+        $("ul.menu-content li").click(function (e) {
+            var id = e.currentTarget.id;
+            $("'#"+id+"'").addClass("collapsed active");
+           // $(this.id).addClass("collapsed active");
+            //alert($(this).addClass("collapsed active"));
+        });
 
     </script>
     @RenderSection("scripts", required:=False)
