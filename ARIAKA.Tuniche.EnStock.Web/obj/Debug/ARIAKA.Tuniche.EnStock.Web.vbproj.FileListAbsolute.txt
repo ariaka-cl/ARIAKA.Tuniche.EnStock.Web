@@ -236,3 +236,5 @@ C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\es\System
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\es\System.Web.WebPages.resources.dll
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\Content\img\tuniche-bg.jpg
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\Content\style.css

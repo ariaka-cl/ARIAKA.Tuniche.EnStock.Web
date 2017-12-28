@@ -13,6 +13,7 @@ namespace Productos {
 		constructor() {
 			this.getBodegas();
 			this.getLugares();
+			this.setRol();
 		}
 		getLugares(): void {
 			this.lugares([]);
@@ -106,5 +107,20 @@ namespace Productos {
 			//	}
 			}
 		} 
+
+		public administrador: KnockoutObservable<boolean> = ko.observable(false);
+		public bodeguero: KnockoutObservable<boolean> = ko.observable(false);
+
+		setRol(): void {
+			let roleStg: any = localStorage.getItem('rol');
+			if (roleStg === 'Administrador') {
+				this.administrador(true);
+				this.bodeguero(true);
+			}
+			if (roleStg === 'Bodegueros') {
+				this.bodeguero(true);
+				this.administrador(false);
+			}
+		}
 	}
 }

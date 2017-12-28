@@ -164,7 +164,8 @@ namespace Inout {
             this.getBodegas();
             this.getProveedor();
             this.getProductos();
-            this.getIngresos();
+			this.getIngresos();
+			this.setRol();
         }                  		
 		
         tipoDocu = [{ "name": "Guia" }, { "name": "Factura" }, {"name":"Otro"}];
@@ -344,6 +345,22 @@ namespace Inout {
                 return true;
             }
             return false;
-        }
+		}
+
+		public administrador: KnockoutObservable<boolean> = ko.observable(false);
+		public bodeguero: KnockoutObservable<boolean> = ko.observable(false);
+
+		setRol(): void {
+			let roleStg: any = localStorage.getItem('rol');
+			if (roleStg === 'Administrador') {
+				this.administrador(true);
+				this.bodeguero(true);
+			}
+			if (roleStg === 'Bodegueros') {
+				this.bodeguero(true);
+				this.administrador(false);
+			}
+		}
+
     }
 }

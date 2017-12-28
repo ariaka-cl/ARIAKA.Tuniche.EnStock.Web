@@ -18,9 +18,9 @@ End Code
 
 
 @Section scripts
-    <script type="text/javascript" src="~/Scripts/app/Usuarios/index.js"></script>
+    <script type="text/javascript" src="~/Scripts/app/Usuarios/index.js"></script>    
     <script>
-        ko.applyBindings(new Usuarios.UsuariosIndexViewModel())
+        ko.applyBindings(new Usuarios.UsuariosIndexViewModel())      
     </script>
 End Section
 

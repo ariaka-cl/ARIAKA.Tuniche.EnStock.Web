@@ -5,11 +5,26 @@
 namespace Home {
     'use strict';
     export class HomeIndexViewModel {
-        Options: DevExpress.ui.dxButtonOptions = {
-            text: 'Click me',
-            onClick: function () {
-                alert("por fin!!!");
-            }
-        }
+
+		public administrador: KnockoutObservable<boolean> = ko.observable(false);
+		public bodeguero: KnockoutObservable<boolean> = ko.observable(false);
+
+		constructor() {  
+			this.setRol();
+		}
+
+		setRol(): void {
+			let roleStg: any = localStorage.getItem('rol');			
+			if (roleStg === 'Administrador') {
+				this.administrador(true);
+				this.bodeguero(true);
+			}
+			if (roleStg === 'Bodegueros') {
+				this.bodeguero(true);
+				this.administrador(false);
+			}
+		}
+
+
     }
 }

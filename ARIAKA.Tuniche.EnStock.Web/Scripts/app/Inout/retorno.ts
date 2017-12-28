@@ -15,6 +15,7 @@ namespace Inout {
 			this.getBodegas();
 			this.getUser();
 			this.getRetornos();
+			this.setRol();
 		}	
 
 		getProductos(): void {
@@ -248,6 +249,21 @@ namespace Inout {
 			, filterRow: {
 				visible: true,
 				showOperationChooser: false
+			}
+		}
+
+		public administrador: KnockoutObservable<boolean> = ko.observable(false);
+		public bodeguero: KnockoutObservable<boolean> = ko.observable(false);
+
+		setRol(): void {
+			let roleStg: any = localStorage.getItem('rol');
+			if (roleStg === 'Administrador') {
+				this.administrador(true);
+				this.bodeguero(true);
+			}
+			if (roleStg === 'Bodegueros') {
+				this.bodeguero(true);
+				this.administrador(false);
 			}
 		}
 	}

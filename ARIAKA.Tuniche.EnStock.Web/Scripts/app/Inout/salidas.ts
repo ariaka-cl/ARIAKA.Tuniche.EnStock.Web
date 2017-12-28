@@ -127,7 +127,8 @@ namespace Inout {
             this.getProductos();
             this.getBodegas();
             this.getUser();
-            this.getSalidas();
+			this.getSalidas();
+			this.setRol();
         }
 
         formOptions: any = {
@@ -265,6 +266,21 @@ namespace Inout {
 
         showInfo():void {
            this.visiblePopup(true);
-        };
+		};
+
+		public administrador: KnockoutObservable<boolean> = ko.observable(false);
+		public bodeguero: KnockoutObservable<boolean> = ko.observable(false);
+
+		setRol(): void {
+			let roleStg: any = localStorage.getItem('rol');
+			if (roleStg === 'Administrador') {
+				this.administrador(true);
+				this.bodeguero(true);
+			}
+			if (roleStg === 'Bodegueros') {
+				this.bodeguero(true);
+				this.administrador(false);
+			}
+		}
 	}
 }

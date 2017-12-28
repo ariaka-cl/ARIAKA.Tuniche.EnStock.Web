@@ -64,7 +64,8 @@ namespace Productos {
         
         constructor() {       
             this.getCategoria();
-            this.getProductos(-1);
+			this.getProductos(-1);
+			this.setRol();
         }
 
         
@@ -133,6 +134,21 @@ namespace Productos {
 			icon: "download",
 			onClick: () => {
 				this.getStockGeneral();
+			}
+		}
+
+		public administrador: KnockoutObservable<boolean> = ko.observable(false);
+		public bodeguero: KnockoutObservable<boolean> = ko.observable(false);
+
+		setRol(): void {
+			let roleStg: any = localStorage.getItem('rol');
+			if (roleStg === 'Administrador') {
+				this.administrador(true);
+				this.bodeguero(true);
+			}
+			if (roleStg === 'Bodegueros') {
+				this.bodeguero(true);
+				this.administrador(false);
 			}
 		}
 

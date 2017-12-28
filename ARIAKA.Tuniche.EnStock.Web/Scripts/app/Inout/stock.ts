@@ -87,7 +87,8 @@ namespace Inout {
 
 
         constructor() {
-            this.getArticulos();
+			this.getArticulos();
+			this.setRol();
         }
 
 
@@ -211,6 +212,21 @@ namespace Inout {
             , rowAlternationEnabled: true
             , showRowLines: true
             , showColumnLines: false
+		}
+
+		public administrador: KnockoutObservable<boolean> = ko.observable(false);
+		public bodeguero: KnockoutObservable<boolean> = ko.observable(false);
+
+		setRol(): void {
+			let roleStg: any = localStorage.getItem('rol');
+			if (roleStg === 'Administrador') {
+				this.administrador(true);
+				this.bodeguero(true);
+			}
+			if (roleStg === 'Bodegueros') {
+				this.bodeguero(true);
+				this.administrador(false);
+			}
 		}
 		
 	}

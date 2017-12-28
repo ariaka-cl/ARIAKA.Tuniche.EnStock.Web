@@ -271,7 +271,9 @@
     <Content Include="Content\dx.win10.white.css" />
     <Content Include="Content\dx.win8.black.css" />
     <Content Include="Content\dx.win8.white.css" />
-    <EmbeddedResource Include="Content\img\tuniche-bg.jpg" />
+    <EmbeddedResource Include="Content\img\tuniche-bg.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="Content\layouts\Desktop\DesktopLayout.css" />
     <Content Include="Content\layouts\Desktop\DesktopLayout.html" />
     <Content Include="Content\layouts\Desktop\DesktopLayout.js" />
@@ -288,7 +290,9 @@
     <Content Include="Content\icons\dxiconsios.ttf" />
     <Content Include="Content\icons\dxicons.woff" />
     <Content Include="Content\icons\dxicons.ttf" />
-    <EmbeddedResource Include="Content\style.css" />
+    <EmbeddedResource Include="Content\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

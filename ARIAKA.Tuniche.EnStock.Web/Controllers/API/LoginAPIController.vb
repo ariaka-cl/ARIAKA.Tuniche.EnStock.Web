@@ -18,7 +18,14 @@ Namespace Controllers.API
             Try
                 Dim user As Usuario = db.Usuarieos.Where(Function(u) u.Run = model.Run).Where(Function(u) u.Password = model.Password).SingleOrDefault()
                 If user Is Nothing Then Return Me.Content(HttpStatusCode.Unauthorized, "usuario o contraseña inválidos")
-                Return Me.Content(HttpStatusCode.OK, "Usuario Válido")
+
+                With model
+                    .NickName = user.NickName
+                    .Nombre = user.Nombre
+                    .Rol = New Models.RolDTO With {.ID = user.Rol.ID, .Nombre = user.Rol.Nombre}
+                End With
+
+                Return Me.Ok(model)
             Catch ex As Exception
                 Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
             Finally
