@@ -8,9 +8,11 @@ namespace Home {
 
 		public administrador: KnockoutObservable<boolean> = ko.observable(false);
 		public bodeguero: KnockoutObservable<boolean> = ko.observable(false);
+		public nombreUser: KnockoutObservable<string> = ko.observable("");
 
 		constructor() {  
 			this.setRol();
+			this.setNameUser();
 		}
 
 		setRol(): void {
@@ -23,6 +25,11 @@ namespace Home {
 				this.bodeguero(true);
 				this.administrador(false);
 			}
+		}
+
+		setNameUser(): void {
+			let nombreUsuario: string = localStorage.getItem('nombre');
+			this.nombreUser(nombreUsuario);
 		}
 
 

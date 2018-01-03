@@ -3,7 +3,7 @@
 End Code
 
 <div class="container-fluid">
-    <h2>Bienvenido al sistema de control de inventario</h2>
+    <h2>Bienvenido: <span data-bind="text: nombreUser"></span> al sistema de control de inventario</h2>
     <div class="login">        
     </div>
 </div>
