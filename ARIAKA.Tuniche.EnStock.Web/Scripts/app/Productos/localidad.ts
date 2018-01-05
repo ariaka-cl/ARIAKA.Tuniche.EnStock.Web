@@ -11,8 +11,12 @@ namespace Productos {
 		public obj: KnockoutObservableArray<any> = ko.observableArray<any>();
 
 		constructor() {
-			this.getBodegas();
-			this.getLugares();
+			let bodegas: JQueryPromise<any> = this.getBodegas();
+			bodegas.done((data): void => {
+				this.getLugares();
+			});
+			//this.getLugares();
+			this.setRol();
 		}
 		getLugares(): void {
 			this.lugares([]);
@@ -28,25 +32,23 @@ namespace Productos {
 						[data[i].bodega.nombre]: data[i].stock						
 					}
 					this.lugares.push(lugar);
-				}				
+				}
+				console.log("fin lugares");
 			});
 		}
 
 
-		getBodegas(): void {
+		getBodegas(): JQueryPromise<any> {
 			this.bodegas([]);
 			let url = window.location.origin + '/api/productos/bodegas';
-			$.ajax({
+		return	$.ajax({
 				type: 'GET',
 				url: url
 			}).done((data): void => {
-				for (var i: number = 0; i < data.length; i++) {
-					//let bodega: App.IBodega = {
-					//	ID: data[i].id,
-					//	Nombre: data[i].nombre
-					//}
+				for (var i: number = 0; i < data.length; i++) {					
 					this.bodegas.push(data[i].nombre);
 				}
+				console.log("fin bodegas");
 			});
 		}
 		
@@ -106,5 +108,20 @@ namespace Productos {
 			//	}
 			}
 		} 
+
+		public administrador: KnockoutObservable<boolean> = ko.observable(false);
+		public bodeguero: KnockoutObservable<boolean> = ko.observable(false);
+
+		setRol(): void {
+			let roleStg: any = localStorage.getItem('rol');
+			if (roleStg === 'Administrador') {
+				this.administrador(true);
+				this.bodeguero(true);
+			}
+			if (roleStg === 'Bodegueros') {
+				this.bodeguero(true);
+				this.administrador(false);
+			}
+		}
 	}
 }

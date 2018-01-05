@@ -65,7 +65,8 @@ namespace Proveedor {
         }
 
         constructor() {
-            this.getProveedor();
+			this.getProveedor();
+			this.setRol();
         }
 
         textBoxOptions: any = {
@@ -118,7 +119,22 @@ namespace Proveedor {
                 grid.repaint();
                 this.deleteProveedor(index);
             }
-        } 
+		} 
+
+		public administrador: KnockoutObservable<boolean> = ko.observable(false);
+		public bodeguero: KnockoutObservable<boolean> = ko.observable(false);
+
+		setRol(): void {
+			let roleStg: any = localStorage.getItem('rol');
+			if (roleStg === 'Administrador') {
+				this.administrador(true);
+				this.bodeguero(true);
+			}
+			if (roleStg === 'Bodegueros') {
+				this.bodeguero(true);
+				this.administrador(false);
+			}
+		}
 
 
     }

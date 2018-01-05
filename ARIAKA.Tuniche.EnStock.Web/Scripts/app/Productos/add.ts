@@ -136,6 +136,7 @@ namespace Productos {
             this.getCategoria();
 			this.getSubCategoria();
 			this.getProductos();
+			this.setRol();
         }
         formInstance;
 
@@ -285,6 +286,21 @@ namespace Productos {
 			disabled: this.enable,
 			onClick: () => {
 				$('#form-productos').dxForm('instance').resetValues();
+			}
+		}
+
+		public administrador: KnockoutObservable<boolean> = ko.observable(false);
+		public bodeguero: KnockoutObservable<boolean> = ko.observable(false);
+
+		setRol(): void {
+			let roleStg: any = localStorage.getItem('rol');
+			if (roleStg === 'Administrador') {
+				this.administrador(true);
+				this.bodeguero(true);
+			}
+			if (roleStg === 'Bodegueros') {
+				this.bodeguero(true);
+				this.administrador(false);
 			}
 		}
 

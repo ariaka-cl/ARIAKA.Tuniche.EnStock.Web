@@ -203,8 +203,10 @@
     <Compile Include="App_Start\WebApiConfig.vb" />
     <Compile Include="Controllers\API\CategoriasAPIController.vb" />
     <Compile Include="Controllers\API\InoutAPIController.vb" />
+    <Compile Include="Controllers\API\LoginAPIController.vb" />
     <Compile Include="Controllers\API\ProductosAPIController.vb" />
     <Compile Include="Controllers\API\ProveedorAPIController.vb" />
+    <Compile Include="Controllers\LoginController.vb" />
     <Compile Include="Controllers\ProductosController.vb" />
     <Compile Include="Controllers\API\UsuariosAPIController.vb" />
     <Compile Include="Controllers\CategoriasController.vb" />
@@ -269,6 +271,9 @@
     <Content Include="Content\dx.win10.white.css" />
     <Content Include="Content\dx.win8.black.css" />
     <Content Include="Content\dx.win8.white.css" />
+    <EmbeddedResource Include="Content\img\tuniche-bg.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="Content\layouts\Desktop\DesktopLayout.css" />
     <Content Include="Content\layouts\Desktop\DesktopLayout.html" />
     <Content Include="Content\layouts\Desktop\DesktopLayout.js" />
@@ -285,6 +290,9 @@
     <Content Include="Content\icons\dxiconsios.ttf" />
     <Content Include="Content\icons\dxicons.woff" />
     <Content Include="Content\icons\dxicons.ttf" />
+    <EmbeddedResource Include="Content\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -335,6 +343,8 @@
     <Content Include="Views\Proveedor\Index.vbhtml" />
     <Content Include="Views\Inout\Traspaso.vbhtml" />
     <Content Include="Views\Productos\Localidad.vbhtml" />
+    <Content Include="Views\Login\Index.vbhtml" />
+    <Content Include="Views\Shared\_LoginPartial.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -408,6 +418,7 @@
     <TypeScriptCompile Include="Scripts\app\Inout\index.ts" />
     <TypeScriptCompile Include="Scripts\app\Inout\stock.ts" />
     <TypeScriptCompile Include="Scripts\app\Inout\traspasos.ts" />
+    <TypeScriptCompile Include="Scripts\app\Login\index.ts" />
     <TypeScriptCompile Include="Scripts\app\Productos\add.ts" />
     <TypeScriptCompile Include="Scripts\app\Productos\index.ts" />
     <TypeScriptCompile Include="Scripts\app\Productos\localidad.ts" />
@@ -447,6 +458,8 @@
           <DevelopmentServerPort>52197</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:52199/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:52199/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

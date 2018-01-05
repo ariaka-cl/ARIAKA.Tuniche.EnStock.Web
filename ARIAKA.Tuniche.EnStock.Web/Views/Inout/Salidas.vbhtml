@@ -22,7 +22,7 @@ End Code
 
 @Section scripts
     <script type="text/javascript" src="~/Scripts/app/Inout/salidas.js"></script>
-    <script>
+    <script>        
         ko.applyBindings(new Inout.InoutSalidasViewModel())
     </script>
 End Section

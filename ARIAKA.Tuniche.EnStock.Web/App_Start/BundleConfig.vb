@@ -30,8 +30,14 @@ Public Module BundleConfig
         bundles.Add(New StyleBundle("~/Content/css").Include(
                   "~/Content/bootstrap.css",
                   "~/Content/dx.common.css",
+                  "~/Content/dx.light.css").Include("~/Content/Site.css", New CssRewriteUrlTransform()))
+
+        bundles.Add(New StyleBundle("~/Content/custom/css").Include(
+                  "~/Content/bootstrap.css",
+                  "~/Content/dx.common.css",
                   "~/Content/dx.light.css",
-                  "~/Content/Site.css"))
+                  "~/Content/style.css").Include("~/Content/Site.css", New CssRewriteUrlTransform()))
+
 
     End Sub
 

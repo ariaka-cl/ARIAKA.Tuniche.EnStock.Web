@@ -230,3 +230,11 @@ C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\obj\Debug\ARI
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\obj\Debug\ARIAKA.Tuniche.EnStock.Web.dll
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\obj\Debug\ARIAKA.Tuniche.EnStock.Web.xml
 C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\obj\Debug\ARIAKA.Tuniche.EnStock.Web.pdb
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\es\System.Web.Helpers.resources.dll
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\es\System.Web.Mvc.resources.dll
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\es\System.Web.Razor.resources.dll
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\es\System.Web.WebPages.resources.dll
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\Content\img\tuniche-bg.jpg
+C:\Proyectos\ARIAKA.Tuniche.EnStock.Web\ARIAKA.Tuniche.EnStock.Web\bin\Content\style.css

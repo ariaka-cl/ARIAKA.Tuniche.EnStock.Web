@@ -10,7 +10,8 @@ namespace Usuarios {
         public usuarios: KnockoutObservableArray<any> = ko.observableArray<any>();
         public enable: KnockoutObservable<boolean> = ko.observable(true);
         public idRow: KnockoutObservable<number> = ko.observable(0);
-        public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
+		public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
+		
 
         formInstance;
 
@@ -77,7 +78,8 @@ namespace Usuarios {
 
         }
         constructor() {       
-            this.getUser();            
+			this.getUser();
+			this.setRol();
         }
 
         Roles: App.Rol[] = [{ ID: 1, Nombre: "Administrador" }, { ID: 2, Nombre: "Bodegueros" }, { ID: 3, Nombre: "Client Manager" }, { ID:4 , Nombre: "Autorizador" }];
@@ -181,7 +183,23 @@ namespace Usuarios {
                 grid.repaint();
                 this.deleteUsuario(index);
             }
-        }       
+		}  
+
+
+		public administrador: KnockoutObservable<boolean> = ko.observable(false);
+		public bodeguero: KnockoutObservable<boolean> = ko.observable(false);
+
+		setRol(): void {
+			let roleStg: any = localStorage.getItem('rol');
+			if (roleStg === 'Administrador') {
+				this.administrador(true);
+				this.bodeguero(true);
+			}
+			if (roleStg === 'Bodegueros') {
+				this.bodeguero(true);
+				this.administrador(false);
+			}
+		}
 
     }
 }

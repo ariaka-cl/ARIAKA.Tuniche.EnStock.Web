@@ -158,7 +158,13 @@
     }
 }
 
-body {
-    margin: 0px;
-    padding: 0px;
+.login {
+    background:transparent url(../Content/img/tuniche-bg.jpg) no-repeat center center;
+    padding: 15px;
+    color: #618eac;
+    margin-top: 15px;
+    height:500px;
+    width:100%;
 }
+
+
