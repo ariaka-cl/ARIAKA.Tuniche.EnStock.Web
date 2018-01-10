@@ -201,11 +201,13 @@
     <Compile Include="App_Start\FilterConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="App_Start\WebApiConfig.vb" />
+    <Compile Include="Controllers\API\BoegasAPIController.vb" />
     <Compile Include="Controllers\API\CategoriasAPIController.vb" />
     <Compile Include="Controllers\API\InoutAPIController.vb" />
     <Compile Include="Controllers\API\LoginAPIController.vb" />
     <Compile Include="Controllers\API\ProductosAPIController.vb" />
     <Compile Include="Controllers\API\ProveedorAPIController.vb" />
+    <Compile Include="Controllers\BodegasController.vb" />
     <Compile Include="Controllers\LoginController.vb" />
     <Compile Include="Controllers\ProductosController.vb" />
     <Compile Include="Controllers\API\UsuariosAPIController.vb" />
@@ -332,6 +334,10 @@
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <Content Include="Scripts\jszip.js" />
     <Content Include="Scripts\jszip.min.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Views\Inout\Index.vbhtml" />
     <Content Include="Views\Inout\Salidas.vbhtml" />
     <Content Include="Views\Inout\Stock.vbhtml" />
@@ -345,6 +351,7 @@
     <Content Include="Views\Productos\Localidad.vbhtml" />
     <Content Include="Views\Login\Index.vbhtml" />
     <Content Include="Views\Shared\_LoginPartial.vbhtml" />
+    <Content Include="Views\Bodegas\Index.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -410,6 +417,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\app\Bodegas\index.ts" />
     <TypeScriptCompile Include="Scripts\app\Categorias\index.ts" />
     <TypeScriptCompile Include="Scripts\app\Home\index.ts" />
     <TypeScriptCompile Include="Scripts\app\app.ts" />
@@ -428,6 +436,7 @@
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\knockout.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\tests\jasmine.extensions.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

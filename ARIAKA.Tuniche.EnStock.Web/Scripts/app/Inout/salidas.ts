@@ -1,6 +1,7 @@
 ﻿/// <reference path="../../typings/jquery/jquery.d.ts" />
 /// <reference path="../../typings/knockout/knockout.d.ts" />
 /// <reference path="../../typings/devextreme/devextreme.d.ts" />
+/// <reference path="../../typings/moment/moment.d.ts" />
 /// <reference path="../App.ts" />
 
 namespace Inout {
@@ -78,7 +79,7 @@ namespace Inout {
                 url: url,
                 data: {
                     Producto: formData.Articulos,
-                    Fechas: formData.Fecha,
+					Fechas: moment(formData.Fecha, 'DD/MM/YYYY', true).format(),//moment(formData.Fecha).format('YYYY-MM-DD'),
                     Cantidad: formData.Cantidad,
                     TipoDocumento: formData.TipoDocumento,
                     NumeroDocumento: formData.NumeroDocumento,
@@ -115,7 +116,7 @@ namespace Inout {
                             TipoDocumento: data[i].tipoDocumento,
                             NumeroDocumento: data[i].numeroDocumento,
                             Cantidad: data[i].cantidad,
-                            Fecha: data[i].fechas,
+							Fecha: moment(data[i].fechas,'DD-MM-YYYY').format(),
                             Autorizador: data[i].autorizador.nombre
                         }
                         this.salidas.push(salidas);
@@ -141,7 +142,9 @@ namespace Inout {
                     dataField: "Fecha",
                     editorType: "dxDateBox",
                     editorOptions: {
-                        type: "date"
+						type: "date",
+						displayFormat: "yyyy-MM-dd",
+
                     }
                 }, {
                     dataField: "TipoDocumento",
@@ -194,7 +197,7 @@ namespace Inout {
 
         dataGridOptions: any = {
             dataSource: this.salidas,
-            columns: [{ dataField: 'Fecha', format: 'yyyy-MM-dd', dataType: 'date' }, 'Articulo', 'Cantidad', 'Unidad', 'TipoDocumento', 'NumeroDocumento', 'Autorizador'],
+            columns: [{ dataField: 'Fecha',format:'dd-MM-yyyy', dataType: 'date' }, 'Articulo', 'Cantidad', 'Unidad', 'TipoDocumento', 'NumeroDocumento', 'Autorizador'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'

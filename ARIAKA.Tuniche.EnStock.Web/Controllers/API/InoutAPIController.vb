@@ -63,7 +63,7 @@ Namespace Controllers.API
                                                                 .TipoDocumento = salida.TipoDocumentoa,
                                                                 .NumeroDocumento = salida.NumeroDocumento,
                                                                 .Cantidad = salida.Cantidad,
-                                                                .Fechas = salida.Fechas,
+                                                                .Fechas = salida.Fechas.ToShortDateString,
                                                                 .Producto = New Models.ProductosDTO With {.Nombre = produ.Nombre, .ID = produ.ID, .Unidad = produ.Unidad},
                                                                  .Autorizador = New Models.UsuariosDTO With {.ID = salida.Autorizador.ID, .Nombre = salida.Autorizador.Nombre}
                                    })
@@ -89,7 +89,7 @@ Namespace Controllers.API
                     Return Me.Content(HttpStatusCode.BadRequest, "Esta eliminando mas de lo que existe en bodega")
                 End If
 
-                Dim salida As New Salidas With {.Fechas = Date.Now.Date,
+                Dim salida As New Salidas With {.Fechas = New Date(CDate(model.Fechas).Year, CDate(model.Fechas).Month, CDate(model.Fechas).Day),
                                                   .TipoDocumentoa = model.TipoDocumento,
                                                   .NumeroDocumento = model.NumeroDocumento,
                                                   .Cantidad = model.Cantidad,

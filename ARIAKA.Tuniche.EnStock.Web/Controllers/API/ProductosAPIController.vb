@@ -84,8 +84,8 @@ Namespace Controllers.API
         End Function
 
         <HttpGet>
-        <Route("bodegas", Name:="GetBodegas")>
-        Public Function GetBodegas() As IHttpActionResult
+        <Route("bodegas", Name:="GetBodegasProducto")>
+        Public Function GetBodegasProducto() As IHttpActionResult
             Dim db As New bdTunicheContext
             Try
                 Dim listBodegas As List(Of Bodega) = db.Bodegaeos.ToList()
@@ -212,7 +212,7 @@ Namespace Controllers.API
                 For Each item In stockProdu
                     If item.stock > 0 Then
                         Dim produ As Productos = listProdu.Where(Function(p) p.ID = item.Producto.ID).SingleOrDefault()
-                        Dim produDTO As New Models.ProductosDTO With {.Nombre = produ.Nombre, .ID = produ.ID, .Codigo = produ.Codigo}
+                        Dim produDTO As New Models.ProductosDTO With {.Nombre = produ.Nombre, .ID = produ.ID, .Codigo = produ.Codigo, .Categorias = New Models.CategoriaDTO With {.ID = produ.Categorias.ID, .Nombre = produ.Categorias.Nombre}}
                         Dim bodeDTO As New Models.BodegaDTO With {.ID = item.ID, .Nombre = item.Nombre}
                         traspasoBodegas.Add(New Models.ProductoBodegaDTO With {.Bodega = bodeDTO, .Stock = item.stock, .Producto = produDTO})
                     End If

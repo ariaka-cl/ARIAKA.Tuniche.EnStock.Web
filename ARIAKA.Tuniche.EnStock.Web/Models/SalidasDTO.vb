@@ -1,7 +1,7 @@
 ﻿Namespace Models
     Public Class SalidasDTO
         Public Property ID As Integer
-        Public Property Fechas As Date
+        Public Property Fechas As String
         Public Property TipoDocumento As String
         Public Property NumeroDocumento As String
         Public Property Cantidad As Double

@@ -65,6 +65,9 @@ Public Module BundleConfig
         ' DevExtreme
         bundle.Include("~/Scripts/dx.web.js")
 
+        ' Moment 
+        bundle.Include("~/Scripts/moment.js")
+
         Return bundle
     End Function
 End Module

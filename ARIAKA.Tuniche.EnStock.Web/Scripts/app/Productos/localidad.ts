@@ -14,8 +14,7 @@ namespace Productos {
 			let bodegas: JQueryPromise<any> = this.getBodegas();
 			bodegas.done((data): void => {
 				this.getLugares();
-			});
-			//this.getLugares();
+			});			
 			this.setRol();
 		}
 		getLugares(): void {
@@ -29,11 +28,11 @@ namespace Productos {
 					let lugar: any = {
 						ID: data[i].id,
 						Nombre: data[i].producto.nombre,
+						Categoria: data[i].producto.categorias.nombre,
 						[data[i].bodega.nombre]: data[i].stock						
 					}
 					this.lugares.push(lugar);
-				}
-				console.log("fin lugares");
+				}				
 			});
 		}
 
@@ -47,27 +46,22 @@ namespace Productos {
 			}).done((data): void => {
 				for (var i: number = 0; i < data.length; i++) {					
 					this.bodegas.push(data[i].nombre);
-				}
-				console.log("fin bodegas");
+				}				
 			});
 		}
 		
-
 		dataGridOptions: any = {
 			dataSource: this.lugares,
-			columns: [{ dataField: 'Nombre', groupIndex: 0 }],
+			columns: [{ dataField: 'Nombre', groupIndex: 0 }, { dataField: 'Categoria', groupIndex: 0 }],
 			loadPanel: {
 				enabled: true,
 				text: 'Cargando datos...'
 			},			
 			customizeColumns: (result) => {
-				if (this.bodegas().length > 0) {
-					//let bo: any = this.bodegas();
-					for (var i: number = 0; i < this.bodegas().length; i++) {
-						//result.push(bo[i].Nombre)
+				if (this.bodegas().length > 0) {					
+					for (var i: number = 0; i < this.bodegas().length; i++) {						
 						result.push(this.bodegas()[i])
 					}
-
 				}
 			},
 			editing: {
@@ -85,28 +79,14 @@ namespace Productos {
 				enabled: true,
 				fileName: 'stock-bodegas'
 			}, columnChooser: {
-				allowSearch: true
-			},
-			onRowClick: (e) => {
-				//this.enable(false);
-				//let cateData: App.Categoria = {
-				//	ID: e.data.ID,
-				//	Nombre: e.data.Nombre
-				//}
-				//this.idRow(cateData.ID);
-				//this.idRowIndex(e.rowIndex);
-			},
-			onRowPrepared: (rowInfo) => {
-			//	if (this.productos().length > 0) {
-			//		if (rowInfo.rowType !== 'header') {
-			//			if (rowInfo.data.StockMinimo == rowInfo.data.StockActual)
-			//				rowInfo.rowElement.css('background', 'yellow');
-			//			else if (rowInfo.data.StockMinimo > rowInfo.data.StockActual && rowInfo.data.StockActual !== 0)
-			//				rowInfo.rowElement.css('background', 'red');
-			//		}
-
-			//	}
-			}
+				allowSearch: true,
+				enabled: true
+			}, scrolling: {
+				mode: 'virtual'
+			}, showBorders: true
+			, rowAlternationEnabled: true
+			, showRowLines: true
+			, showColumnLines: true			
 		} 
 
 		public administrador: KnockoutObservable<boolean> = ko.observable(false);
