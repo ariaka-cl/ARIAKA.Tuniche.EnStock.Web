@@ -16,7 +16,7 @@ Namespace Controllers.API
                     Return Me.Content(HttpStatusCode.NotFound, "No se encontraron valores para agregar")
                 End If
 
-                Dim ingreso As New Ingresos With {.Fecha = Date.Now.Date,
+                Dim ingreso As New Ingresos With {.Fecha = New Date(CDate(model.Fecha).Year, CDate(model.Fecha).Month, CDate(model.Fecha).Day),
                                                   .TipoDocumento = model.TipoDocumento,
                                                   .NumeroDocumento = model.NumeroDocumento,
                                                   .PrecioUnitario = model.PrecioUnitario,
@@ -193,7 +193,7 @@ Namespace Controllers.API
                                                                 .TipoDocumento = ingreso.TipoDocumento,
                                                                 .NumeroDocumento = ingreso.NumeroDocumento,
                                                                 .Stock = ingreso.Cantidad,
-                                                                .Fecha = ingreso.Fecha,
+                                                                .Fecha = ingreso.Fecha.ToShortDateString,
                                                                 .Producto = New Models.ProductosDTO With {.Nombre = produ.Nombre, .ID = produ.ID, .Unidad = produ.Unidad}
                                                                 })
                 Next

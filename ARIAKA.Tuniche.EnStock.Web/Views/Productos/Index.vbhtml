@@ -3,7 +3,9 @@
 End Code
 
 <div class="long-title"><h3>Insumos</h3></div>
+<div data-bind="dxLoadPanel: loadPanelOptions"></div>
 <div data-bind="dxButton: buttonOptionsDown"></div>
+<div id="grid-all-stock" data-bind="dxDataGrid: dataGridOptionsAll"></div> 
 <br />
 <br />
 <div class="row">

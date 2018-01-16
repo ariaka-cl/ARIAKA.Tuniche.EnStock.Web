@@ -240,15 +240,22 @@ namespace Inout {
 			}, columnChooser: {
 				allowSearch: true,
 				enabled: true
-			}, scrolling: {
-				mode: 'virtual'
 			}, showBorders: true
 			, rowAlternationEnabled: true
 			, showRowLines: true
 			, showColumnLines: false
 			, filterRow: {
 				visible: true,
-				showOperationChooser: false
+				showOperationChooser: false,
+				applyFilter: "auto"
+			}, paging: {
+				pageSize: 10,
+				pageIndex: 19
+			}
+			, pager: {
+				showPageSizeSelector: true,
+				allowedPageSizes: [5, 10, 20],
+				showInfo: true
 			}
 		}
 

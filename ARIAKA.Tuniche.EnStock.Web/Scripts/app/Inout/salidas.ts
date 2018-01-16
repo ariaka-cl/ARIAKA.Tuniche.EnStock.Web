@@ -79,7 +79,7 @@ namespace Inout {
                 url: url,
                 data: {
                     Producto: formData.Articulos,
-					Fechas: moment(formData.Fecha, 'DD/MM/YYYY', true).format(),//moment(formData.Fecha).format('YYYY-MM-DD'),
+					Fechas: moment(formData.Fecha, 'DD/MM/YYYY', true).format(),
                     Cantidad: formData.Cantidad,
                     TipoDocumento: formData.TipoDocumento,
                     NumeroDocumento: formData.NumeroDocumento,
@@ -116,7 +116,7 @@ namespace Inout {
                             TipoDocumento: data[i].tipoDocumento,
                             NumeroDocumento: data[i].numeroDocumento,
                             Cantidad: data[i].cantidad,
-							Fecha: moment(data[i].fechas,'DD-MM-YYYY').format(),
+							Fecha: data[i].fechas,
                             Autorizador: data[i].autorizador.nombre
                         }
                         this.salidas.push(salidas);
@@ -143,8 +143,7 @@ namespace Inout {
                     editorType: "dxDateBox",
                     editorOptions: {
 						type: "date",
-						displayFormat: "yyyy-MM-dd",
-
+						displayFormat: "yyyy-MM-dd"
                     }
                 }, {
                     dataField: "TipoDocumento",
@@ -217,16 +216,23 @@ namespace Inout {
             }, columnChooser: {
                 allowSearch: true,
                 enabled: true
-            }, scrolling: {
-                mode: 'virtual'
             }, showBorders: true
             , rowAlternationEnabled: true
             , showRowLines: true
             , showColumnLines: false
             , filterRow: {
                 visible: true,
-                showOperationChooser: false
-            }
+				showOperationChooser: false,
+				applyFilter: "auto"
+			}, paging: {
+				pageSize: 10,
+				pageIndex: 19
+			}
+			, pager: {
+				showPageSizeSelector: true,
+				allowedPageSizes: [5, 10, 20],
+				showInfo: true
+			}
         }
 
         buttonOptionsAdd: any = {

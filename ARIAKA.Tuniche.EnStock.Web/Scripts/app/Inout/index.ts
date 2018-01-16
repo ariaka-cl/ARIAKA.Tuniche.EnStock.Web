@@ -1,6 +1,7 @@
 ﻿/// <reference path="../../typings/jquery/jquery.d.ts" />
 /// <reference path="../../typings/knockout/knockout.d.ts" />
 /// <reference path="../../typings/devextreme/devextreme.d.ts" />
+/// <reference path="../../typings/moment/moment.d.ts" />
 /// <reference path="../App.ts" />
 
 namespace Inout {
@@ -35,7 +36,7 @@ namespace Inout {
                            NumeroDocumento: data[i].numeroDocumento,
                            Cantidad: data[i].stock,
                            ProductoNombre: data[i].productoNombre,
-                           Fecha: data[i].fecha
+						   Fecha: data[i].fecha
                         }
                         this.ingresos.push(ingresos);
                     }
@@ -131,7 +132,7 @@ namespace Inout {
                 url: 'api/inout',
                 data: {
                     ProuctoID: formData.Articulos.ID,
-                    Fecha: formData.Fecha,
+					Fecha: moment(formData.Fecha, 'DD/MM/YYYY', true).format(),
                     Stock: formData.Cantidad,                                        
                     PrecioUnitario: formData.PrecioUnitario,
                     TipoDocumento: formData.TipoDocumento.name,
@@ -179,9 +180,10 @@ namespace Inout {
                 items: [{
                     dataField: "Fecha",
                     editorType: "dxDateBox",
-                    editorOptions: {
-                        type: "date"                        
-                    }
+					editorOptions: {
+						type: "date",
+						displayFormat: "yyyy-MM-dd"
+					}
                 }, {
                     dataField: "TipoDocumento",
                     editorType: "dxSelectBox",
@@ -282,7 +284,7 @@ namespace Inout {
                 enabled: true,
                 text: 'Cargando datos...'
             },
-            columns: [{ dataField: 'Fecha', format: 'yyyy-dd-MM', dataType: 'date' }, 'TipoDocumento', 'NumeroDocumento', 'Cantidad', { dataField:'Articulo', dataType:'string'},'PrecioUnitario'],
+			columns: [{ dataField: 'Fecha', format: 'dd-MM-yyyy', dataType: 'date' }, 'TipoDocumento', 'NumeroDocumento', 'Cantidad', { dataField:'Articulo', dataType:'string'},'PrecioUnitario'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'
@@ -302,12 +304,23 @@ namespace Inout {
             }, columnChooser: {
                 allowSearch: true,
                 enabled: true
-            }, scrolling: {
-                mode:'virtual'
             }, showBorders: true
             , rowAlternationEnabled: true
             , showRowLines: true
-            , showColumnLines: false
+			, showColumnLines: false
+			, filterRow: {
+				visible: true,
+				applyFilter: "auto"
+			}
+			, paging: {
+				pageSize: 10,
+				pageIndex: 19
+			}
+			, pager: {
+				showPageSizeSelector: true,
+				allowedPageSizes: [5, 10, 20],
+				showInfo: true
+			}
         }
 
         buttonOptionsAdd: any = {

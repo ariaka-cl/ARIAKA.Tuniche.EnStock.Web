@@ -1,6 +1,7 @@
 ﻿/// <reference path="../../typings/jquery/jquery.d.ts" />
 /// <reference path="../../typings/knockout/knockout.d.ts" />
 /// <reference path="../../typings/devextreme/devextreme.d.ts" />
+/// <reference path="../../typings/moment/moment.d.ts" />
 /// <reference path="../App.ts" />
 
 namespace Productos {
@@ -12,7 +13,9 @@ namespace Productos {
         public enable: KnockoutObservable<boolean> = ko.observable(true);
         public idRow: KnockoutObservable<number> = ko.observable(0);
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
-        public selectedTab: KnockoutObservable<number> = ko.observable(-1);
+		public selectedTab: KnockoutObservable<number> = ko.observable(-1);
+		public isLoadPanelVisible: KnockoutObservable<boolean> = ko.observable(false);
+		public productosGeneral: KnockoutObservableArray<any> = ko.observableArray<any>();
        
 
         getCategoria(): void {
@@ -57,7 +60,28 @@ namespace Productos {
 
 		getStockGeneral(): void {
 			$.get('api/productos/gral', (data) => {
+				this.productosGeneral([]);
+				for (var i: number = 0; i < data.length; i++) {
+					let produ = {
+						ID: data[i].id,
+						Codigo: data[i].codigo,
+						Nombre: data[i].nombre,
+						Unidad: data[i].unidad,
+						StockMinimo: data[i].stockMinimo,
+						StockActual: data[i].stockActual,
+						Categorias: data[i].categorias.nombre,
+						Tipo: data[i].tipo
+					}
+					this.productosGeneral.push(produ);
+				}
 
+			}).done((data): void => {
+				let grid: any = $("#grid-all-stock").dxDataGrid('instance');
+				this.isLoadPanelVisible(false);
+				let gridAllData: JQueryPromise<any> = grid.selectAll();
+				gridAllData.done((data): void => {
+					grid.exportToExcel(true);
+				});				
 			});
 
 		}
@@ -67,11 +91,7 @@ namespace Productos {
 			this.getProductos(-1);
 			this.setRol();
         }
-
-        
-
-
-
+		
         tabOptions = {
             dataSource: this.categorias,
             onItemClick: (e) => {
@@ -103,10 +123,10 @@ namespace Productos {
             }, export: {
                 allowExportSelectedData: true,
                 enabled: true,
-                fileName: 'ingresos'
+				fileName: 'Stock-Categoria-' + moment().format("DD-MM-YYYY")
             },columnChooser: {
                 allowSearch: true
-            },
+			},
             onRowClick: (e) => {
                 this.enable(false);
                 let cateData: App.Categoria = {
@@ -133,6 +153,7 @@ namespace Productos {
 			text: "Descargar Stock Gral",
 			icon: "download",
 			onClick: () => {
+				this.isLoadPanelVisible(true);
 				this.getStockGeneral();
 			}
 		}
@@ -151,6 +172,61 @@ namespace Productos {
 				this.administrador(false);
 			}
 		}
+
+		dataGridOptionsAll: any = {
+			dataSource: this.productosGeneral,
+			visible:false,
+			loadPanel: {
+				enabled: true,
+				text: 'Cargando datos...'
+			},
+			columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo', 'StockActual', 'Unidad', 'Categorias', 'Tipo'],
+			editing: {
+				texts: {
+					confirmDeleteMessage: 'Esta seguro en eliminar registro?'
+				}
+			}, grouping: {
+				allowCollapsing: true
+			}, groupPanel: {
+				allowColumnDragging: true,
+				visible: true,
+				emptyPanelText: 'Arrastre algunas columnas para agrupar'
+			}, export: {				
+				enabled: true,
+				fileName: 'Stock-General-' + moment().format("DD-MM-YYYY")
+			}, columnChooser: {
+				allowSearch: true
+			},
+			onRowClick: (e) => {
+				this.enable(false);
+				let cateData: App.Categoria = {
+					ID: e.data.ID,
+					Nombre: e.data.Nombre
+				}
+				this.idRow(cateData.ID);
+				this.idRowIndex(e.rowIndex);
+			},
+			onRowPrepared: (rowInfo) => {
+				if (this.productos().length > 0) {
+					if (rowInfo.rowType !== 'header') {
+						if (rowInfo.data.StockMinimo == rowInfo.data.StockActual)
+							rowInfo.rowElement.css('background', 'yellow');
+						else if (rowInfo.data.StockMinimo > rowInfo.data.StockActual && rowInfo.data.StockActual !== 0)
+							rowInfo.rowElement.css('background', 'red');
+					}
+
+				}
+			}
+		}
+
+
+		loadPanelOptions: any = {
+			closeOnOutsideClick: true,
+			visible: this.isLoadPanelVisible,
+			message: 'Descargando...',
+			shading: true
+		}
+
 
     }
 }

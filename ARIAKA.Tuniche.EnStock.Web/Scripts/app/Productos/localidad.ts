@@ -52,7 +52,7 @@ namespace Productos {
 		
 		dataGridOptions: any = {
 			dataSource: this.lugares,
-			columns: [{ dataField: 'Nombre', groupIndex: 0 }, { dataField: 'Categoria', groupIndex: 0 }],
+			columns: [{ dataField: 'Categoria', groupIndex: 0 }, { dataField: 'Nombre', groupIndex: 0 }],
 			loadPanel: {
 				enabled: true,
 				text: 'Cargando datos...'
@@ -81,12 +81,23 @@ namespace Productos {
 			}, columnChooser: {
 				allowSearch: true,
 				enabled: true
-			}, scrolling: {
-				mode: 'virtual'
 			}, showBorders: true
 			, rowAlternationEnabled: true
 			, showRowLines: true
-			, showColumnLines: true			
+			, showColumnLines: true
+			,filterRow: {
+				visible: true,
+				showOperationChooser: false,
+				applyFilter: "auto"
+			}, paging: {
+				pageSize: 20,
+				pageIndex: 19
+			}
+			, pager: {
+				showPageSizeSelector: true,
+				allowedPageSizes: [20,30,40],
+				showInfo: true
+			}
 		} 
 
 		public administrador: KnockoutObservable<boolean> = ko.observable(false);
