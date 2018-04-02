@@ -87,7 +87,20 @@ namespace Bodegas {
 			}
 		}
 
+		postHistorial(): void {
+			let url = window.location.origin + '/api/historial';
+			$.ajax({
+				type: 'POST',
+				url: url,
+				data: {
+					UserID: localStorage.getItem('id'),
+					Accion: 'Editar Bodegas'
+				}
+			})
+		}
+
 		constructor() {
+			this.postHistorial();
 			this.getBodegas();
 			this.setRol();
 		}

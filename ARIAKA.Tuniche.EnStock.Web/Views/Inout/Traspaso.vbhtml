@@ -2,6 +2,10 @@
     ViewData("Title") = "Traslados"
 End Code
 
+<div class="container-fluid">
+    <h3>Ultima Modificacion: <span data-bind="text: nombreUsuario"></span>, <span data-bind="text: accion"></span>, <span data-bind="text: fecha"></span>
+</div>
+
 <div class="long-title"><h3>Traspasos</h3></div>
 <div class="row">
     <div id="form-container">

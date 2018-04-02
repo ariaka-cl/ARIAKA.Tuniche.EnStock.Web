@@ -203,11 +203,13 @@
     <Compile Include="App_Start\WebApiConfig.vb" />
     <Compile Include="Controllers\API\BoegasAPIController.vb" />
     <Compile Include="Controllers\API\CategoriasAPIController.vb" />
+    <Compile Include="Controllers\API\HistorialAPIController.vb" />
     <Compile Include="Controllers\API\InoutAPIController.vb" />
     <Compile Include="Controllers\API\LoginAPIController.vb" />
     <Compile Include="Controllers\API\ProductosAPIController.vb" />
     <Compile Include="Controllers\API\ProveedorAPIController.vb" />
     <Compile Include="Controllers\BodegasController.vb" />
+    <Compile Include="Controllers\HistorialController.vb" />
     <Compile Include="Controllers\LoginController.vb" />
     <Compile Include="Controllers\ProductosController.vb" />
     <Compile Include="Controllers\API\UsuariosAPIController.vb" />
@@ -220,6 +222,7 @@
     </Compile>
     <Compile Include="Models\BodegaDTO.vb" />
     <Compile Include="Models\CategoriaDTO.vb" />
+    <Compile Include="Models\HistoricoModificacionesDTO.vb" />
     <Compile Include="Models\IngresosDTO.vb" />
     <Compile Include="Models\ProductoBodegaDTO.vb" />
     <Compile Include="Models\ProductosDTO.vb" />
@@ -352,6 +355,7 @@
     <Content Include="Views\Login\Index.vbhtml" />
     <Content Include="Views\Shared\_LoginPartial.vbhtml" />
     <Content Include="Views\Bodegas\Index.vbhtml" />
+    <Content Include="Views\Historial\Index.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -419,6 +423,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\app\Bodegas\index.ts" />
     <TypeScriptCompile Include="Scripts\app\Categorias\index.ts" />
+    <TypeScriptCompile Include="Scripts\app\Historial\index.ts" />
     <TypeScriptCompile Include="Scripts\app\Home\index.ts" />
     <TypeScriptCompile Include="Scripts\app\app.ts" />
     <TypeScriptCompile Include="Scripts\app\Inout\retorno.ts" />
@@ -434,6 +439,7 @@
     <TypeScriptCompile Include="Scripts\app\Usuarios\index.ts" />
     <TypeScriptCompile Include="Scripts\typings\devextreme\devextreme.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jspdf\jspdf.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\knockout.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\tests\jasmine.extensions.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />

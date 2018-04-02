@@ -52,14 +52,29 @@ namespace Inout {
                         this.articulos.push(produ);
                     }
                 }
-            });
+			}).done((result) => {
+				this.postHistorial();
+				});
         } 
+
+		postHistorial(): void {
+			let url = window.location.origin + '/api/historial';
+			 $.ajax({
+				type: 'POST',
+				url: url,
+				data: {
+					UserID: localStorage.getItem('id'),
+					Accion: 'Consulta Stock'
+				}		
+			})
+		}
 
 
         getLugares(id: string): void {
             this.lugares([]);
             let url = window.location.origin + '/api/inout/traspasos/' + id;
-            $.ajax({
+
+			$.ajax({
                 type: 'GET',
                 url: url,
                 success: (data: any): void => {

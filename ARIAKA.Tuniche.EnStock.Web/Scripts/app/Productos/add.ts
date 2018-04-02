@@ -132,7 +132,20 @@ namespace Productos {
 			});
 		} 
 
-        constructor() {
+		postHistorial(): void {
+			let url = window.location.origin + '/api/historial';
+			$.ajax({
+				type: 'POST',
+				url: url,
+				data: {
+					UserID: localStorage.getItem('id'),
+					Accion: 'Editar Productos'
+				}
+			})
+		}
+
+		constructor() {
+			this.postHistorial();
             this.getCategoria();
 			this.getSubCategoria();
 			this.getProductos();

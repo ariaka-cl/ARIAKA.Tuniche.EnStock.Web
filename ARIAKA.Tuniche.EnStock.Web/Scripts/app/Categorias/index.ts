@@ -125,8 +125,21 @@ namespace Categorias {
 
 		}
 
+		postHistorial(): void {
+			let url = window.location.origin + '/api/historial';
+			$.ajax({
+				type: 'POST',
+				url: url,
+				data: {
+					UserID: localStorage.getItem('id'),
+					Accion: 'Editar Categorias'
+				}
+			})
+		}
 
-        constructor() {
+
+		constructor() {
+			this.postHistorial();
             this.getCategoria();
 			this.getSubCategoria();
 			this.setRol();

@@ -116,12 +116,32 @@
       <DependentUpon>201712160925422_add_retornos.vb</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201712160925422_add_retornos.vb" />
+    <Compile Include="Migrations\201802030309386_add_historico_autorizador.Designer.vb">
+      <DependentUpon>201802030309386_add_historico_autorizador.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802030309386_add_historico_autorizador.vb" />
+    <Compile Include="Migrations\201802030334396_add_historico.Designer.vb">
+      <DependentUpon>201802030334396_add_historico.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802030334396_add_historico.vb" />
+    <Compile Include="Migrations\201802100206091_add_detalleIngresos.Designer.vb">
+      <DependentUpon>201802100206091_add_detalleIngresos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802100206091_add_detalleIngresos.vb" />
+    <Compile Include="Migrations\201803070105513_detalle-salidas.Designer.vb">
+      <DependentUpon>201803070105513_detalle-salidas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803070105513_detalle-salidas.vb" />
     <Compile Include="Migrations\Configuration.vb" />
     <Compile Include="Model\bdTunicheContext.vb" />
     <Compile Include="Model\Bodega.vb" />
     <Compile Include="Model\Categorias.vb" />
+    <Compile Include="Model\DetalleIngresos.vb" />
+    <Compile Include="Model\DetalleSalidas.vb" />
+    <Compile Include="Model\HistoricoModificaciones.vb" />
     <Compile Include="Model\Ingresos.vb" />
     <Compile Include="Model\Productos.vb" />
+    <Compile Include="Model\ProductosGralResultSet.vb" />
     <Compile Include="Model\Proveedor.vb" />
     <Compile Include="Model\Retorno.vb" />
     <Compile Include="Model\Rol.vb" />
@@ -176,6 +196,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712160925422_add_retornos.resx">
       <DependentUpon>201712160925422_add_retornos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802030309386_add_historico_autorizador.resx">
+      <DependentUpon>201802030309386_add_historico_autorizador.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802030334396_add_historico.resx">
+      <DependentUpon>201802030334396_add_historico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802100206091_add_detalleIngresos.resx">
+      <DependentUpon>201802100206091_add_detalleIngresos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803070105513_detalle-salidas.resx">
+      <DependentUpon>201803070105513_detalle-salidas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

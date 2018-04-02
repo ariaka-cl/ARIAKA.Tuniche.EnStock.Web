@@ -16,8 +16,8 @@ namespace Productos {
 		public selectedTab: KnockoutObservable<number> = ko.observable(-1);
 		public isLoadPanelVisible: KnockoutObservable<boolean> = ko.observable(false);
 		public productosGeneral: KnockoutObservableArray<any> = ko.observableArray<any>();
+		public bodegas: KnockoutObservableArray<any> = ko.observableArray<any>();
        
-
         getCategoria(): void {
             this.categorias([]);
             $.ajax({
@@ -49,9 +49,12 @@ namespace Productos {
                             Unidad: data[i].unidad,
                             StockMinimo: data[i].stockMinimo,
                             StockActual: data[i].stockActual,
-							Categorias: data[i].categorias.nombre,
+							//Categorias: data[i].//data[i].categorias.nombre,
 							Tipo: data[i].tipo
-                        }
+						}
+						for (var j: number = 0; j < data[i].bodegas.length; j++) {
+							produ[this.bodegas()[j]] = data[i].bodegas[j];
+						}
                         this.productos.push(produ);
                     }
                 }
@@ -85,12 +88,40 @@ namespace Productos {
 			});
 
 		}
+
+		getBodegas(): JQueryPromise<any> {
+			this.bodegas([]);
+			let url = window.location.origin + '/api/productos/bodegas';
+			return $.ajax({
+				type: 'GET',
+				url: url
+			}).done((data): void => {
+				for (var i: number = 0; i < data.length; i++) {
+					this.bodegas.push(data[i].nombre);
+				}
+			});
+		}
+
+		postHistorial(): void {
+			let url = window.location.origin + '/api/historial';
+			$.ajax({
+				type: 'POST',
+				url: url,
+				data: {
+					UserID: localStorage.getItem('id'),
+					Accion: 'Consulta Productos Gral'
+				}
+			})
+		}				
         
-        constructor() {       
+		constructor() {
+			this.postHistorial();
             this.getCategoria();
 			this.getProductos(-1);
 			this.setRol();
-        }
+			this.getBodegas();			
+		}
+
 		
         tabOptions = {
             dataSource: this.categorias,
@@ -108,8 +139,15 @@ namespace Productos {
             loadPanel: {
                 enabled: true,
                 text: 'Cargando datos...'
-            },
-            columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo','StockActual','Unidad','Categorias', 'Tipo'],
+			},
+			customizeColumns: (result) => {
+				if (this.bodegas().length > 0) {
+					for (var i: number = 0; i < this.bodegas().length; i++) {
+						result.push(this.bodegas()[i])
+					}
+				}
+			},
+            columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo','StockActual','Unidad','Tipo'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'
@@ -124,10 +162,7 @@ namespace Productos {
                 allowExportSelectedData: true,
                 enabled: true,
 				fileName: 'Stock-Categoria-' + moment().format("DD-MM-YYYY")
-            },columnChooser: {
-                allowSearch: true
-			},
-            onRowClick: (e) => {
+            }, onRowClick: (e) => {
                 this.enable(false);
                 let cateData: App.Categoria = {
                     ID: e.data.ID,
@@ -138,7 +173,7 @@ namespace Productos {
 			},
 			onRowPrepared: (rowInfo) =>{
 				if (this.productos().length > 0) {
-					if (rowInfo.rowType !== 'header') {
+					if (rowInfo.rowType !== 'header' && rowInfo.rowType !== 'filter' ) {				
 						if (rowInfo.data.StockMinimo == rowInfo.data.StockActual) 
 							rowInfo.rowElement.css('background', 'yellow');
 						else if (rowInfo.data.StockMinimo > rowInfo.data.StockActual && rowInfo.data.StockActual !== 0 )
@@ -146,7 +181,25 @@ namespace Productos {
 					}				
 					
 				}
+			}, columnChooser: {
+				allowSearch: true,
+				enabled: true
+			}, filterRow: {
+				visible: true,
+				showOperationChooser: false,
+				applyFilter: "auto"
+			}, paging: {
+				pageSize: 20,
+				pageIndex: 19
 			}
+			, pager: {
+				showPageSizeSelector: true,
+				allowedPageSizes: [20, 30, 40],
+				showInfo: true
+			}, columnFixing: {
+				enabled: true
+			}, allowColumnReordering: true
+			,allowColumnResizing: true
 		} 
 
 		buttonOptionsDown: any = {

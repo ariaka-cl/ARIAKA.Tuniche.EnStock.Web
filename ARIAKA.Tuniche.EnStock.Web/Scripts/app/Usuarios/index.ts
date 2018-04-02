@@ -76,8 +76,22 @@ namespace Usuarios {
             });
 
 
-        }
-        constructor() {       
+		}
+
+		postHistorial(): void {
+			let url = window.location.origin + '/api/historial';
+			$.ajax({
+				type: 'POST',
+				url: url,
+				data: {
+					UserID: localStorage.getItem('id'),
+					Accion: 'Editar Usuarios'
+				}
+			})
+		}
+
+		constructor() {
+			this.postHistorial();
 			this.getUser();
 			this.setRol();
         }

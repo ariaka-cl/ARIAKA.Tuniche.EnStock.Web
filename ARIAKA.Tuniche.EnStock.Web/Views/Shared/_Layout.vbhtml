@@ -37,10 +37,7 @@
 
                                 <li data-toggle="collapse" data-target="#stock">
                                     <a href="@Url.Action("Stock", "Inout")"><i class="glyphicon glyphicon glyphicon-eye-open fa-lg"></i> Stock Online </a>
-                                </li>
-                                <li data-toggle="collapse" data-target="#stock">
-                                    <a href="@Url.Action("Localidad", "Productos")"><i class="glyphicon glyphicon glyphicon-globe fa-lg"></i> Stock Localidad </a>
-                                </li>
+                                </li>                              
 
                                 <li data-toggle="collapse" data-target="#productos">
                                     <a href="@Url.Action("Index", "Productos")"><i class="glyphicon glyphicon glyphicon glyphicon-folder-close fa-lg"></i>Ver Insumos </a>
@@ -60,6 +57,9 @@
                                 </li>
                                 <li data-toggle="collapse" data-target="#usuarios">
                                     <a href="@Url.Action("Index", "Usuarios")"><i class="glyphicon glyphicon glyphicon glyphicon-user fa-lg"></i> Usuarios </a>
+                                </li>
+                                <li data-toggle="collapse" data-target="#stock">
+                                    <a href="@Url.Action("Index", "Historial")"><i class="glyphicon glyphicon glyphicon-globe fa-lg"></i> Historial </a>
                                 </li>
                                 <!-- /ko -->
                                 <li data-toggle="collapse" data-target="#logout">

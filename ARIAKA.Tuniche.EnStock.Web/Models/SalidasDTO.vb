@@ -8,5 +8,6 @@
         Public Property Autorizador As UsuariosDTO
         Public Property Producto As ProductosDTO
         Public Property Bodega As BodegaDTO
+        Public Property ModificadorID As String
     End Class
 End Namespace

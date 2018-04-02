@@ -17,32 +17,61 @@ namespace Inout {
         public detalle: KnockoutObservableArray<App.IDetalleStock> = ko.observableArray<App.IDetalleStock>();
         public proveedores: KnockoutObservableArray<any> = ko.observableArray<any>();
         public categoria: KnockoutObservable<App.Categoria> = ko.observable<App.Categoria>();
-        public ingresos: KnockoutObservableArray<any> = ko.observableArray<any>();
+		public ingresos: KnockoutObservableArray<any> = ko.observableArray<any>();
+		public nombreUsuario: KnockoutObservable<string> = ko.observable<string>();
+		public accion: KnockoutObservable<string> = ko.observable<string>();
+		public fecha: KnockoutObservable<string> = ko.observable<string>();
+		public bodegaIngreso: KnockoutObservableArray<any> = ko.observableArray<any>();
              
 
 
-        getIngresos(): void {
-            this.ingresos([]);
-            $.ajax({
-                type: 'GET',
-                url: 'api/inout',
-                success: (data: any): void => {
-                    for (var i: number = 0; i < data.length; i++) {
-                        let ingresos = {
-                            ID: data[i].id,
-                            Articulo: data[i].producto.nombre,
-                           PrecioUnitario: data[i].precioUnitario,
-                           TipoDocumento: data[i].tipoDocumento,
-                           NumeroDocumento: data[i].numeroDocumento,
-                           Cantidad: data[i].stock,
-                           ProductoNombre: data[i].productoNombre,
-						   Fecha: data[i].fecha
-                        }
-                        this.ingresos.push(ingresos);
-                    }
-                }
-            });
-        }
+        //getIngresos(): void {
+        //    this.ingresos([]);
+        //    $.ajax({
+        //        type: 'GET',
+        //        url: 'api/inout',
+        //        success: (data: any): void => {
+        //            for (var i: number = 0; i < data.length; i++) {
+        //                let ingresos = {
+        //                    ID: data[i].id,
+        //                    Articulo: data[i].producto.nombre,
+        //                   PrecioUnitario: data[i].precioUnitario,
+        //                   TipoDocumento: data[i].tipoDocumento,
+        //                   NumeroDocumento: data[i].numeroDocumento,
+        //                   Cantidad: data[i].stock,
+        //                   ProductoNombre: data[i].productoNombre,
+						  // Fecha: data[i].fecha
+        //                }
+        //                this.ingresos.push(ingresos);
+        //            }
+        //        }
+        //    });
+        //}
+
+		getIngresos(): void {
+			this.ingresos([]);
+			$.ajax({
+				type: 'GET',
+				url: 'api/inout',
+				success: (data: any): void => {
+					for (var i: number = 0; i < data.length; i++) {
+						let ingresos = {
+							ID: data[i].id,
+							Articulo: data[i].nombre,							
+							TipoDocumento: data[i].tipoDocumento,
+							NumeroDocumento: data[i].numeroDocumento,
+							Cantidad: data[i].cantidad,
+							Autorizador: data[i].autorizador,
+							Fecha: data[i].fecha
+						}
+						for (var j: number = 0; j < data[i].bodegas.length; j++) {
+							ingresos[this.bodegaIngreso()[j]] = data[i].bodegas[j];
+						}
+						this.ingresos.push(ingresos);
+					}
+				}
+			});
+		}
 
 
 
@@ -63,22 +92,31 @@ namespace Inout {
             });
         }
 
-        getBodegas(): void {
+		getBodegas(): JQueryPromise<any> {
             this.bodegas([]);
             let url = window.location.origin + '/api/productos/bodegas';
-            $.ajax({
+            return $.ajax({
                 type: 'GET',
-                url: url,
-                success: (data: any): void => {
-                    for (var i: number = 0; i < data.length; i++) {
-                        let bodega: App.IBodega = {
+                url: url
+                //success: (data: any): void => {
+                //    for (var i: number = 0; i < data.length; i++) {
+                //        let bodega: App.IBodega = {
+                //            ID: data[i].id,
+                //            Nombre: data[i].nombre
+                //        }
+                //        this.bodegas.push(bodega);
+                //    }
+                //}
+			}).done((data): void => {
+				for (var i: number = 0; i < data.length; i++) {
+					let bodega: App.IBodega = {
                             ID: data[i].id,
                             Nombre: data[i].nombre
                         }
-                        this.bodegas.push(bodega);
-                    }
-                }
-            });
+					this.bodegas.push(bodega);
+					this.bodegaIngreso.push(data[i].nombre);
+				}
+			});
         }
 
         getProveedor(): void {
@@ -117,7 +155,26 @@ namespace Inout {
                 }
             });
         }      
-         
+
+
+		getLastUpdate(): void {			
+			$.ajax({
+				type: 'GET',
+				url: 'api/login',
+				success: (data: any): void => {
+					let lastUpdate: any = {
+						Accion: data.accion,
+						Usuario: data.usuario.nombre,
+						Fecha: data.fechaAccion
+					}
+					this.nombreUsuario(lastUpdate.Usuario);
+					this.accion(lastUpdate.Accion);	
+					this.fecha(moment.utc(new Date(lastUpdate.Fecha.replace("Z", ""))).fromNow());
+					console.log(lastUpdate.Fecha)
+					console.log(moment.utc(new Date(lastUpdate.Fecha.replace("Z",""))).fromNow());
+				}
+			});
+		}
         
         addProducto(): void {
             
@@ -127,6 +184,7 @@ namespace Inout {
                 return;
             }
 
+			let personaID: string = localStorage.getItem("id");
             $.ajax({
                 type: 'POST',
                 url: 'api/inout',
@@ -138,7 +196,8 @@ namespace Inout {
                     TipoDocumento: formData.TipoDocumento.name,
                     NumeroDocumento: formData.NumeroDocumento,
                     Proveedor: formData.Proveedor,
-                    DetalleStock: this.detalle()
+					DetalleStock: this.detalle(),
+					AutorizadorID: personaID
                     
                 },
                 success: (data: any): void => {
@@ -167,6 +226,7 @@ namespace Inout {
             this.getProductos();
 			this.getIngresos();
 			this.setRol();
+			this.getLastUpdate();
         }                  		
 		
         tipoDocu = [{ "name": "Guia" }, { "name": "Factura" }, {"name":"Otro"}];
@@ -283,8 +343,15 @@ namespace Inout {
             loadPanel: {
                 enabled: true,
                 text: 'Cargando datos...'
-            },
-			columns: [{ dataField: 'Fecha', format: 'dd-MM-yyyy', dataType: 'date' }, 'TipoDocumento', 'NumeroDocumento', 'Cantidad', { dataField:'Articulo', dataType:'string'},'PrecioUnitario'],
+			},
+			customizeColumns: (result) => {
+				if (this.bodegaIngreso().length > 0) {
+					for (var i: number = 0; i < this.bodegaIngreso().length; i++) {
+						result.push(this.bodegaIngreso()[i])
+					}
+				}
+			},
+			columns: [{ dataField: 'Fecha', format: 'dd-MM-yyyy', dataType: 'date' }, 'TipoDocumento', 'NumeroDocumento', 'Cantidad', { dataField:'Articulo', dataType:'string'},'Autorizador'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'

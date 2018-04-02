@@ -62,9 +62,22 @@ namespace Proveedor {
                     grid.repaint();
                 }
             });
-        }
+		}
 
-        constructor() {
+		postHistorial(): void {
+			let url = window.location.origin + '/api/historial';
+			$.ajax({
+				type: 'POST',
+				url: url,
+				data: {
+					UserID: localStorage.getItem('id'),
+					Accion: 'Editar Proveedores'
+				}
+			})
+		}
+
+		constructor() {
+			this.postHistorial();
 			this.getProveedor();
 			this.setRol();
         }

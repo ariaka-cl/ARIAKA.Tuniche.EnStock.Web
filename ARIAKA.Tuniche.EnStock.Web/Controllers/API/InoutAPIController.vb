@@ -25,6 +25,15 @@ Namespace Controllers.API
                                                   .Producto = db.Productoes.Where(Function(p) p.ID = model.ProuctoID).SingleOrDefault()
                 }
                 db.Ingresos.Add(ingreso)
+
+                Dim historial As New HistoricoModificaciones With {.FechaAccion = Date.Now(),
+                                                                   .Accion = "Ingreso",
+                                                                   .Usuario = db.Usuarieos.Where(Function(u) u.ID = CInt(model.AutorizadorID)).SingleOrDefault()
+                }
+
+                db.HistoricoModificacioneos.Add(historial)
+                db.SaveChanges()
+
                 Dim produ As Productos = db.Productoes.Where(Function(p) p.ID = model.ProuctoID).SingleOrDefault()
                 produ.StockActual = produ.StockActual + ingreso.Cantidad
                 db.SaveChanges()
@@ -36,7 +45,17 @@ Namespace Controllers.API
                                                            .Ingresos = ingreso,
                                                            .Producto = db.Productoes.Where(Function(p) p.ID = model.ProuctoID).SingleOrDefault()
                     }
+
+
+                    Dim detalleIn As New DetalleIngresos With {.Bodega = db.Bodegaeos.Where(Function(b) b.ID = detailDTO.Bodega.ID).SingleOrDefault(),
+                                                                .Cantidad = detailDTO.Stock,
+                                                                .Ingresos = ingreso,
+                                                                .Fecha = ingreso.Fecha
+                    }
+
+
                     db.StockProductos.Add(detail)
+                    db.DetalleIngresoes.Add(detalleIn)
                     db.SaveChanges()
                     detailDTO.ID = detail.ID
                 Next
@@ -53,22 +72,26 @@ Namespace Controllers.API
         Public Function GetSalidas() As IHttpActionResult
             Dim db As New bdTunicheContext
             Try
-                Dim listSalidas As List(Of Salidas) = db.Salidaeos.ToList()
-                If listSalidas Is Nothing OrElse listSalidas.Count = 0 Then Return Me.Ok(New List(Of Models.SalidasDTO))
-                Dim listOutDto As New List(Of Models.SalidasDTO)
-                Dim listProdu As List(Of Productos) = db.Productoes.ToList()
-                For Each salida As Salidas In listSalidas
-                    Dim produ As Productos = listProdu.Where(Function(p) p.ID = salida.Producto.ID).SingleOrDefault()
-                    listOutDto.Add(New Models.SalidasDTO With {.ID = salida.ID,
-                                                                .TipoDocumento = salida.TipoDocumentoa,
-                                                                .NumeroDocumento = salida.NumeroDocumento,
-                                                                .Cantidad = salida.Cantidad,
-                                                                .Fechas = salida.Fechas.ToShortDateString,
-                                                                .Producto = New Models.ProductosDTO With {.Nombre = produ.Nombre, .ID = produ.ID, .Unidad = produ.Unidad},
-                                                                 .Autorizador = New Models.UsuariosDTO With {.ID = salida.Autorizador.ID, .Nombre = salida.Autorizador.Nombre}
-                                   })
-                Next
-                Return Me.Ok(listOutDto)
+                'Dim listSalidas As List(Of Salidas) = db.Salidaeos.ToList()
+                'If listSalidas Is Nothing OrElse listSalidas.Count = 0 Then Return Me.Ok(New List(Of Models.SalidasDTO))
+                'Dim listOutDto As New List(Of Models.SalidasDTO)
+                'Dim listProdu As List(Of Productos) = db.Productoes.ToList()
+                'For Each salida As Salidas In listSalidas
+                '    Dim produ As Productos = listProdu.Where(Function(p) p.ID = salida.Producto.ID).SingleOrDefault()
+                '    listOutDto.Add(New Models.SalidasDTO With {.ID = salida.ID,
+                '                                                .TipoDocumento = salida.TipoDocumentoa,
+                '                                                .NumeroDocumento = salida.NumeroDocumento,
+                '                                                .Cantidad = salida.Cantidad,
+                '                                                .Fechas = salida.Fechas.ToShortDateString,
+                '                                                .Producto = New Models.ProductosDTO With {.Nombre = produ.Nombre, .ID = produ.ID, .Unidad = produ.Unidad},
+                '                                                 .Autorizador = New Models.UsuariosDTO With {.ID = salida.Autorizador.ID, .Nombre = salida.Autorizador.Nombre}
+                '                   })
+                'Next
+                'Return Me.Ok(listOutDto)
+                Dim numBodegas As Integer = db.Bodegaeos.Count()
+                Dim salidasDetalles As List(Of SalidasGralResultSet) = db.GetSalidasDetalle(numBodegas)
+
+                Return Me.Ok(salidasDetalles)
             Catch ex As Exception
                 Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
             Finally
@@ -101,6 +124,20 @@ Namespace Controllers.API
                 If Not UpdateProductos(salida) Then Return Me.Content(HttpStatusCode.BadRequest, "No se puede descontar producto")
 
                 db.Salidaeos.Add(salida)
+                Dim detalleSalida As New DetalleSalidas With {.Bodega = salida.Bodega,
+                                                              .Cantidad = salida.Cantidad,
+                                                              .Fecha = salida.Fechas,
+                                                              .Salidas = salida}
+                db.DetalleSalidaoes.Add(detalleSalida)
+
+                Dim historial As New HistoricoModificaciones With {.FechaAccion = Date.Now(),
+                                                                   .Accion = "Salidas",
+                                                                   .Usuario = db.Usuarieos.Where(Function(u) u.ID = CInt(model.ModificadorID)).SingleOrDefault()
+                }
+
+                db.HistoricoModificacioneos.Add(historial)
+                db.SaveChanges()
+
                 Dim produ As Productos = db.Productoes.Where(Function(p) p.ID = model.Producto.ID).SingleOrDefault()
                 produ.StockActual = produ.StockActual - model.Cantidad
                 db.SaveChanges()
@@ -181,23 +218,27 @@ Namespace Controllers.API
         Public Function GetIngresos() As IHttpActionResult
             Dim db As New bdTunicheContext
             Try
-                Dim listIngresos As List(Of Ingresos) = db.Ingresos.ToList()
-                If listIngresos Is Nothing OrElse listIngresos.Count = 0 Then Return Me.Ok(New List(Of Models.IngresosDTO))
-                Dim listRol As List(Of Rol) = db.Roleos.ToList()
-                Dim listInDto As New List(Of Models.IngresosDTO)
-                Dim listProdu As List(Of Productos) = db.Productoes.ToList()
-                For Each ingreso As Ingresos In listIngresos
-                    Dim produ As Productos = listProdu.Where(Function(p) p.ID = ingreso.Producto.ID).SingleOrDefault()
-                    listInDto.Add(New Models.IngresosDTO With {.ID = ingreso.ID,
-                                                                .PrecioUnitario = ingreso.PrecioUnitario,
-                                                                .TipoDocumento = ingreso.TipoDocumento,
-                                                                .NumeroDocumento = ingreso.NumeroDocumento,
-                                                                .Stock = ingreso.Cantidad,
-                                                                .Fecha = ingreso.Fecha.ToShortDateString,
-                                                                .Producto = New Models.ProductosDTO With {.Nombre = produ.Nombre, .ID = produ.ID, .Unidad = produ.Unidad}
-                                                                })
-                Next
-                Return Me.Ok(listInDto)
+                'Dim listIngresos As List(Of Ingresos) = db.Ingresos.ToList()
+                'If listIngresos Is Nothing OrElse listIngresos.Count = 0 Then Return Me.Ok(New List(Of Models.IngresosDTO))
+                'Dim listRol As List(Of Rol) = db.Roleos.ToList()
+                'Dim listInDto As New List(Of Models.IngresosDTO)
+                'Dim listProdu As List(Of Productos) = db.Productoes.ToList()
+                'For Each ingreso As Ingresos In listIngresos
+                '    Dim produ As Productos = listProdu.Where(Function(p) p.ID = ingreso.Producto.ID).SingleOrDefault()
+                '    listInDto.Add(New Models.IngresosDTO With {.ID = ingreso.ID,
+                '                                                .PrecioUnitario = ingreso.PrecioUnitario,
+                '                                                .TipoDocumento = ingreso.TipoDocumento,
+                '                                                .NumeroDocumento = ingreso.NumeroDocumento,
+                '                                                .Stock = ingreso.Cantidad,
+                '                                                .Fecha = ingreso.Fecha.ToShortDateString,
+                '                                                .Producto = New Models.ProductosDTO With {.Nombre = produ.Nombre, .ID = produ.ID, .Unidad = produ.Unidad}
+                '                                                })
+                'Next
+
+                Dim numBodegas As Integer = db.Bodegaeos.Count()
+                Dim ingDetalle As List(Of IngresosGralResultSet) = db.GetIngresosDetalle(numBodegas)
+
+                Return Me.Ok(ingDetalle)
             Catch ex As Exception
                 Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
             Finally
@@ -263,7 +304,14 @@ Namespace Controllers.API
                     db.StockProductos.Add(stockProduUpdate)
                     db.SaveChanges()
                 Next
+                Dim personaID As Integer = CInt(model.Item(0).PersonaID)
+                Dim historial As New HistoricoModificaciones With {.FechaAccion = Date.Now(),
+                                                                   .Accion = "Traspasos",
+                                                                   .Usuario = db.Usuarieos.Where(Function(u) u.ID = personaID).SingleOrDefault()
+                }
 
+                db.HistoricoModificacioneos.Add(historial)
+                db.SaveChanges()
                 Return Me.Content(HttpStatusCode.OK, "Datos Actualizados Correctamente")
 
             Catch ex As Exception

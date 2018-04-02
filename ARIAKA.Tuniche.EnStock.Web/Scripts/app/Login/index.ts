@@ -21,6 +21,7 @@ namespace Login {
 					window.localStorage.setItem('rol', data.rol.nombre);
 					window.localStorage.setItem('run', data.run);
 					window.localStorage.setItem('nombre', data.nombre);
+					window.localStorage.setItem('id', data.id);
 					window.location.replace(window.location.origin+'/Home');
 				},
 				error: (data: any): void => {

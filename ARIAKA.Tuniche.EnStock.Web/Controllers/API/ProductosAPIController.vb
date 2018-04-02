@@ -16,22 +16,25 @@ Namespace Controllers.API
                 If id < 0 Then
                     Return Me.Ok(listProduDto)
                 End If
-                Dim cate As Categorias = db.Categoriaeos.Where(Function(c) c.ID = id).SingleOrDefault
-                Dim listProdu As List(Of Productos) = db.Productoes.Where(Function(p) p.Categorias.ID = id).ToList()
-                For Each produ As Productos In listProdu
-                    listProduDto.Add(New Models.ProductosDTO With {.ID = produ.ID,
-                                                                    .Codigo = produ.Codigo,
-                                                                    .Nombre = produ.Nombre,
-                                                                    .StockMinimo = produ.StockMinimo,
-                                                                    .StockActual = produ.StockActual,
-                                                                    .Unidad = produ.Unidad,
-                                                                    .Tipo = produ.Tipo,
-                                                                    .Categorias = New Models.CategoriaDTO With {.ID = cate.ID,
-                                                                                                                .Nombre = cate.Nombre}
-                                                                    })
+                ' Dim cate As Categorias = db.Categoriaeos.Where(Function(c) c.ID = id).SingleOrDefault
+                ' Dim listProdu As List(Of Productos) = db.Productoes.Where(Function(p) p.Categorias.ID = id).ToList()
+                'For Each produ As Productos In listProdu
+                '    listProduDto.Add(New Models.ProductosDTO With {.ID = produ.ID,
+                '                                                    .Codigo = produ.Codigo,
+                '                                                    .Nombre = produ.Nombre,
+                '                                                    .StockMinimo = produ.StockMinimo,
+                '                                                    .StockActual = produ.StockActual,
+                '                                                    .Unidad = produ.Unidad,
+                '                                                    .Tipo = produ.Tipo,
+                '                                                    .Categorias = New Models.CategoriaDTO With {.ID = cate.ID,
+                '                                                                                                .Nombre = cate.Nombre}
+                '                                                    })
 
-                Next
-                Return Me.Ok(listProduDto)
+                'Next
+                Dim numBodegas As Integer = db.Bodegaeos.Count()
+                Dim produGral As List(Of ProductosGralResultSet) = db.GetProductosGrl(numBodegas)
+
+                Return Me.Ok(produGral.Where(Function(c) c.CategoriaID = id).ToList())
             Catch ex As Exception
                 Return Me.Content(HttpStatusCode.BadRequest, ex.Message)
             Finally
@@ -88,7 +91,7 @@ Namespace Controllers.API
         Public Function GetBodegasProducto() As IHttpActionResult
             Dim db As New bdTunicheContext
             Try
-                Dim listBodegas As List(Of Bodega) = db.Bodegaeos.ToList()
+                Dim listBodegas As List(Of Bodega) = db.Bodegaeos.OrderBy(Of String)(Function(b) b.Nombre).ToList()
                 Dim listBodegaDTO As New List(Of Models.BodegaDTO)
                 If listBodegas IsNot Nothing OrElse listBodegas.Count > 0 Then
 

@@ -8,4 +8,9 @@
         Public Property Bodega As BodegaDTO
         Public Property Stock As Integer
     End Class
+    Public Class ProductosGrlBodegasDTO
+        Public Property Codigo As String
+        Public Property Bodega As BodegaDTO
+        Public Property Stock As Integer
+    End Class
 End Namespace

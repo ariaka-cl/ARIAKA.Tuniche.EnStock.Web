@@ -9,6 +9,8 @@
         Public Property NumeroDocumento As String
         Public Property Proveedor As Proveedor
         Public Property Cantidad As Integer
+        Public Overridable Property Autorizador As Usuario
 
+        Public Overridable Property DetalleIngresos As List(Of DetalleIngresos)
     End Class
 End Namespace

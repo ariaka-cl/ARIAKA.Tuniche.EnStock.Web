@@ -15,13 +15,35 @@ namespace Inout {
         public idRowIndex: KnockoutObservable<number> = ko.observable(-1);
 		public selectedTab: KnockoutObservable<number> = ko.observable(-1);
 		public ID: KnockoutObservable<number> = ko.observable(0);
+		public nombreUsuario: KnockoutObservable<string> = ko.observable<string>();
+		public accion: KnockoutObservable<string> = ko.observable<string>();
+		public fecha: KnockoutObservable<string> = ko.observable<string>();
 
 
         constructor() {
             this.getProductos();
 			this.getBodegas();
 			this.setRol();
-        }
+			this.getLastUpdate();
+		}
+
+		getLastUpdate(): void {
+			let url = window.location.origin + '/api/login'
+			$.ajax({
+				type: 'GET',
+				url: url,
+				success: (data: any): void => {
+					let lastUpdate: any = {
+						Accion: data.accion,
+						Usuario: data.usuario.nombre,
+						Fecha: data.fechaAccion
+					}
+					this.nombreUsuario(lastUpdate.Usuario);
+					this.accion(lastUpdate.Accion);
+					this.fecha(moment.utc(new Date(lastUpdate.Fecha.replace("Z", ""))).fromNow());					
+				}
+			});
+		}
 
         getProductos(): void {
             this.productos([]);
@@ -92,7 +114,7 @@ namespace Inout {
         }
 
         saveTraspaso(): void {
-
+			let personaID: string = localStorage.getItem("id");
             let grid: any = $('#grid-traspaso').dxDataGrid('instance');
             let detalles: any = grid.option("dataSource");
             for (var i: number = 0; i < detalles.length; i++) {
@@ -100,7 +122,8 @@ namespace Inout {
 					ID: 0,
 					Stock: detalles[i].Stock,
 					Bodega: { ID: detalles[i].ID, Nombre: detalles[i].Bodega },
-                    Producto: {ID:this.ID}
+					Producto: { ID: this.ID },
+					PersonaID: personaID
                 }
                 this.cambiosLugar.push(stockDetalle);
             }           
@@ -127,9 +150,6 @@ namespace Inout {
 				this.cambiosLugar([]);
 			});
         }
-
-
-
 
         
             formOptions: any = {

@@ -11,6 +11,7 @@
         Public Property Stock As Integer
         Public Property Producto As Models.ProductosDTO
         Public Property DetalleStock As List(Of Models.StockProductosDTO)
+        Public Property AutorizadorID As String
 
     End Class
 End Namespace
