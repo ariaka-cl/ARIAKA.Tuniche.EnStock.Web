@@ -22,33 +22,8 @@ namespace Inout {
 		public accion: KnockoutObservable<string> = ko.observable<string>();
 		public fecha: KnockoutObservable<string> = ko.observable<string>();
 		public bodegaIngreso: KnockoutObservableArray<any> = ko.observableArray<any>();
-             
-
-
-        //getIngresos(): void {
-        //    this.ingresos([]);
-        //    $.ajax({
-        //        type: 'GET',
-        //        url: 'api/inout',
-        //        success: (data: any): void => {
-        //            for (var i: number = 0; i < data.length; i++) {
-        //                let ingresos = {
-        //                    ID: data[i].id,
-        //                    Articulo: data[i].producto.nombre,
-        //                   PrecioUnitario: data[i].precioUnitario,
-        //                   TipoDocumento: data[i].tipoDocumento,
-        //                   NumeroDocumento: data[i].numeroDocumento,
-        //                   Cantidad: data[i].stock,
-        //                   ProductoNombre: data[i].productoNombre,
-						  // Fecha: data[i].fecha
-        //                }
-        //                this.ingresos.push(ingresos);
-        //            }
-        //        }
-        //    });
-        //}
-
-		getIngresos(): void {
+           
+       	getIngresos(): void {
 			this.ingresos([]);
 			$.ajax({
 				type: 'GET',
@@ -62,7 +37,7 @@ namespace Inout {
 							NumeroDocumento: data[i].numeroDocumento,
 							Cantidad: data[i].cantidad,
 							Autorizador: data[i].autorizador,
-							Fecha: data[i].fecha
+							Fecha: moment.utc(new Date(data[i].fecha.replace("Z", ""))) 
 						}
 						for (var j: number = 0; j < data[i].bodegas.length; j++) {
 							ingresos[this.bodegaIngreso()[j]] = data[i].bodegas[j];
@@ -97,16 +72,7 @@ namespace Inout {
             let url = window.location.origin + '/api/productos/bodegas';
             return $.ajax({
                 type: 'GET',
-                url: url
-                //success: (data: any): void => {
-                //    for (var i: number = 0; i < data.length; i++) {
-                //        let bodega: App.IBodega = {
-                //            ID: data[i].id,
-                //            Nombre: data[i].nombre
-                //        }
-                //        this.bodegas.push(bodega);
-                //    }
-                //}
+                url: url               
 			}).done((data): void => {
 				for (var i: number = 0; i < data.length; i++) {
 					let bodega: App.IBodega = {
@@ -351,7 +317,7 @@ namespace Inout {
 					}
 				}
 			},
-			columns: [{ dataField: 'Fecha', format: 'dd-MM-yyyy', dataType: 'date' }, 'TipoDocumento', 'NumeroDocumento', 'Cantidad', { dataField:'Articulo', dataType:'string'},'Autorizador'],
+			columns: [{ dataField: 'Fecha', format: 'dd-MM-yyyy', dataType: 'date' }, { dataField: 'TipoDocumento', visible: false, dataType: 'string' }, { dataField: 'NumeroDocumento', visible: false, dataType: 'string' },'Cantidad', { dataField:'Articulo', dataType:'string'},'Autorizador'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'
@@ -387,7 +353,10 @@ namespace Inout {
 				showPageSizeSelector: true,
 				allowedPageSizes: [5, 10, 20],
 				showInfo: true
-			}
+			}, columnFixing: {
+				enabled: true
+			}, allowColumnReordering: true
+			, allowColumnResizing: true
         }
 
         buttonOptionsAdd: any = {

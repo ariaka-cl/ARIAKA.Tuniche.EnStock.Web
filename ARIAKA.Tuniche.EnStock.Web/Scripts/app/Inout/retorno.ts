@@ -220,7 +220,7 @@ namespace Inout {
 
 		dataGridOptions: any = {
 			dataSource: this.retornos,
-			columns: [{ dataField: 'Fecha', format: 'yyyy-MM-dd', dataType: 'date' }, 'Articulo', 'Cantidad', 'NumeroDocumento','Autorizador'],
+			columns: [{ dataField: 'Fecha', format: 'dd-MM-yyyy', dataType: 'date' }, 'Articulo', 'Cantidad', 'NumeroDocumento','Autorizador'],
 			editing: {
 				texts: {
 					confirmDeleteMessage: 'Esta seguro en eliminar registro?'

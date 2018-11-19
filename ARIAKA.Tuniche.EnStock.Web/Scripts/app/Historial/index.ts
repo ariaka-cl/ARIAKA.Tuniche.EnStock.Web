@@ -22,7 +22,7 @@ namespace Historial {
 							ID: data[i].id,
 							Nombre: data[i].usuario.nombre,
 							Accion: data[i].accion,
-							Fecha: data[i].fechaAccion
+							Fecha: moment.utc(new Date(data[i].fechaAccion.replace("Z", ""))),
 						}
 						this.historico.push(historial);
 					}

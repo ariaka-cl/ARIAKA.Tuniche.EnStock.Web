@@ -47,13 +47,13 @@ namespace Productos {
                             Codigo: data[i].codigo,
                             Nombre: data[i].nombre,
                             Unidad: data[i].unidad,
-                            StockMinimo: data[i].stockMinimo,
-                            StockActual: data[i].stockActual,
-							//Categorias: data[i].//data[i].categorias.nombre,
-							Tipo: data[i].tipo
+                            StockMinimo: data[i].stockMinimo,                            						
+							Tipo: data[i].tipo,
+							StockActual: 0
 						}
 						for (var j: number = 0; j < data[i].bodegas.length; j++) {
 							produ[this.bodegas()[j]] = data[i].bodegas[j];
+							produ.StockActual = produ.StockActual + parseInt(data[i].bodegas[j]); 
 						}
                         this.productos.push(produ);
                     }
@@ -147,7 +147,7 @@ namespace Productos {
 					}
 				}
 			},
-            columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo','StockActual','Unidad','Tipo'],
+			columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo', 'StockActual','Unidad','Tipo'],
             editing: {
                 texts: {
                     confirmDeleteMessage: 'Esta seguro en eliminar registro?'
@@ -233,7 +233,7 @@ namespace Productos {
 				enabled: true,
 				text: 'Cargando datos...'
 			},
-			columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo', 'StockActual', 'Unidad', 'Categorias', 'Tipo'],
+			columns: [{ dataField: 'id', visible: false }, 'Codigo', 'Nombre', 'StockMinimo', 'StockActual','Unidad', 'Categorias', 'Tipo'],
 			editing: {
 				texts: {
 					confirmDeleteMessage: 'Esta seguro en eliminar registro?'

@@ -14,4 +14,12 @@
         Public Property AutorizadorID As String
 
     End Class
+
+    Public Class DetalleIngresosDTO
+        Public Property ID As Integer
+        Public Property Fecha As Date
+        Public Property Cantidad As Integer
+        Public Overridable Property Bodega As BodegaDTO
+        Public Overridable Property Ingresos As IngresosDTO
+    End Class
 End Namespace

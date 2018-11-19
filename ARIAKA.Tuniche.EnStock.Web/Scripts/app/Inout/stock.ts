@@ -14,6 +14,7 @@ namespace Inout {
 		public codigo: KnockoutObservable<String> = ko.observable("");
 		public nombre: KnockoutObservable<String> = ko.observable("");
 		public ID: KnockoutObservable<string> = ko.observable("");
+		public stockActual: KnockoutObservable<number> = ko.observable(0);
 
 
         producto: App.IConsultaStock = {
@@ -27,7 +28,8 @@ namespace Inout {
 	
         getProductos(): void {                                
             let grid = $('#grid-detalle').dxDataGrid('instance');
-            grid.option('dataSource', this.articulo());           
+			this.articulo()[0].StockActual = this.stockActual;
+			grid.option('dataSource', this.articulo());           
         } 
 
         getArticulos(): void {
@@ -78,13 +80,17 @@ namespace Inout {
                 type: 'GET',
                 url: url,
                 success: (data: any): void => {
-                    for (var i: number = 0; i < data.length; i++) {
+					let stock: number = 0;
+					for (var i: number = 0; i < data.length; i++) {
                         let lugar: any = {
                             Bodega: data[i].bodega.nombre,
                             Stock: data[i].stock
-                        }
+						}
+						stock = stock + lugar.Stock
                         this.lugares.push(lugar);
-                    }
+					}
+
+					this.stockActual(stock);
                     let grid = $('#grid-locacion').dxDataGrid('instance');
                     grid.option('dataSource', this.lugares);
                     grid.refresh()
@@ -177,7 +183,7 @@ namespace Inout {
                 enabled: true,
                 text: 'Cargando datos...'
             },
-            columns: [{ dataField: 'Bodega', dataType: 'string' }, 'Stock'],            
+			columns: [{ dataField: 'Bodega', dataType: 'string' }, 'Stock'],            
             export: {
                 allowExportSelectedData: true,
                 enabled: true,

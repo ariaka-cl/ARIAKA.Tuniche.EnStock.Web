@@ -37,24 +37,7 @@ namespace Inout {
                 }
             });
         }
-        //getBodegas(): void {
-        //    this.bodegas([]);
-        //    let url = window.location.origin + '/api/productos/bodegas';
-        //    $.ajax({
-        //        type: 'GET',
-        //        url: url,
-        //        success: (data: any): void => {
-        //            for (var i: number = 0; i < data.length; i++) {
-        //                let bodega: App.IBodega = {
-        //                    ID: data[i].id,
-        //                    Nombre: data[i].nombre
-        //                }
-        //                this.bodegas.push(bodega);
-        //            }
-        //        }
-        //    });
-        //}
-
+        
 		getBodegas(): void {
 			this.bodegas([]);
 			let url = window.location.origin + '/api/productos/bodegas';
@@ -141,7 +124,7 @@ namespace Inout {
 							TipoDocumento: data[i].tipoDocumento,
 							NumeroDocumento: data[i].numeroDocumento,
 							Cantidad: data[i].cantidad,
-							Fecha: data[i].fecha,
+							Fecha: moment.utc(new Date(data[i].fecha.replace("Z", ""))),
 							Autorizador: data[i].autorizador
 						}
 						for (var j: number = 0; j < data[i].bodegas.length; j++) {
@@ -152,34 +135,7 @@ namespace Inout {
 				}
 			});
 		}
-
-
-
-
-  //      getSalidas(): void {
-  //          this.salidas([]);
-  //          let url = window.location.origin + '/api/inout/salidas';
-  //          $.ajax({
-  //              type: 'GET',
-  //              url: url,
-  //              success: (data: any): void => {
-  //                  for (var i: number = 0; i < data.length; i++) {
-  //                      let salidas = {
-  //                          ID: data[i].id,
-  //                          Articulo: data[i].producto.nombre,
-  //                          Unidad: data[i].producto.unidad,
-  //                          TipoDocumento: data[i].tipoDocumento,
-  //                          NumeroDocumento: data[i].numeroDocumento,
-  //                          Cantidad: data[i].cantidad,
-		//					Fecha: data[i].fechas,
-  //                          Autorizador: data[i].autorizador.nombre
-  //                      }
-  //                      this.salidas.push(salidas);
-  //                  }
-  //              }
-  //          });
-		//}
-
+ 
 		getLastUpdate(): void {
 			let url = window.location.origin + '/api/login'
 			$.ajax({
@@ -346,48 +302,7 @@ namespace Inout {
             
         }
 
-		visiblePopup = ko.observable(false);
-
-		//employees:any = {
-		//"ID": 7,
-		//"FirstName": "Sandra",
-		//"LastName": "Johnson",
-		//"Prefix": "Mrs.",
-		//"Position": "Controller",
-		//"Picture": "images/employees/06.png",
-		//"BirthDate": "1974/11/15",
-		//"HireDate": "2005/05/11",
-		//"Notes": "Sandra is a CPA and has been our controller since 2008. She loves to interact with staff so if you've not met her, be certain to say hi.\r\n\r\nSandra has 2 daughters both of whom are accomplished gymnasts.",
-		//"Address": "4600 N Virginia Rd."
-		//}
-
-		//employee: any = {};
-		//popup: any = null;
-		//popUpOptions: any = {
-		//	width: 300,
-		//	height: 250,
-		//	//contentTemplate: function () {
-		//	//	return $("<div />").append(
-		//	//		$("<p>Full Name: <span>" + this.employees.FirstName +
-		//	//			"</span> <span>" + this.employees.LastName + "</span></p>"),
-		//	//		$("<p>Birth Date: <span>" + this.employees.BirthDate + "</span></p>"),
-		//	//		$("<p>Address: <span>" + this.employees.Address + "</span></p>"),
-		//	//		$("<p>Hire Date: <span>" + this.employees.HireDate + "</span></p>"),
-		//	//		$("<p>Position: <span>" + this.employees.Position + "</span></p>")
-		//	//	);
-		//	//},
-		//	showTitle: true,
-		//	title: "Information",
-		//	visible: this.visiblePopup(false),
-		//	dragEnabled: false,
-		//	closeOnOutsideClick: true
-		//};
-
-  //      showInfo():void {
-  //        this.visiblePopup(true);
-		//};
-
-		  	
+		visiblePopup = ko.observable(false);  	
 
 				
 		public administrador: KnockoutObservable<boolean> = ko.observable(false);
